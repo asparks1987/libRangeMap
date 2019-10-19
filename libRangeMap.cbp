@@ -26,7 +26,10 @@
 					<Add directory="../libLog" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp ./librangemap.h ../build" />
+					<Add after="mkdir -p ../../Builds/libRangeMap" />
+					<Add after="cp ./librangemap.h ../../Builds/libRangeMap" />
+					<Add after="git add ." />
+					<Add after='git commit -m &quot;Codeblocks post build commit&quot;' />
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
