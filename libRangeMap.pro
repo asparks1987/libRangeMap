@@ -20,3 +20,8 @@ unix {
     target.path = /usr/lib
 }
 !isEmpty(target.path): INSTALLS += target
+copydata.commands =  $(COPY_FILE) \"$$shell_path($$PWD\\librangemap.h)\" \"$$shell_path($$PWD\\..\Binaries\libRangeMap)\"
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
