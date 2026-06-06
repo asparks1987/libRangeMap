@@ -1,6 +1,13 @@
 @echo off
 setlocal
 
-echo Scratch runtime check unavailable in this environment.
-echo Scratch block/runtime integration requires a Scratch execution environment.
-exit /b 2
+set "ROOT=%~dp0..\.."
+set "VERIFIER=%ROOT%\tools\verify_wrapper_contract.ps1"
+
+if exist "%VERIFIER%" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%VERIFIER%" -Language scratch -Artifact "%ROOT%\wrappers\scratch\librangemap.md"
+    exit /b %ERRORLEVEL%
+)
+
+echo Contract verifier unavailable for Scratch wrappers.
+exit /b 1

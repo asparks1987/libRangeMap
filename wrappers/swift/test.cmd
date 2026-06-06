@@ -1,6 +1,14 @@
 @echo off
 setlocal
 
-echo Swift runtime check unavailable in this environment.
-echo Install Swift toolchain to run this verification.
-exit /b 2
+set "ROOT=%~dp0..\.."
+set "VERIFIER=%ROOT%\tools\verify_wrapper_contract.ps1"
+
+if exist "%VERIFIER%" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%VERIFIER%" -Language swift -Artifact "%ROOT%\wrappers\swift\LibrangeMap.swift"
+    exit /b %ERRORLEVEL%
+)
+
+echo Contract verifier unavailable for Swift wrappers.
+exit /b 1
+

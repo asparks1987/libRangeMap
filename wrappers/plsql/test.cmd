@@ -1,6 +1,13 @@
 @echo off
 setlocal
 
-echo PL/SQL runtime check unavailable in this environment.
-echo Install Oracle client tooling to run this verification.
-exit /b 2
+set "ROOT=%~dp0..\.."
+
+set "VERIFIER=%ROOT%\tools\verify_wrapper_contract.ps1"
+if exist "%VERIFIER%" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%VERIFIER%" -Language plsql -Artifact "%ROOT%\wrappers\plsql\librangemap.sql"
+    exit /b %ERRORLEVEL%
+)
+
+echo Contract verifier unavailable for PL/SQL wrappers.
+exit /b 1

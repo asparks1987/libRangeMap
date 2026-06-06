@@ -107,6 +107,8 @@ def _with_r(env=None):
 def _with_ruby(env=None):
     if _exists(os.path.join(ROOT, "third_party", "bin", "ruby.exe")):
         return dict(env or os.environ)
+    if _exists(r"C:\RubySandbox\Ruby\bin\ruby.exe"):
+        return dict(env or os.environ)
     if shutil.which("ruby"):
         return dict(env or os.environ)
     return None

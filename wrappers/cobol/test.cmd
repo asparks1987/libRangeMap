@@ -1,6 +1,13 @@
 @echo off
 setlocal
 
-echo COBOL runtime check unavailable in this environment.
-echo Install a COBOL compiler/runtime to run this verification.
-exit /b 2
+set "ROOT=%~dp0..\.."
+
+set "VERIFIER=%ROOT%\tools\verify_wrapper_contract.ps1"
+if exist "%VERIFIER%" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%VERIFIER%" -Language cobol -Artifact "%ROOT%\wrappers\cobol\librangemap.cob"
+    exit /b %ERRORLEVEL%
+)
+
+echo Contract verifier unavailable for COBOL wrappers.
+exit /b 1

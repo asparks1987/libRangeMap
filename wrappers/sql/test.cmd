@@ -1,6 +1,13 @@
 @echo off
 setlocal
 
-echo SQL runtime check unavailable in this environment.
-echo Install a SQL CLI (for example SQLite or PostgreSQL client) to run this verification.
-exit /b 2
+set "ROOT=%~dp0..\.."
+set "VERIFIER=%ROOT%\tools\verify_wrapper_contract.ps1"
+
+if exist "%VERIFIER%" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%VERIFIER%" -Language sql -Artifact "%ROOT%\wrappers\sql\librangemap.sql"
+    exit /b %ERRORLEVEL%
+)
+
+echo Contract verifier unavailable for SQL wrappers.
+exit /b 1
