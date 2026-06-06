@@ -2,13 +2,13 @@
 
 First-party, dependency-free range mapping for AI-ready data.
 
-`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec, a compiled first-party C core, and the first verified Go and C# wrappers for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
+`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec, a compiled first-party C core, and the first verified Go, C#, and Java wrappers for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
 
 ## Current Status
 
 Alpha v1 is not yet 100% complete under the project canon.
 
-The Python reference implementation is usable and tested, and the project now has first-party Go and C# wrapper targets over the shared C ABI. Full Alpha v1 readiness still requires the full 25-language canon to have first-party runtime or wrapper paths in place and passing the shared compliance fixture.
+The Python reference implementation is usable and tested, and the project now has first-party Go, C#, and Java wrapper targets over the shared C ABI. Full Alpha v1 readiness still requires the full 25-language canon to have first-party runtime or wrapper paths in place and passing the shared compliance fixture.
 
 | Area | Current State |
 | --- | --- |
@@ -23,8 +23,8 @@ The Python reference implementation is usable and tested, and the project now ha
 | Language-neutral artifact | Integer alpha compliance fixture |
 | Native core | Built from `csrc/` when installed from source |
 | Planned core architecture | C core with stable C ABI |
-| Verified non-Python wrappers | Go and C# |
-| Remaining Alpha canon targets | 21 language targets |
+| Verified non-Python wrappers | Go, C#, and Java |
+| Remaining Alpha canon targets | 20 language targets |
 | C++ status | Legacy; needs replacement wrapper over the C core |
 | Full Alpha v1 readiness | Not complete |
 

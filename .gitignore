@@ -11,6 +11,8 @@ build/
 dist/
 *.egg-info/
 *.dll
+*.lib
+*.pdb
 *.pyd
 *.so
 librangemap/native/

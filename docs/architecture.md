@@ -8,7 +8,7 @@ The recommended core architecture is:
 C core -> stable C ABI -> first-party language wrappers
 ```
 
-The current Python implementation is a useful reference, source installs now compile the first-party C core, and first-party Go and C# wrappers now exercise the shared ABI. The project still needs the remaining canon wrappers before it can claim language-agnostic Alpha v1 readiness.
+The current Python implementation is a useful reference, source installs now compile the first-party C core, and first-party Go, C#, and Java wrappers now exercise the shared ABI. The project still needs the remaining canon wrappers before it can claim language-agnostic Alpha v1 readiness.
 
 ## Why C Core
 
