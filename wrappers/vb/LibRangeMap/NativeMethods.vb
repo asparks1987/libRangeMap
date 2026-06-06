@@ -24,14 +24,14 @@ Friend Module NativeMethods
     End Structure
 
     <DllImport(LibraryName, CallingConvention:=CallingConvention.Cdecl, ExactSpelling:=True)>
-    Friend Function LrmIntegerRangeMapperInit(ByRef mapper As NativeMapper, inputMin As Long, inputMax As Long, outputMin As Double, outputMax As Double, clip As Integer) As Integer
+    Friend Function lrm_integer_range_mapper_init(ByRef mapper As NativeMapper, inputMin As Long, inputMax As Long, outputMin As Double, outputMax As Double, clip As Integer) As Integer
     End Function
 
     <DllImport(LibraryName, CallingConvention:=CallingConvention.Cdecl, ExactSpelling:=True)>
-    Friend Function LrmIntegerRangeMapperMapValue(ByRef mapper As NativeMapper, value As Long, ByRef outValue As Double) As Integer
+    Friend Function lrm_integer_range_mapper_map_value(ByRef mapper As NativeMapper, value As Long, ByRef outValue As Double) As Integer
     End Function
 
     <DllImport(LibraryName, CallingConvention:=CallingConvention.Cdecl, ExactSpelling:=True)>
-    Friend Function LrmIntegerRangeMapperGetSpec(ByRef mapper As NativeMapper, ByRef outSpec As NativeSpec) As Integer
+    Friend Function lrm_integer_range_mapper_get_spec(ByRef mapper As NativeMapper, ByRef outSpec As NativeSpec) As Integer
     End Function
 End Module

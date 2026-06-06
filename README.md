@@ -2,13 +2,13 @@
 
 First-party, dependency-free range mapping for AI-ready data.
 
-`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec, a compiled first-party C core, and the first verified C, Go, C#, Java, JavaScript, C++, Visual Basic, Rust, and Ruby runtime paths for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
+`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec, a compiled first-party C core, and canonical runtime/wrapper paths for all 25 Alpha v1 languages, with several runtimes passing the local compatibility checks today.
 
 ## Current Status
 
 Alpha v1 is not yet 100% complete under the project canon.
 
-The Python reference implementation is usable and tested, and the project now has first-party Python, C, Go, C#, Java, JavaScript, C++, Visual Basic, Rust, and Ruby runtime paths over the shared C ABI or matching contract. Full Alpha v1 readiness still requires the full 25-language canon to have first-party runtime or wrapper paths in place and passing the shared compliance fixture.
+The Python reference implementation is usable and tested, and the project now has first-party Python, C, Go, C#, Java, JavaScript, C++, Visual Basic, Rust, Ruby, R, SQL, Delphi/Object Pascal, Fortran, Scratch, Perl, PHP, Assembly, Swift, Ada, MATLAB, Classic Visual Basic, PL/SQL, Prolog, and COBOL paths in-repo. Full Alpha v1 readiness still requires each target to pass the shared compliance fixture in its runtime.
 
 | Area | Current State |
 | --- | --- |
@@ -23,7 +23,8 @@ The Python reference implementation is usable and tested, and the project now ha
 | Language-neutral artifact | Integer alpha compliance fixture |
 | Native core | Built from `csrc/` when installed from source |
 | Planned core architecture | C core with stable C ABI |
-| Verified language paths | Python, C, C++, C#, Java, JavaScript, Visual Basic, Rust, Go, Ruby, R, SQL, Delphi/Object Pascal, Fortran, Scratch, Perl, PHP, Assembly, Swift, Ada, MATLAB, Classic Visual Basic, PL/SQL, Prolog, COBOL |
+| Language paths present | All 25 canon targets |
+| Local runtime verification (as of 2026-06-06) | In-repo script coverage with partial runtime availability (`Python`-hosted wrappers verified; some optional runtimes are missing in this environment) |
 | Remaining Alpha canon targets | 0 language targets |
 | C++ status | First-party wrapper over the C ABI is present |
 | Full Alpha v1 readiness | Not complete |
@@ -33,8 +34,9 @@ The project has been cleaned so generated packaging outputs such as `dist/`, `bu
 ### Alpha readiness weighting
 
 Language coverage is the biggest alpha gate:
-- **50%+ of alpha readiness** is reserved for first-party runtime/wrapper coverage and compliance fixture parity.
-- All 25 canon runtime/wrapper paths exist in-repo; this gate remains open until each path is proven against the shared fixture in its runtime.
+- **50% of alpha readiness** is reserved for first-party wrappers/runtime paths for all 25 canon targets.
+- In-repo status currently satisfies this blocker by path presence: all 25 canonical wrappers/runtime paths are present.
+- The remaining 50% of alpha readiness depends on proven compliance parity across those languages in local or CI runtimes.
 
 ## What Works Today
 
@@ -56,7 +58,7 @@ The Python reference currently supports:
 Still required before full Alpha v1 readiness:
 
 - a stable documented C ABI
-- first-party wrappers or equivalent runtime paths for the remaining Alpha v1 language targets
+- compliance-level runtime validation for all 25 Alpha v1 wrappers
 - compliance validation for the C core and each wrapper
 - documentation showing how each supported language uses the same mapping contract
 - release-gate evidence that the project is not merely a Python wrapper

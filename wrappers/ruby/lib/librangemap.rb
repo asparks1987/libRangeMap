@@ -63,7 +63,7 @@ module LibrangeMap
       clip = raw_spec[40, 4].unpack1("l<") != 0
 
       {
-        "spec_version" => "#{spec_major}.#{spec_minor}",
+        "spec_version" => "#{spec_major}.#{spec_minor}-alpha",
         "mapper_type" => "integer_range",
         "input_range" => [input_min, input_max],
         "output_range" => [output_min, output_max],

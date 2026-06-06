@@ -1,6 +1,6 @@
 Imports System.Text.Json.Serialization
 
-Friend Module MapperSpecConstants
+Public Module MapperSpecConstants
     Public Const CurrentSpecVersion As String = "1.0-alpha"
 End Module
 

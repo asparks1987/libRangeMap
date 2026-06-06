@@ -10,7 +10,7 @@ Public Class IntegerRangeMapper
 
     Public Sub New(inputMin As Long, inputMax As Long, Optional outputMin As Double = -1.0, Optional outputMax As Double = 1.0, Optional clip As Boolean = False)
         Dim mapper As New NativeMethods.NativeMapper()
-        Dim status = NativeMethods.LrmIntegerRangeMapperInit(mapper, inputMin, inputMax, outputMin, outputMax, If(clip, 1, 0))
+        Dim status = NativeMethods.lrm_integer_range_mapper_init(mapper, inputMin, inputMax, outputMin, outputMax, If(clip, 1, 0))
         If status <> 0 Then
             Throw CreateException("init", status)
         End If
@@ -23,7 +23,7 @@ Public Class IntegerRangeMapper
 
     Public Function MapValue(value As Long) As Double
         Dim mapped As Double
-        Dim status = NativeMethods.LrmIntegerRangeMapperMapValue(_native, value, mapped)
+        Dim status = NativeMethods.lrm_integer_range_mapper_map_value(_native, value, mapped)
         If status <> 0 Then
             Throw CreateException("map_value", status)
         End If
@@ -36,7 +36,7 @@ Public Class IntegerRangeMapper
 
     Public Function Spec() As MapperSpec
         Dim nativeSpec As New NativeMethods.NativeSpec()
-        Dim status = NativeMethods.LrmIntegerRangeMapperGetSpec(_native, nativeSpec)
+        Dim status = NativeMethods.lrm_integer_range_mapper_get_spec(_native, nativeSpec)
         If status <> 0 Then
             Throw CreateException("get_spec", status)
         End If
