@@ -805,7 +805,7 @@ Alpha v1 has a fixed 25-language target set in numerical order.
 | 1 | Python | Python reference exists; C-core alignment pending |
 | 2 | C | First-party C core exists |
 | 3 | Java | First-party wrapper exists |
-| 4 | C++ | Legacy header moved; replacement wrapper pending |
+| 4 | C++ | First-party wrapper exists |
 | 5 | C# | First-party wrapper exists |
 | 6 | JavaScript | First-party runtime path exists |
 | 7 | Visual Basic | Pending wrapper/runtime |
@@ -844,12 +844,13 @@ This target list is canon for Alpha v1. README and this burndown must not claim 
 
 ## Wrapper Requirements
 
-Current verified wrapper coverage includes Go, C#, Java, and JavaScript. The remaining 21 canon targets still need first-party runtime or wrapper paths.
+Current verified wrapper coverage includes Go, C#, Java, JavaScript, and C++. The remaining 20 canon targets still need first-party runtime or wrapper paths.
 
 - [x] Go wrapper exists.
 - [x] C# wrapper exists.
 - [x] Java wrapper exists.
 - [x] JavaScript runtime path exists.
+- [x] C++ wrapper exists.
 - [ ] Each wrapper is first-party.
 - [ ] Each wrapper has no runtime dependencies.
 - [ ] Each wrapper exposes idiomatic integer mapping.

@@ -29,6 +29,6 @@ It does not complete full project Alpha v1 readiness under the stricter canon th
 
 - Character, string, bytes, sequence, pixel, and custom object mappers.
 - first-party C core and stable C ABI for full Alpha v1 readiness.
-- first-party Go, C#, Java, and JavaScript runtime paths over the shared C ABI or matching contract.
+- first-party Go, C#, Java, JavaScript, and C++ runtime paths over the shared C ABI or matching contract.
 - first-party wrappers for all 25 Alpha v1 language targets.
 - Multi-language package releases.
