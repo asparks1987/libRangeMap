@@ -1,6 +1,0 @@
-README.md
-setup.py
-libRangeMap.egg-info/PKG-INFO
-libRangeMap.egg-info/SOURCES.txt
-libRangeMap.egg-info/dependency_links.txt
-libRangeMap.egg-info/top_level.txt

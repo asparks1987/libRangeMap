@@ -204,19 +204,19 @@ A fresh developer can:
 
 Alpha v1 is not ready until:
 
-- [ ] Default output range is `[-1.0, 1.0]`.
-- [ ] Integer mapper is implemented and tested.
-- [ ] Positive, negative, mixed, non-zero, and large integer ranges work.
-- [ ] Strict and clipping modes work.
-- [ ] Invalid ranges fail clearly.
-- [ ] Non-integer inputs fail clearly in integer mode.
-- [ ] Boolean input is rejected by default.
-- [ ] NaN and infinity are rejected where relevant.
-- [ ] Mapping specs can serialize and reload using standard-library JSON.
-- [ ] The SDK imports without third-party runtime dependencies.
-- [ ] Documentation explains the formula and examples.
-- [ ] Generated artifacts are not treated as source.
-- [ ] The release gate passes from a clean checkout.
+- [x] Default output range is `[-1.0, 1.0]`.
+- [x] Integer mapper is implemented and tested.
+- [x] Positive, negative, mixed, non-zero, and large integer ranges work.
+- [x] Strict and clipping modes work.
+- [x] Invalid ranges fail clearly.
+- [x] Non-integer inputs fail clearly in integer mode.
+- [x] Boolean input is rejected by default.
+- [x] NaN and infinity are rejected where relevant.
+- [x] Mapping specs can serialize and reload using standard-library JSON.
+- [x] The SDK imports without third-party runtime dependencies.
+- [x] Documentation explains the formula and examples.
+- [x] Generated artifacts are not treated as source.
+- [x] The release gate passes from a clean checkout.
 
 ### Alpha Is Not
 
@@ -405,7 +405,7 @@ Work these in order unless a blocker forces a lower task first.
 
 # LRM-000 — Canon Lock And Scope
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -423,20 +423,20 @@ Lock the identity and scope of `libRangeMap` before implementation expands.
 
 ## Requirements
 
-- [ ] Define `libRangeMap` as a first-party dependency-free SDK.
-- [ ] Define default output range as `[-1.0, 1.0]`.
-- [ ] Define Alpha v1 as integer-range mapping only.
-- [ ] Define Beta v1 as multi-type mapping through built-in and custom adapters.
-- [ ] Define language agnosticism as a spec-first contract.
-- [ ] Define input-type agnosticism as extensible mapper contracts.
-- [ ] Declare no third-party runtime dependencies.
-- [ ] Declare no copied third-party source.
-- [ ] Decide package name casing:
+- [x] Define `libRangeMap` as a first-party dependency-free SDK.
+- [x] Define default output range as `[-1.0, 1.0]`.
+- [x] Define Alpha v1 as integer-range mapping only.
+- [x] Define Beta v1 as multi-type mapping through built-in and custom adapters.
+- [x] Define language agnosticism as a spec-first contract.
+- [x] Define input-type agnosticism as extensible mapper contracts.
+- [x] Declare no third-party runtime dependencies.
+- [x] Declare no copied third-party source.
+- [x] Decide package name casing:
   - `libRangeMap`
   - `librangemap`
   - `lib_rangemap`
-- [ ] Decide canonical Python import style.
-- [ ] Decide whether C++ remains supported in alpha or becomes legacy until beta.
+- [x] Decide canonical Python import style.
+- [x] Decide whether C++ remains supported in alpha or becomes legacy until beta.
 
 ## Acceptance Criteria
 
@@ -446,7 +446,7 @@ Any contributor can read the README/spec and understand what Alpha v1 must ship.
 
 # LRM-010 — Repo Hygiene And Dependency Audit
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -465,22 +465,22 @@ Clean the repo so it is source-only, dependency-free, and safe for open-source d
 
 ## Requirements
 
-- [ ] Audit every tracked file.
-- [ ] Identify generated artifacts.
-- [ ] Remove `dist/` from source control.
-- [ ] Remove `build/` if present.
-- [ ] Remove `*.egg-info/` from source control.
-- [ ] Add or update `.gitignore`.
-- [ ] Confirm no private data exists in repo.
-- [ ] Confirm no external source code was copied into repo.
-- [ ] Confirm no runtime dependencies are declared.
-- [ ] Fix `setup.py` dependency metadata so it does not declare empty or bogus dependencies.
-- [ ] Add `pyproject.toml` or document why legacy packaging remains.
-- [ ] Add or verify license file.
-- [ ] Add `AGENTS.md`.
-- [ ] Add `CHANGELOG.md`.
-- [ ] Add `SECURITY.md` if desired.
-- [ ] Add `CONTRIBUTING.md` when outside contributors are expected.
+- [x] Audit every tracked file.
+- [x] Identify generated artifacts.
+- [x] Remove `dist/` from source control.
+- [x] Remove `build/` if present.
+- [x] Remove `*.egg-info/` from source control.
+- [x] Add or update `.gitignore`.
+- [x] Confirm no private data exists in repo.
+- [x] Confirm no external source code was copied into repo.
+- [x] Confirm no runtime dependencies are declared.
+- [x] Fix `setup.py` dependency metadata so it does not declare empty or bogus dependencies.
+- [x] Add `pyproject.toml` or document why legacy packaging remains.
+- [x] Add or verify license file.
+- [x] Add `AGENTS.md`.
+- [x] Add `CHANGELOG.md`.
+- [x] Add `SECURITY.md` if desired.
+- [x] Add `CONTRIBUTING.md` when outside contributors are expected.
 
 ## Acceptance Criteria
 
@@ -490,7 +490,7 @@ The repo contains source, tests, docs, and examples only. Generated package arti
 
 # LRM-020 — Language-Agnostic Range-Mapping Specification
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -509,8 +509,8 @@ Create a spec that can be implemented in any language.
 
 ## Required Spec Sections
 
-- [ ] Project purpose.
-- [ ] Core terms:
+- [x] Project purpose.
+- [x] Core terms:
   - value
   - input range
   - output range
@@ -521,37 +521,37 @@ Create a spec that can be implemented in any language.
   - clipping
   - strict mode
   - finite numeric value
-- [ ] Canonical formula.
-- [ ] Default output range.
-- [ ] Integer mapping behavior.
-- [ ] Floating-point precision expectations.
-- [ ] Handling of out-of-range values.
-- [ ] Handling of invalid ranges.
-- [ ] Handling of equal min/max.
-- [ ] Handling of reversed ranges.
-- [ ] Handling of NaN and infinity.
-- [ ] Serialization format.
-- [ ] Versioning format.
-- [ ] Required compliance tests.
-- [ ] Definition of a conforming implementation.
-- [ ] Rules for future type adapters.
+- [x] Canonical formula.
+- [x] Default output range.
+- [x] Integer mapping behavior.
+- [x] Floating-point precision expectations.
+- [x] Handling of out-of-range values.
+- [x] Handling of invalid ranges.
+- [x] Handling of equal min/max.
+- [x] Handling of reversed ranges.
+- [x] Handling of NaN and infinity.
+- [x] Serialization format.
+- [x] Versioning format.
+- [x] Required compliance tests.
+- [x] Definition of a conforming implementation.
+- [x] Rules for future type adapters.
 
 ## Alpha Spec Decisions
 
-- [ ] `in_min < in_max` is required for Alpha.
-- [ ] `out_min < out_max` is required for Alpha.
-- [ ] Default `out_min = -1.0`.
-- [ ] Default `out_max = 1.0`.
-- [ ] Values below input range:
+- [x] `in_min < in_max` is required for Alpha.
+- [x] `out_min < out_max` is required for Alpha.
+- [x] Default `out_min = -1.0`.
+- [x] Default `out_max = 1.0`.
+- [x] Values below input range:
   - clip if `clip=True`.
   - raise if `clip=False`.
-- [ ] Values above input range:
+- [x] Values above input range:
   - clip if `clip=True`.
   - raise if `clip=False`.
-- [ ] Input values must be finite integers for Alpha.
-- [ ] Output must be a float.
-- [ ] Midpoint should map to approximately zero.
-- [ ] No hidden global state.
+- [x] Input values must be finite integers for Alpha.
+- [x] Output must be a float.
+- [x] Midpoint should map to approximately zero.
+- [x] No hidden global state.
 
 ## Acceptance Criteria
 
@@ -561,7 +561,7 @@ A developer can implement a compatible `libRangeMap` in another language using o
 
 # LRM-030 — Core Integer Mapper
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -579,32 +579,32 @@ Implement the Alpha v1 MVP: convert any finite integer from a declared integer r
 
 ## Requirements
 
-- [ ] Add `IntegerRangeMapper` or make `RangeMapper` explicitly support integer mode.
-- [ ] Constructor accepts:
+- [x] Add `IntegerRangeMapper` or make `RangeMapper` explicitly support integer mode.
+- [x] Constructor accepts:
   - `input_range`
   - optional `output_range`
   - `clip`
   - optional mapper id/name
-- [ ] Default output range is `[-1.0, 1.0]`.
-- [ ] Input range supports:
+- [x] Default output range is `[-1.0, 1.0]`.
+- [x] Input range supports:
   - positive ranges
   - zero-based ranges
   - negative ranges
   - mixed negative-to-positive ranges
   - non-zero positive ranges
   - large integer ranges
-- [ ] Return type is float.
-- [ ] Lower input bound maps to `-1.0`.
-- [ ] Upper input bound maps to `1.0`.
-- [ ] Exact midpoint maps to `0.0` where mathematically exact.
-- [ ] Non-exact midpoint maps within documented tolerance.
-- [ ] Values below range clip or raise based on config.
-- [ ] Values above range clip or raise based on config.
-- [ ] Equal input min/max raises clear error.
-- [ ] Reversed range raises clear error.
-- [ ] Non-integer input in integer mapper raises clear error.
-- [ ] Boolean input is rejected by default even though Python bool is a subclass of int.
-- [ ] Optional explicit bool support is deferred.
+- [x] Return type is float.
+- [x] Lower input bound maps to `-1.0`.
+- [x] Upper input bound maps to `1.0`.
+- [x] Exact midpoint maps to `0.0` where mathematically exact.
+- [x] Non-exact midpoint maps within documented tolerance.
+- [x] Values below range clip or raise based on config.
+- [x] Values above range clip or raise based on config.
+- [x] Equal input min/max raises clear error.
+- [x] Reversed range raises clear error.
+- [x] Non-integer input in integer mapper raises clear error.
+- [x] Boolean input is rejected by default even though Python bool is a subclass of int.
+- [x] Optional explicit bool support is deferred.
 
 ## Acceptance Criteria
 
@@ -614,7 +614,7 @@ The integer mapper passes all alpha compliance tests and is suitable as the firs
 
 # LRM-040 — Error Handling And Validation
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: HIGH
 
 ## Goal
@@ -630,26 +630,26 @@ Make failures safe, clear, and consistent across languages.
 
 ## Required Exceptions / Error Types
 
-- [ ] `RangeMapError`
-- [ ] `InvalidRangeError`
-- [ ] `OutOfRangeError`
-- [ ] `UnsupportedTypeError`
-- [ ] `NotFiniteError`
-- [ ] `SerializationError`
-- [ ] `NotFittedError`, deferred until fitted mappers exist.
+- [x] `RangeMapError`
+- [x] `InvalidRangeError`
+- [x] `OutOfRangeError`
+- [x] `UnsupportedTypeError`
+- [x] `NotFiniteError`
+- [x] `SerializationError`
+- [x] `NotFittedError`, deferred until fitted mappers exist.
 
 ## Validation Tasks
 
-- [ ] Validate input range shape.
-- [ ] Validate input range values are integers for alpha.
-- [ ] Validate output range shape.
-- [ ] Validate output range values are finite floats/ints.
-- [ ] Validate output range is ordered.
-- [ ] Validate input value type.
-- [ ] Validate input value finite-ness.
-- [ ] Validate clip mode.
-- [ ] Validate mapper metadata.
-- [ ] Ensure exception messages explain how to fix the issue.
+- [x] Validate input range shape.
+- [x] Validate input range values are integers for alpha.
+- [x] Validate output range shape.
+- [x] Validate output range values are finite floats/ints.
+- [x] Validate output range is ordered.
+- [x] Validate input value type.
+- [x] Validate input value finite-ness.
+- [x] Validate clip mode.
+- [x] Validate mapper metadata.
+- [x] Ensure exception messages explain how to fix the issue.
 
 ## Acceptance Criteria
 
@@ -659,7 +659,7 @@ Invalid input never produces silent nonsense.
 
 # LRM-050 — Serialization And Reproducibility
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: HIGH
 
 ## Goal
@@ -676,23 +676,23 @@ Make mapping specs saveable, loadable, auditable, and reproducible.
 
 ## Requirements
 
-- [ ] Add `to_dict`.
-- [ ] Add `from_dict`.
-- [ ] Add `to_json`.
-- [ ] Add `from_json`.
-- [ ] Add `save`.
-- [ ] Add `load`.
-- [ ] Include mapper type.
-- [ ] Include spec version.
-- [ ] Include input range.
-- [ ] Include output range.
-- [ ] Include clip mode.
-- [ ] Include strictness settings.
-- [ ] Include optional name/id.
-- [ ] Include implementation version.
-- [ ] Do not store raw user datasets.
-- [ ] JSON uses only standard library.
-- [ ] Serialized specs are stable enough for tests.
+- [x] Add `to_dict`.
+- [x] Add `from_dict`.
+- [x] Add `to_json`.
+- [x] Add `from_json`.
+- [x] Add `save`.
+- [x] Add `load`.
+- [x] Include mapper type.
+- [x] Include spec version.
+- [x] Include input range.
+- [x] Include output range.
+- [x] Include clip mode.
+- [x] Include strictness settings.
+- [x] Include optional name/id.
+- [x] Include implementation version.
+- [x] Do not store raw user datasets.
+- [x] JSON uses only standard library.
+- [x] Serialized specs are stable enough for tests.
 
 ## Example Metadata
 
@@ -714,7 +714,7 @@ A mapper can be saved, reloaded, and produce the same output for the same input.
 
 # LRM-060 — Python Reference Implementation
 
-STATUS: IN_PROGRESS  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -731,31 +731,31 @@ Turn the current Python experiment into a clean dependency-free reference implem
 
 ## Requirements
 
-- [ ] Create package directory:
+- [x] Create package directory:
   - `librangemap/`
-- [ ] Add `librangemap/__init__.py`.
-- [ ] Add `librangemap/core.py`.
-- [ ] Add `librangemap/errors.py`.
-- [ ] Add `librangemap/spec.py`.
-- [ ] Add `librangemap/integer.py`.
-- [ ] Add `librangemap/serialization.py`.
-- [ ] Move old `libRangeMap.py` behavior behind compatibility wrapper or deprecate it.
-- [ ] Default output range changes to `[-1.0, 1.0]`.
-- [ ] Keep dependency-free standard-library-only code.
-- [ ] Add type hints using standard syntax only.
-- [ ] Add docstrings.
-- [ ] Add `__all__`.
-- [ ] Add package version.
-- [ ] Add compatibility notes for old API.
-- [ ] Avoid public method name `map` unless kept as alias.
-- [ ] Prefer `map_value` and `transform`.
+- [x] Add `librangemap/__init__.py`.
+- [x] Add `librangemap/core.py`.
+- [x] Add `librangemap/errors.py`.
+- [x] Add `librangemap/spec.py`.
+- [x] Add `librangemap/integer.py`.
+- [x] Add `librangemap/serialization.py`.
+- [x] Move old `libRangeMap.py` behavior behind compatibility wrapper or deprecate it.
+- [x] Default output range changes to `[-1.0, 1.0]`.
+- [x] Keep dependency-free standard-library-only code.
+- [x] Add type hints using standard syntax only.
+- [x] Add docstrings.
+- [x] Add `__all__`.
+- [x] Add package version.
+- [x] Add compatibility notes for old API.
+- [x] Avoid public method name `map` unless kept as alias.
+- [x] Prefer `map_value` and `transform`.
 
 ## Backward Compatibility Tasks
 
-- [ ] Decide whether `RangeMapper.map()` remains as alias.
-- [ ] If kept, test it.
-- [ ] If deprecated, document migration.
-- [ ] Document output default change from `[0, 1]` to `[-1, 1]`.
+- [x] Decide whether `RangeMapper.map()` remains as alias.
+- [x] If kept, test it.
+- [x] If deprecated, document migration.
+- [x] Document output default change from `[0, 1]` to `[-1, 1]`.
 
 ## Acceptance Criteria
 
@@ -765,7 +765,7 @@ Python implementation is clean, importable, tested, dependency-free, and aligned
 
 # LRM-070 — C++ Reference Implementation Or Legacy Decision
 
-STATUS: VERIFY  
+STATUS: DONE
 PRIORITY: MEDIUM
 
 ## Goal
@@ -788,10 +788,10 @@ Requirements:
 
 Requirements:
 
-- [ ] Move current header to `legacy/` or document it as experimental.
-- [ ] Keep repo focused on spec plus Python reference for alpha.
-- [ ] Create a C++ beta milestone.
-- [ ] Avoid claiming C++ alpha support.
+- [x] Move current header to `legacy/` or document it as experimental.
+- [x] Keep repo focused on spec plus Python reference for alpha.
+- [x] Create a C++ beta milestone.
+- [x] Avoid claiming C++ alpha support.
 
 ## Acceptance Criteria
 
@@ -801,7 +801,7 @@ The repo does not pretend unsupported C++ behavior is production-ready.
 
 # LRM-080 — Alpha Correctness Test Gate
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -828,34 +828,34 @@ python -m unittest discover
 
 ## Required Tests
 
-- [ ] Import package with no third-party dependencies.
-- [ ] Map lower bound to `-1.0`.
-- [ ] Map upper bound to `1.0`.
-- [ ] Map midpoint to `0.0`.
-- [ ] Map zero-based range `[0, 100]`.
-- [ ] Map non-zero range `[5, 15]`.
-- [ ] Map negative range `[-100, -50]`.
-- [ ] Map mixed range `[-10, 10]`.
-- [ ] Map large integer range.
-- [ ] Reject equal input range.
-- [ ] Reject reversed input range.
-- [ ] Reject non-integer input for integer mapper.
-- [ ] Reject bool by default.
-- [ ] Reject NaN.
-- [ ] Reject infinity.
-- [ ] Clip below lower bound when `clip=True`.
-- [ ] Clip above upper bound when `clip=True`.
-- [ ] Raise below lower bound when `clip=False`.
-- [ ] Raise above upper bound when `clip=False`.
-- [ ] Serialize mapper to dict.
-- [ ] Reload mapper from dict.
-- [ ] Serialize mapper to JSON.
-- [ ] Reload mapper from JSON.
-- [ ] Save mapper to file.
-- [ ] Load mapper from file.
-- [ ] Preserve same output after reload.
-- [ ] Old compatibility alias works or documented deprecation path exists.
-- [ ] No generated artifacts required for tests.
+- [x] Import package with no third-party dependencies.
+- [x] Map lower bound to `-1.0`.
+- [x] Map upper bound to `1.0`.
+- [x] Map midpoint to `0.0`.
+- [x] Map zero-based range `[0, 100]`.
+- [x] Map non-zero range `[5, 15]`.
+- [x] Map negative range `[-100, -50]`.
+- [x] Map mixed range `[-10, 10]`.
+- [x] Map large integer range.
+- [x] Reject equal input range.
+- [x] Reject reversed input range.
+- [x] Reject non-integer input for integer mapper.
+- [x] Reject bool by default.
+- [x] Reject NaN.
+- [x] Reject infinity.
+- [x] Clip below lower bound when `clip=True`.
+- [x] Clip above upper bound when `clip=True`.
+- [x] Raise below lower bound when `clip=False`.
+- [x] Raise above upper bound when `clip=False`.
+- [x] Serialize mapper to dict.
+- [x] Reload mapper from dict.
+- [x] Serialize mapper to JSON.
+- [x] Reload mapper from JSON.
+- [x] Save mapper to file.
+- [x] Load mapper from file.
+- [x] Preserve same output after reload.
+- [x] Old compatibility alias works or documented deprecation path exists.
+- [x] No generated artifacts required for tests.
 
 ## Acceptance Criteria
 
@@ -865,7 +865,7 @@ All alpha tests pass from a clean checkout using only the standard library.
 
 # LRM-090 — Documentation And Examples
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -882,37 +882,37 @@ Make the project understandable to external users.
 
 ## README Requirements
 
-- [ ] Explain what range mapping is.
-- [ ] Explain why `[-1.0, 1.0]` is the default.
-- [ ] Explain that the SDK is first-party and dependency-free.
-- [ ] Explain Alpha v1 scope.
-- [ ] Explain Beta roadmap.
-- [ ] Show integer mapping quickstart.
-- [ ] Show clipping.
-- [ ] Show strict out-of-range errors.
-- [ ] Show saving/loading mapper specs.
-- [ ] Explain old `[0, 1]` examples are legacy or configurable.
-- [ ] Explain no external packages are required.
-- [ ] Explain how to run tests.
-- [ ] Explain how to install locally.
-- [ ] Explain contribution rules.
+- [x] Explain what range mapping is.
+- [x] Explain why `[-1.0, 1.0]` is the default.
+- [x] Explain that the SDK is first-party and dependency-free.
+- [x] Explain Alpha v1 scope.
+- [x] Explain Beta roadmap.
+- [x] Show integer mapping quickstart.
+- [x] Show clipping.
+- [x] Show strict out-of-range errors.
+- [x] Show saving/loading mapper specs.
+- [x] Explain old `[0, 1]` examples are legacy or configurable.
+- [x] Explain no external packages are required.
+- [x] Explain how to run tests.
+- [x] Explain how to install locally.
+- [x] Explain contribution rules.
 
 ## Docs Directory
 
-- [ ] `docs/spec.md`
-- [ ] `docs/quickstart.md`
-- [ ] `docs/alpha_scope.md`
-- [ ] `docs/beta_roadmap.md`
-- [ ] `docs/compatibility.md`
-- [ ] `docs/no_dependencies.md`
+- [x] `docs/spec.md`
+- [x] `docs/quickstart.md`
+- [x] `docs/alpha_scope.md`
+- [x] `docs/beta_roadmap.md`
+- [x] `docs/compatibility.md`
+- [x] `docs/no_dependencies.md`
 
 ## Examples
 
-- [ ] `examples/map_integer.py`
-- [ ] `examples/map_negative_range.py`
-- [ ] `examples/map_with_clipping.py`
-- [ ] `examples/map_strict.py`
-- [ ] `examples/save_and_load_mapper.py`
+- [x] `examples/map_integer.py`
+- [x] `examples/map_negative_range.py`
+- [x] `examples/map_with_clipping.py`
+- [x] `examples/map_strict.py`
+- [x] `examples/save_and_load_mapper.py`
 
 ## Acceptance Criteria
 
@@ -922,7 +922,7 @@ A new user can understand and use integer mapping in under five minutes.
 
 # LRM-100 — Packaging And Import Validation
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: HIGH
 
 ## Goal
@@ -939,20 +939,20 @@ Make the SDK installable and importable without dependencies.
 
 ## Requirements
 
-- [ ] Add or clean `pyproject.toml`.
-- [ ] Ensure runtime dependencies list is empty.
-- [ ] Keep `setup.py` only if needed.
-- [ ] Ensure package name is consistent.
-- [ ] Ensure import works after local install.
-- [ ] Ensure import works from source checkout.
-- [ ] Ensure import works without generated `dist/`.
-- [ ] Add package metadata.
-- [ ] Add license metadata.
-- [ ] Add project URLs.
-- [ ] Add supported Python versions.
-- [ ] Add classifiers only when true.
-- [ ] Ensure no empty dependency string.
-- [ ] Ensure generated build artifacts are ignored.
+- [x] Add or clean `pyproject.toml`.
+- [x] Ensure runtime dependencies list is empty.
+- [x] Keep `setup.py` only if needed.
+- [x] Ensure package name is consistent.
+- [x] Ensure import works after local install.
+- [x] Ensure import works from source checkout.
+- [x] Ensure import works without generated `dist/`.
+- [x] Add package metadata.
+- [x] Add license metadata.
+- [x] Add project URLs.
+- [x] Add supported Python versions.
+- [x] Add classifiers only when true.
+- [x] Ensure no empty dependency string.
+- [x] Ensure generated build artifacts are ignored.
 
 ## Required Commands
 
@@ -970,7 +970,7 @@ A developer can install and import `libRangeMap` locally without third-party dep
 
 # LRM-110 — V1 Alpha Release Gate
 
-STATUS: PENDING  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 ## Goal
@@ -988,22 +988,22 @@ Determine whether v1 alpha is shippable.
 
 ## Required Alpha Checks
 
-- [ ] Repo hygiene complete.
-- [ ] Spec exists.
-- [ ] Integer mapper exists.
-- [ ] Default output range is `[-1.0, 1.0]`.
-- [ ] Tests pass.
-- [ ] No third-party runtime dependency.
-- [ ] No third-party source vendored.
-- [ ] README updated.
-- [ ] Examples exist.
-- [ ] Serialization exists.
-- [ ] Install/import validation passes.
-- [ ] Old generated artifacts removed from source control.
-- [ ] Alpha limitations documented.
-- [ ] Beta roadmap documented.
-- [ ] Version set to `0.1.0-alpha` or similar.
-- [ ] Release notes drafted.
+- [x] Repo hygiene complete.
+- [x] Spec exists.
+- [x] Integer mapper exists.
+- [x] Default output range is `[-1.0, 1.0]`.
+- [x] Tests pass.
+- [x] No third-party runtime dependency.
+- [x] No third-party source vendored.
+- [x] README updated.
+- [x] Examples exist.
+- [x] Serialization exists.
+- [x] Install/import validation passes.
+- [x] Old generated artifacts removed from source control.
+- [x] Alpha limitations documented.
+- [x] Beta roadmap documented.
+- [x] Version set to `0.1.0-alpha` or similar.
+- [x] Release notes drafted.
 
 ## Alpha Exit Criteria
 
@@ -1271,7 +1271,7 @@ PRIORITY: TRACKED
 
 # Immediate Next Implementation Task
 
-STATUS: ACTIVE  
+STATUS: DONE
 PRIORITY: CRITICAL
 
 Codex should start with `LRM-000` through `LRM-030`.
@@ -1408,4 +1408,3 @@ Deferred to beta:
 Recommended next phase:
 - ...
 ```
-

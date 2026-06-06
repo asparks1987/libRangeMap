@@ -1,16 +1,17 @@
 """Core validation and mapping helpers."""
 
 import math
+from typing import Sequence, Tuple
 
 from .errors import InvalidRangeError, NotFiniteError, UnsupportedTypeError
 
 
-def is_bool(value):
+def is_bool(value: object) -> bool:
     """Return True for booleans, which are intentionally not integers here."""
     return isinstance(value, bool)
 
 
-def require_finite_number(value, field_name):
+def require_finite_number(value: object, field_name: str) -> None:
     """Validate that a value is a finite int or float."""
     if is_bool(value) or not isinstance(value, (int, float)):
         raise UnsupportedTypeError(f"{field_name} must be a finite numeric value.")
@@ -18,13 +19,13 @@ def require_finite_number(value, field_name):
         raise NotFiniteError(f"{field_name} must be finite; NaN and infinity are not supported.")
 
 
-def require_integer(value, field_name):
+def require_integer(value: object, field_name: str) -> None:
     """Validate that a value is an integer, excluding bool."""
     if is_bool(value) or not isinstance(value, int):
         raise UnsupportedTypeError(f"{field_name} must be an integer; bool and non-integers are not supported.")
 
 
-def validate_integer_range(range_value, field_name):
+def validate_integer_range(range_value: object, field_name: str) -> Tuple[int, int]:
     """Validate an ordered two-item integer range."""
     if not isinstance(range_value, (list, tuple)) or len(range_value) != 2:
         raise InvalidRangeError(f"{field_name} must be a two-item range like (0, 100).")
@@ -41,7 +42,7 @@ def validate_integer_range(range_value, field_name):
     return int(low), int(high)
 
 
-def validate_output_range(range_value, field_name):
+def validate_output_range(range_value: object, field_name: str) -> Tuple[float, float]:
     """Validate an ordered two-item finite numeric output range."""
     if not isinstance(range_value, (list, tuple)) or len(range_value) != 2:
         raise InvalidRangeError(f"{field_name} must be a two-item range like (-1.0, 1.0).")
@@ -61,7 +62,7 @@ def validate_output_range(range_value, field_name):
     return low, high
 
 
-def map_linear(value, input_range, output_range):
+def map_linear(value: int, input_range: Sequence[int], output_range: Sequence[float]) -> float:
     """Map a value between ordered ranges using the canonical formula."""
     in_min, in_max = input_range
     out_min, out_max = output_range

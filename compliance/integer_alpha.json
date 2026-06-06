@@ -1,0 +1,38 @@
+{
+  "spec_version": "1.0-alpha",
+  "mapper_type": "integer_range",
+  "cases": [
+    {
+      "name": "zero_based",
+      "input_range": [0, 100],
+      "output_range": [-1.0, 1.0],
+      "clip": false,
+      "values": [
+        {"input": 0, "output": -1.0},
+        {"input": 50, "output": 0.0},
+        {"input": 100, "output": 1.0}
+      ]
+    },
+    {
+      "name": "mixed_negative_positive",
+      "input_range": [-10, 10],
+      "output_range": [-1.0, 1.0],
+      "clip": false,
+      "values": [
+        {"input": -10, "output": -1.0},
+        {"input": 0, "output": 0.0},
+        {"input": 10, "output": 1.0}
+      ]
+    },
+    {
+      "name": "clipping",
+      "input_range": [0, 100],
+      "output_range": [-1.0, 1.0],
+      "clip": true,
+      "values": [
+        {"input": -50, "output": -1.0},
+        {"input": 150, "output": 1.0}
+      ]
+    }
+  ]
+}

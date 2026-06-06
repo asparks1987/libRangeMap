@@ -1,5 +1,7 @@
 """Integer range mapper for the libRangeMap alpha reference implementation."""
 
+from typing import Any, Dict, Optional, Sequence
+
 from .core import map_linear, require_integer, validate_integer_range, validate_output_range
 from .errors import OutOfRangeError, SerializationError, UnsupportedTypeError
 from .spec import DEFAULT_OUTPUT_RANGE, MAPPER_TYPE_INTEGER_RANGE, SPEC_VERSION
@@ -12,7 +14,13 @@ class IntegerRangeMapper:
     mapper_type = MAPPER_TYPE_INTEGER_RANGE
     spec_version = SPEC_VERSION
 
-    def __init__(self, input_range, output_range=DEFAULT_OUTPUT_RANGE, clip=False, name=None):
+    def __init__(
+        self,
+        input_range: Sequence[int],
+        output_range: Sequence[float] = DEFAULT_OUTPUT_RANGE,
+        clip: bool = False,
+        name: Optional[str] = None,
+    ) -> None:
         if not isinstance(clip, bool):
             raise UnsupportedTypeError("clip must be a bool: True for clipping mode or False for strict mode.")
         if name is not None and not isinstance(name, str):
@@ -23,7 +31,7 @@ class IntegerRangeMapper:
         self.clip = clip
         self.name = name
 
-    def map_value(self, value):
+    def map_value(self, value: int) -> float:
         """Map one integer value to a float."""
         require_integer(value, "value")
 
@@ -39,15 +47,15 @@ class IntegerRangeMapper:
 
         return float(map_linear(value, self.input_range, self.output_range))
 
-    def transform(self, value):
+    def transform(self, value: int) -> float:
         """Alias for map_value, reserved for future mapper consistency."""
         return self.map_value(value)
 
-    def map(self, value):
+    def map(self, value: int) -> float:
         """Compatibility alias for older libRangeMap-style callers."""
         return self.map_value(value)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         """Return a JSON-compatible mapper spec."""
         data = {
             "spec_version": self.spec_version,
@@ -62,7 +70,7 @@ class IntegerRangeMapper:
         return data
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data: Dict[str, Any]) -> "IntegerRangeMapper":
         """Create a mapper from a JSON-compatible mapper spec."""
         if not isinstance(data, dict):
             raise SerializationError("mapper spec must be a dictionary.")
@@ -82,26 +90,26 @@ class IntegerRangeMapper:
         except KeyError as exc:
             raise SerializationError(f"mapper spec is missing required field {exc.args[0]!r}.") from exc
 
-    def to_json(self):
+    def to_json(self) -> str:
         """Serialize this mapper spec to a stable JSON string."""
         return dumps_json(self.to_dict())
 
     @classmethod
-    def from_json(cls, text):
+    def from_json(cls, text: str) -> "IntegerRangeMapper":
         """Load a mapper from a JSON string."""
         return cls.from_dict(loads_json(text))
 
-    def save(self, path):
+    def save(self, path: str) -> None:
         """Save this mapper spec as JSON."""
         save_json_file(path, self.to_dict())
 
     @classmethod
-    def load(cls, path):
+    def load(cls, path: str) -> "IntegerRangeMapper":
         """Load a mapper spec from a JSON file."""
         return cls.from_dict(load_json_file(path))
 
 
-def _implementation_version():
+def _implementation_version() -> str:
     from . import __version__
 
     return __version__

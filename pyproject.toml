@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "libRangeMap"
+version = "0.1.0a0"
+description = "First-party, dependency-free range mapping for AI-ready data."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Aryn M. Sparks", email = "Aryn.sparks1987@gmail.com" }
+]
+dependencies = []
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/asparks1987/libRangeMap"
+Repository = "https://github.com/asparks1987/libRangeMap"
+
+[tool.setuptools]
+packages = ["librangemap"]
+py-modules = ["libRangeMap"]
