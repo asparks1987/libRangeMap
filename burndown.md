@@ -816,7 +816,7 @@ Alpha v1 has a fixed 25-language target set in numerical order.
 | 12 | Scratch | Pending wrapper/runtime |
 | 13 | Perl | Pending wrapper/runtime |
 | 14 | PHP | Pending wrapper/runtime |
-| 15 | Rust | Pending wrapper/runtime |
+| 15 | Rust | First-party wrapper exists |
 | 16 | Go | First-party wrapper exists |
 | 17 | Assembly language | Pending wrapper/runtime |
 | 18 | Swift | Pending wrapper/runtime |
@@ -844,13 +844,14 @@ This target list is canon for Alpha v1. README and this burndown must not claim 
 
 ## Wrapper Requirements
 
-Current verified wrapper coverage includes Go, C#, Java, JavaScript, and C++. The remaining 20 canon targets still need first-party runtime or wrapper paths.
+Current verified wrapper coverage includes Go, C#, Java, JavaScript, C++, and Rust. The remaining 19 canon targets still need first-party runtime or wrapper paths.
 
 - [x] Go wrapper exists.
 - [x] C# wrapper exists.
 - [x] Java wrapper exists.
 - [x] JavaScript runtime path exists.
 - [x] C++ wrapper exists.
+- [x] Rust wrapper exists.
 - [ ] Each wrapper is first-party.
 - [ ] Each wrapper has no runtime dependencies.
 - [ ] Each wrapper exposes idiomatic integer mapping.

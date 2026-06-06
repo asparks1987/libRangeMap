@@ -9,6 +9,8 @@ env/
 
 build/
 dist/
+target/
+wrappers/rust/Cargo.lock
 *.egg-info/
 *.dll
 *.lib

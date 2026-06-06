@@ -1,0 +1,14 @@
+[package]
+name = "librangemap-rust"
+version = "0.1.0-alpha"
+edition = "2021"
+publish = false
+build = "build.rs"
+
+[lib]
+name = "librangemap"
+path = "src/lib.rs"
+
+[[test]]
+name = "integration"
+path = "tests/integration.rs"
