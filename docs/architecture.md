@@ -8,7 +8,7 @@ The recommended core architecture is:
 C core -> stable C ABI -> first-party language wrappers
 ```
 
-The current Python implementation is a useful reference, but it should not remain the only runtime implementation if `libRangeMap` is going to claim language-agnostic Alpha v1 readiness.
+The current Python implementation is a useful reference, and source installs now compile the first-party C core. It should not remain the only runtime implementation if `libRangeMap` is going to claim language-agnostic Alpha v1 readiness.
 
 ## Why C Core
 
@@ -16,7 +16,7 @@ C is the smallest practical center for this SDK:
 
 - stable ABI across many languages
 - easy to call from C++
-- easy to wrap from Python, Rust, Go, Java, C#, and JavaScript runtimes
+- easy to wrap from the full Alpha v1 language target set
 - no required runtime dependencies
 - simple enough to audit
 - portable to embedded and systems projects
@@ -31,24 +31,43 @@ Alpha v1 reaches 100% only when:
 - the integer range mapper exists in a first-party C core,
 - the C ABI is documented,
 - Python uses or mirrors the C core behavior,
-- every declared Alpha language wrapper passes the shared compliance fixture,
+- all 25 Alpha v1 language targets pass the shared compliance fixture,
 - no wrapper adds runtime dependencies,
 - and docs show how each supported language uses the same mapping contract.
 
 ## Alpha Language Targets
 
-The Alpha language target set should stay small enough to finish, but broad enough to prove the architecture:
+The Alpha v1 language target set is canonically fixed to these 25 programming languages in numerical order:
 
-- C core
-- C++ wrapper
-- Python wrapper/reference
-- JavaScript/TypeScript wrapper
-- Rust wrapper
-- Go wrapper
-- C# wrapper
-- Java/Kotlin wrapper
+| # | Language |
+| ---: | --- |
+| 1 | Python |
+| 2 | C |
+| 3 | Java |
+| 4 | C++ |
+| 5 | C# |
+| 6 | JavaScript |
+| 7 | Visual Basic |
+| 8 | R |
+| 9 | SQL |
+| 10 | Delphi/Object Pascal |
+| 11 | Fortran |
+| 12 | Scratch |
+| 13 | Perl |
+| 14 | PHP |
+| 15 | Rust |
+| 16 | Go |
+| 17 | Assembly language |
+| 18 | Swift |
+| 19 | Ada |
+| 20 | MATLAB |
+| 21 | Classic Visual Basic |
+| 22 | PL/SQL |
+| 23 | Ruby |
+| 24 | Prolog |
+| 25 | COBOL |
 
-If this list proves too large for the first Alpha milestone, the README and burndown must explicitly narrow the Alpha language target set before claiming 100%.
+Every language target needs a first-party runtime, wrapper, or implementation path that passes the shared Alpha integer compliance fixture before Alpha v1 can claim 100%.
 
 ## Wrapper Rules
 

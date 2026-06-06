@@ -1,0 +1,31 @@
+{
+  "scope": "alpha_v1",
+  "description": "Canonical Alpha v1 programming language target list.",
+  "languages": [
+    {"order": 1, "name": "Python"},
+    {"order": 2, "name": "C"},
+    {"order": 3, "name": "Java"},
+    {"order": 4, "name": "C++"},
+    {"order": 5, "name": "C#"},
+    {"order": 6, "name": "JavaScript"},
+    {"order": 7, "name": "Visual Basic"},
+    {"order": 8, "name": "R"},
+    {"order": 9, "name": "SQL"},
+    {"order": 10, "name": "Delphi/Object Pascal"},
+    {"order": 11, "name": "Fortran"},
+    {"order": 12, "name": "Scratch"},
+    {"order": 13, "name": "Perl"},
+    {"order": 14, "name": "PHP"},
+    {"order": 15, "name": "Rust"},
+    {"order": 16, "name": "Go"},
+    {"order": 17, "name": "Assembly language"},
+    {"order": 18, "name": "Swift"},
+    {"order": 19, "name": "Ada"},
+    {"order": 20, "name": "MATLAB"},
+    {"order": 21, "name": "Classic Visual Basic"},
+    {"order": 22, "name": "PL/SQL"},
+    {"order": 23, "name": "Ruby"},
+    {"order": 24, "name": "Prolog"},
+    {"order": 25, "name": "COBOL"}
+  ]
+}

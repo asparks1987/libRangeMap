@@ -4,7 +4,7 @@ Date: 2026-06-06
 
 This alpha rebuild establishes `librangemap` as a dependency-free Python reference implementation for the language-neutral range-mapping spec.
 
-It does not complete full project Alpha v1 readiness under the stricter canon that `libRangeMap` must be language-agnostic in practice. The intended Alpha architecture is now a first-party C core with a stable C ABI and thin wrappers for every declared Alpha language target.
+It does not complete full project Alpha v1 readiness under the stricter canon that `libRangeMap` must be language-agnostic in practice. The intended Alpha architecture is now a first-party C core with a stable C ABI and thin wrappers for all 25 Alpha v1 language targets.
 
 ## Added
 
@@ -29,5 +29,5 @@ It does not complete full project Alpha v1 readiness under the stricter canon th
 
 - Character, string, bytes, sequence, pixel, and custom object mappers.
 - first-party C core and stable C ABI for full Alpha v1 readiness.
-- first-party wrappers for every declared Alpha language target.
+- first-party wrappers for all 25 Alpha v1 language targets.
 - Multi-language package releases.

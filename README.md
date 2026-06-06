@@ -2,13 +2,13 @@
 
 First-party, dependency-free range mapping for AI-ready data.
 
-`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
+`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec and a compiled first-party C core for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
 
 ## Current Status
 
 Alpha v1 is not yet 100% complete under the project canon.
 
-The Python reference implementation is usable and tested, but the project is not yet fully language-agnostic in practice. Full Alpha v1 readiness should be built around a tiny first-party C core with a stable C ABI and thin wrappers for each declared Alpha language target.
+The Python reference implementation is usable and tested, but the project is not yet fully language-agnostic in practice. Full Alpha v1 readiness should be built around a tiny first-party C core with a stable C ABI and thin wrappers for all 25 Alpha v1 language targets.
 
 | Area | Current State |
 | --- | --- |
@@ -21,6 +21,7 @@ The Python reference implementation is usable and tested, but the project is not
 | Python mapper | Integer range mapper |
 | Python test command | `python -m unittest discover` |
 | Language-neutral artifact | Integer alpha compliance fixture |
+| Native core | Built from `csrc/` when installed from source |
 | Planned core architecture | C core with stable C ABI |
 | Non-Python wrappers | Not complete |
 | C++ status | Legacy; needs replacement wrapper over the C core |
@@ -49,10 +50,42 @@ Still required before full Alpha v1 readiness:
 
 - a first-party C core implementing integer range mapping
 - a stable documented C ABI
-- first-party wrappers for every declared Alpha language target
+- first-party wrappers for all 25 Alpha v1 language targets
 - compliance validation for the C core and each wrapper
 - documentation showing how each supported language uses the same mapping contract
 - release-gate evidence that the project is not merely a Python wrapper
+
+## Alpha v1 Language Canon
+
+Alpha v1 has a fixed 25-language target set. The project is not 100% Alpha v1-ready until each language has a first-party runtime, wrapper, or implementation path that passes the shared integer compliance fixture.
+
+| # | Language |
+| ---: | --- |
+| 1 | Python |
+| 2 | C |
+| 3 | Java |
+| 4 | C++ |
+| 5 | C# |
+| 6 | JavaScript |
+| 7 | Visual Basic |
+| 8 | R |
+| 9 | SQL |
+| 10 | Delphi/Object Pascal |
+| 11 | Fortran |
+| 12 | Scratch |
+| 13 | Perl |
+| 14 | PHP |
+| 15 | Rust |
+| 16 | Go |
+| 17 | Assembly language |
+| 18 | Swift |
+| 19 | Ada |
+| 20 | MATLAB |
+| 21 | Classic Visual Basic |
+| 22 | PL/SQL |
+| 23 | Ruby |
+| 24 | Prolog |
+| 25 | COBOL |
 
 Deferred until beta:
 
@@ -73,6 +106,7 @@ python -m pip install .
 ```
 
 The Python reference has no runtime dependencies beyond Python itself.
+Source installs compile the native C core with Zig and place it under `librangemap/native/`.
 
 ## Quickstart
 
@@ -253,7 +287,7 @@ from librangemap import IntegerRangeMapper
 
 `CharRangeMapper` is intentionally unsupported in the Python alpha reference because the old behavior mapped unknown characters to a magic fallback value. Future character and text support will use explicit policies.
 
-The old C++ header is preserved under `legacy/` for reference only. It is not claimed as an Alpha v1 implementation, and full Alpha v1 readiness should remain open until the first-party C core and every declared Alpha language wrapper pass the integer compliance fixture.
+The old C++ header is preserved under `legacy/` for reference only. It is not claimed as an Alpha v1 implementation, and full Alpha v1 readiness should remain open until the first-party C core and all 25 Alpha v1 language targets pass the integer compliance fixture.
 
 ## Project Rules
 
@@ -275,3 +309,4 @@ The old C++ header is preserved under `legacy/` for reference only. It is not cl
 - [No dependencies](docs/no_dependencies.md)
 - [Python reference notes](docs/release_notes_v0.1.0-alpha.md)
 - [Integer alpha compliance fixture](compliance/integer_alpha.json)
+- [Alpha v1 language canon](compliance/alpha_v1_languages.json)

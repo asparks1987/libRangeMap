@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional, Sequence
 
 from .core import map_linear, require_integer, validate_integer_range, validate_output_range
 from .errors import OutOfRangeError, SerializationError, UnsupportedTypeError
+from .native_backend import load_native_backend
 from .spec import DEFAULT_OUTPUT_RANGE, MAPPER_TYPE_INTEGER_RANGE, SPEC_VERSION
 from .serialization import dumps_json, load_json_file, loads_json, save_json_file
 
@@ -30,10 +31,34 @@ class IntegerRangeMapper:
         self.output_range = validate_output_range(output_range, "output_range")
         self.clip = clip
         self.name = name
+        self._native_backend = load_native_backend()
+        self._native_mapper = None
+        if self._native_backend is not None:
+            self._native_mapper = self._native_backend.create_mapper(
+                self.input_range[0],
+                self.input_range[1],
+                self.output_range[0],
+                self.output_range[1],
+                self.clip,
+            )
 
     def map_value(self, value: int) -> float:
         """Map one integer value to a float."""
         require_integer(value, "value")
+
+        if self._native_backend is not None and self._native_mapper is not None:
+            in_min, in_max = self.input_range
+            if value < in_min:
+                if not self.clip:
+                    raise OutOfRangeError(
+                        f"value {value} is below input_range lower bound {in_min}; enable clip to clamp."
+                    )
+            elif value > in_max:
+                if not self.clip:
+                    raise OutOfRangeError(
+                        f"value {value} is above input_range upper bound {in_max}; enable clip to clamp."
+                    )
+            return self._native_backend.map_value(self._native_mapper, value)
 
         in_min, in_max = self.input_range
         if value < in_min:

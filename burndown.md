@@ -38,7 +38,7 @@ Rationale:
 
 - C gives the broadest practical interoperability surface.
 - C++ can wrap C easily, while a C++ core would make ABI stability harder.
-- Python, JavaScript/TypeScript, Rust, Go, C#, Java/Kotlin, and C++ can all bind to a C ABI without requiring core runtime dependencies.
+- The 25 Alpha v1 language targets can use, wrap, or mirror a C ABI without requiring core runtime dependencies.
 - The mapping math stays centralized and less likely to drift across languages.
 - Wrappers can remain small, idiomatic, dependency-free, and compliance-tested.
 
@@ -194,7 +194,7 @@ Codex must inspect the actual checkout before editing. If the local repo differs
 
 ## V1 Alpha Ship Definition
 
-`libRangeMap` reaches **V1 Alpha** when it has a language-agnostic specification, a first-party C core with stable C ABI, and first-party wrappers for the declared Alpha language targets that convert any finite integer within a declared integer range into a float between `-1.0` and `1.0`.
+`libRangeMap` reaches **V1 Alpha** when it has a language-agnostic specification, a first-party C core with stable C ABI, and first-party wrappers for all 25 Alpha v1 language targets that convert any finite integer within a declared integer range into a float between `-1.0` and `1.0`.
 
 Alpha is intentionally narrow. It proves the core idea correctly before expanding to many input types.
 
@@ -231,12 +231,12 @@ Alpha v1 is not ready until:
 - [x] Documentation explains the formula and examples.
 - [x] Generated artifacts are not treated as source.
 - [ ] The release gate passes from a clean checkout.
-- [ ] First-party C core and every declared Alpha language wrapper pass the integer compliance fixture.
+- [ ] First-party C core and all 25 Alpha v1 language targets pass the integer compliance fixture.
 - [ ] Documentation proves the integer mapping contract can be used outside Python.
 - [ ] First-party C core exists.
 - [ ] Stable C ABI is documented.
-- [ ] First-party wrappers exist for every declared Alpha language target.
-- [ ] C core and wrappers pass the shared integer compliance fixture.
+- [ ] First-party wrappers exist for all 25 Alpha v1 language targets.
+- [ ] C core and all 25 Alpha v1 language targets pass the shared integer compliance fixture.
 
 ### Alpha Is Not
 
@@ -796,30 +796,51 @@ Implement the language-agnostic Alpha runtime architecture without adding depend
 
 Use a first-party C core with a stable C ABI as the center of the SDK. C++ and other languages should be thin wrappers over that ABI or direct first-party ports that prove exact compliance.
 
-## Alpha Language Targets
+## Alpha v1 Language Canon
 
-- [ ] C core
-- [ ] C++ wrapper
-- [ ] Python wrapper/reference aligned with the C behavior
-- [ ] JavaScript/TypeScript wrapper
-- [ ] Rust wrapper
-- [ ] Go wrapper
-- [ ] C# wrapper
-- [ ] Java/Kotlin wrapper
+Alpha v1 has a fixed 25-language target set in numerical order.
 
-If this target list is narrowed, README and this burndown must be updated before claiming 100% Alpha v1 readiness.
+| # | Language | Status |
+| ---: | --- | --- |
+| 1 | Python | Python reference exists; C-core alignment pending |
+| 2 | C | Pending C core |
+| 3 | Java | Pending wrapper/runtime |
+| 4 | C++ | Legacy header moved; replacement wrapper pending |
+| 5 | C# | Pending wrapper/runtime |
+| 6 | JavaScript | Pending wrapper/runtime |
+| 7 | Visual Basic | Pending wrapper/runtime |
+| 8 | R | Pending wrapper/runtime |
+| 9 | SQL | Pending wrapper/runtime |
+| 10 | Delphi/Object Pascal | Pending wrapper/runtime |
+| 11 | Fortran | Pending wrapper/runtime |
+| 12 | Scratch | Pending wrapper/runtime |
+| 13 | Perl | Pending wrapper/runtime |
+| 14 | PHP | Pending wrapper/runtime |
+| 15 | Rust | Pending wrapper/runtime |
+| 16 | Go | Pending wrapper/runtime |
+| 17 | Assembly language | Pending wrapper/runtime |
+| 18 | Swift | Pending wrapper/runtime |
+| 19 | Ada | Pending wrapper/runtime |
+| 20 | MATLAB | Pending wrapper/runtime |
+| 21 | Classic Visual Basic | Pending wrapper/runtime |
+| 22 | PL/SQL | Pending wrapper/runtime |
+| 23 | Ruby | Pending wrapper/runtime |
+| 24 | Prolog | Pending wrapper/runtime |
+| 25 | COBOL | Pending wrapper/runtime |
+
+This target list is canon for Alpha v1. README and this burndown must not claim 100% Alpha v1 readiness until all 25 language targets have a first-party runtime, wrapper, or implementation path that passes the shared integer compliance fixture.
 
 ## C Core Requirements
 
-- [ ] Add first-party C source and header.
-- [ ] Implement integer range mapper.
-- [ ] Expose stable C ABI.
-- [ ] Default output range is `[-1.0, 1.0]`.
-- [ ] Support strict and clipping behavior.
-- [ ] Return explicit error codes.
-- [ ] Avoid allocation-heavy APIs where practical.
-- [ ] Avoid runtime dependencies.
-- [ ] Pass shared integer compliance fixture.
+- [x] Add first-party C source and header.
+- [x] Implement integer range mapper.
+- [x] Expose stable C ABI.
+- [x] Default output range is `[-1.0, 1.0]`.
+- [x] Support strict and clipping behavior.
+- [x] Return explicit error codes.
+- [x] Avoid allocation-heavy APIs where practical.
+- [x] Avoid runtime dependencies.
+- [x] Pass shared integer compliance fixture.
 
 ## Wrapper Requirements
 
@@ -827,7 +848,7 @@ If this target list is narrowed, README and this burndown must be updated before
 - [ ] Each wrapper has no runtime dependencies.
 - [ ] Each wrapper exposes idiomatic integer mapping.
 - [ ] Each wrapper uses or exactly matches the C core behavior.
-- [ ] Each wrapper passes compliance fixture tests.
+- [ ] Each of the 25 Alpha v1 language targets passes compliance fixture tests.
 - [ ] Each wrapper documents install/use from a local checkout.
 
 ## Legacy C++ Handling
@@ -838,7 +859,7 @@ If this target list is narrowed, README and this burndown must be updated before
 
 ## Current Decision
 
-The legacy C++ header has been moved under `legacy/`, but this is not enough for 100% Alpha v1 readiness. Full Alpha v1 remains open until the C core and every declared Alpha wrapper pass the integer compliance fixture.
+The legacy C++ header has been moved under `legacy/`, but this is not enough for 100% Alpha v1 readiness. Full Alpha v1 remains open until the C core and all 25 Alpha v1 language targets pass the integer compliance fixture.
 
 ## Acceptance Criteria
 
@@ -1051,10 +1072,10 @@ Determine whether v1 alpha is shippable.
 - [x] Beta roadmap documented.
 - [x] Version set to `0.1.0-alpha` or similar.
 - [x] Release notes drafted.
-- [ ] First-party C core exists.
-- [ ] Stable C ABI is documented.
-- [ ] First-party wrappers exist for every declared Alpha language target.
-- [ ] C core and wrappers pass integer compliance fixture.
+- [x] First-party C core exists.
+- [x] Stable C ABI is documented.
+- [ ] First-party wrappers exist for all 25 Alpha v1 language targets.
+- [ ] C core and all 25 Alpha v1 language targets pass integer compliance fixture.
 - [x] README does not claim 100% Alpha v1 readiness before language-agnostic use is proven.
 
 ## Alpha Exit Criteria
@@ -1062,7 +1083,7 @@ Determine whether v1 alpha is shippable.
 `libRangeMap` is Alpha v1-ready only when:
 
 ```text
-A user can use libRangeMap from every declared Alpha language target, declare an integer input range, map finite integers into [-1.0, 1.0], save/reload the mapper spec where the wrapper supports file I/O, and run compliance tests proving correctness without installing runtime dependencies.
+A user can use libRangeMap from all 25 Alpha v1 language targets, declare an integer input range, map finite integers into [-1.0, 1.0], save/reload the mapper spec where the wrapper supports file I/O, and run compliance tests proving correctness without installing runtime dependencies.
 ```
 
 ---
@@ -1192,14 +1213,33 @@ Move from language-agnostic spec to multi-language first-party SDKs.
 
 ## Candidate Language Targets
 
-- [ ] Python reference implementation.
-- [ ] C++ implementation.
-- [ ] C implementation or C ABI.
-- [ ] JavaScript/TypeScript implementation.
-- [ ] Rust implementation.
-- [ ] C# implementation.
-- [ ] Java/Kotlin implementation.
-- [ ] Go implementation.
+The Alpha v1 canon language list is the candidate cross-language target list:
+
+- [ ] Python
+- [ ] C
+- [ ] Java
+- [ ] C++
+- [ ] C#
+- [ ] JavaScript
+- [ ] Visual Basic
+- [ ] R
+- [ ] SQL
+- [ ] Delphi/Object Pascal
+- [ ] Fortran
+- [ ] Scratch
+- [ ] Perl
+- [ ] PHP
+- [ ] Rust
+- [ ] Go
+- [ ] Assembly language
+- [ ] Swift
+- [ ] Ada
+- [ ] MATLAB
+- [ ] Classic Visual Basic
+- [ ] PL/SQL
+- [ ] Ruby
+- [ ] Prolog
+- [ ] COBOL
 
 ## Cross-Language Requirements
 
