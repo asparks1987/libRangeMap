@@ -824,7 +824,7 @@ Alpha v1 has a fixed 25-language target set in numerical order.
 | 20 | MATLAB | Pending wrapper/runtime |
 | 21 | Classic Visual Basic | Pending wrapper/runtime |
 | 22 | PL/SQL | Pending wrapper/runtime |
-| 23 | Ruby | Pending wrapper/runtime |
+| 23 | Ruby | First-party wrapper path exists |
 | 24 | Prolog | Pending wrapper/runtime |
 | 25 | COBOL | Pending wrapper/runtime |
 
@@ -844,7 +844,7 @@ This target list is canon for Alpha v1. README and this burndown must not claim 
 
 ## Wrapper Requirements
 
-Current verified wrapper coverage includes C, Go, C#, Java, JavaScript, C++, Rust, and Visual Basic. The remaining 18 canon targets still need first-party runtime or wrapper paths.
+Current verified wrapper coverage includes C, Go, C#, Java, JavaScript, C++, Rust, Visual Basic, and Ruby. The remaining 17 canon targets still need first-party runtime or wrapper paths.
 
 - [x] Go wrapper exists.
 - [x] C# wrapper exists.
