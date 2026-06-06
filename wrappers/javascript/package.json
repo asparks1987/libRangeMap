@@ -1,0 +1,7 @@
+{
+  "name": "librangemap-javascript",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "description": "First-party JavaScript runtime path for libRangeMap.",
+  "license": "MIT"
+}
