@@ -2,13 +2,13 @@
 
 First-party, dependency-free range mapping for AI-ready data.
 
-`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec, a compiled first-party C core, and the first verified C, Go, C#, Java, JavaScript, C++, and Rust runtime paths for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
+`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec, a compiled first-party C core, and the first verified C, Go, C#, Java, JavaScript, C++, Visual Basic, and Rust runtime paths for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
 
 ## Current Status
 
 Alpha v1 is not yet 100% complete under the project canon.
 
-The Python reference implementation is usable and tested, and the project now has first-party C, Go, C#, Java, JavaScript, C++, and Rust runtime paths over the shared C ABI or matching contract. Full Alpha v1 readiness still requires the full 25-language canon to have first-party runtime or wrapper paths in place and passing the shared compliance fixture.
+The Python reference implementation is usable and tested, and the project now has first-party C, Go, C#, Java, JavaScript, C++, Visual Basic, and Rust runtime paths over the shared C ABI or matching contract. Full Alpha v1 readiness still requires the full 25-language canon to have first-party runtime or wrapper paths in place and passing the shared compliance fixture.
 
 | Area | Current State |
 | --- | --- |
@@ -23,8 +23,8 @@ The Python reference implementation is usable and tested, and the project now ha
 | Language-neutral artifact | Integer alpha compliance fixture |
 | Native core | Built from `csrc/` when installed from source |
 | Planned core architecture | C core with stable C ABI |
-| Verified non-Python wrappers | C, Go, C#, Java, JavaScript, C++, and Rust |
-| Remaining Alpha canon targets | 17 language targets |
+| Verified non-Python wrappers | C, Go, C#, Java, JavaScript, C++, Rust, Visual Basic |
+| Remaining Alpha canon targets | 18 language targets |
 | C++ status | First-party wrapper over the C ABI is present |
 | Full Alpha v1 readiness | Not complete |
 

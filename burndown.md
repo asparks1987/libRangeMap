@@ -808,7 +808,7 @@ Alpha v1 has a fixed 25-language target set in numerical order.
 | 4 | C++ | First-party wrapper exists |
 | 5 | C# | First-party wrapper exists |
 | 6 | JavaScript | First-party runtime path exists |
-| 7 | Visual Basic | Pending wrapper/runtime |
+| 7 | Visual Basic | First-party wrapper exists |
 | 8 | R | Pending wrapper/runtime |
 | 9 | SQL | Pending wrapper/runtime |
 | 10 | Delphi/Object Pascal | Pending wrapper/runtime |
@@ -844,7 +844,7 @@ This target list is canon for Alpha v1. README and this burndown must not claim 
 
 ## Wrapper Requirements
 
-Current verified wrapper coverage includes C, Go, C#, Java, JavaScript, C++, and Rust. The remaining 19 canon targets still need first-party runtime or wrapper paths.
+Current verified wrapper coverage includes C, Go, C#, Java, JavaScript, C++, Rust, and Visual Basic. The remaining 18 canon targets still need first-party runtime or wrapper paths.
 
 - [x] Go wrapper exists.
 - [x] C# wrapper exists.
