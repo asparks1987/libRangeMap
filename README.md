@@ -2,11 +2,13 @@
 
 First-party, dependency-free range mapping for AI-ready data.
 
-`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current Alpha v1 release focuses on one stable primitive: finite integer range mapping with a default output range of `[-1.0, 1.0]`.
+`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec for finite integer range mapping with a default output range of `[-1.0, 1.0]`.
 
 ## Current Status
 
-Alpha v1 is ready for local use and validation.
+Alpha v1 is not yet 100% complete under the project canon.
+
+The Python reference implementation is usable and tested, but the project is not yet fully language-agnostic in practice. Full Alpha v1 readiness should be built around a tiny first-party C core with a stable C ABI and thin wrappers for each declared Alpha language target.
 
 | Area | Current State |
 | --- | --- |
@@ -16,15 +18,19 @@ Alpha v1 is ready for local use and validation.
 | Package version | `0.1.0a0` |
 | Spec version | `1.0-alpha` |
 | Default output range | `[-1.0, 1.0]` |
-| Supported mapper | Integer range mapper |
-| Test command | `python -m unittest discover` |
-| C++ status | Legacy/deferred until beta |
+| Python mapper | Integer range mapper |
+| Python test command | `python -m unittest discover` |
+| Language-neutral artifact | Integer alpha compliance fixture |
+| Planned core architecture | C core with stable C ABI |
+| Non-Python wrappers | Not complete |
+| C++ status | Legacy; needs replacement wrapper over the C core |
+| Full Alpha v1 readiness | Not complete |
 
 The project has been cleaned so generated packaging outputs such as `dist/`, `build/`, and `*.egg-info/` are ignored and not treated as source.
 
 ## What Works Today
 
-Alpha v1 supports:
+The Python reference currently supports:
 
 - finite integer input ranges
 - deterministic mapping into floating-point output
@@ -39,6 +45,15 @@ Alpha v1 supports:
 - standard-library `unittest` coverage
 - a language-neutral integer compliance fixture
 
+Still required before full Alpha v1 readiness:
+
+- a first-party C core implementing integer range mapping
+- a stable documented C ABI
+- first-party wrappers for every declared Alpha language target
+- compliance validation for the C core and each wrapper
+- documentation showing how each supported language uses the same mapping contract
+- release-gate evidence that the project is not merely a Python wrapper
+
 Deferred until beta:
 
 - float mapping
@@ -47,8 +62,7 @@ Deferred until beta:
 - sequence and nested structure mapping
 - raw pixel/image-like mapping
 - custom object adapters
-- maintained C++ support
-- additional first-party language implementations
+- broad multi-language package releases beyond the Alpha language target
 
 ## Install
 
@@ -58,7 +72,7 @@ From a local checkout:
 python -m pip install .
 ```
 
-The core SDK has no runtime dependencies beyond Python itself.
+The Python reference has no runtime dependencies beyond Python itself.
 
 ## Quickstart
 
@@ -152,13 +166,13 @@ Example mapper spec:
 
 ## Validation
 
-Run the standard-library test suite:
+Run the Python standard-library test suite:
 
 ```bash
 python -m unittest discover
 ```
 
-Validate local installation and import:
+Validate Python local installation and import:
 
 ```bash
 python -m pip install .
@@ -229,17 +243,17 @@ legacy/
 
 The original experiment exposed a flat `libRangeMap.py` module with `RangeMapper` and `CharRangeMapper`.
 
-The canonical Alpha v1 import is:
+The canonical Python reference import is:
 
 ```python
 from librangemap import IntegerRangeMapper
 ```
 
-`RangeMapper` remains as a compatibility wrapper for integer-style ranges. It now follows the Alpha v1 default output range of `[-1.0, 1.0]`.
+`RangeMapper` remains as a compatibility wrapper for integer-style ranges. It now follows the Alpha default output range of `[-1.0, 1.0]`.
 
-`CharRangeMapper` is intentionally unsupported in Alpha v1 because the old behavior mapped unknown characters to a magic fallback value. Future character and text support will use explicit policies.
+`CharRangeMapper` is intentionally unsupported in the Python alpha reference because the old behavior mapped unknown characters to a magic fallback value. Future character and text support will use explicit policies.
 
-The old C++ header is preserved under `legacy/` for reference only. It is not claimed as an Alpha v1 implementation.
+The old C++ header is preserved under `legacy/` for reference only. It is not claimed as an Alpha v1 implementation, and full Alpha v1 readiness should remain open until the first-party C core and every declared Alpha language wrapper pass the integer compliance fixture.
 
 ## Project Rules
 
@@ -255,8 +269,9 @@ The old C++ header is preserved under `legacy/` for reference only. It is not cl
 - [Specification](docs/spec.md)
 - [Quickstart](docs/quickstart.md)
 - [Alpha scope](docs/alpha_scope.md)
+- [Architecture](docs/architecture.md)
 - [Beta roadmap](docs/beta_roadmap.md)
 - [Compatibility notes](docs/compatibility.md)
 - [No dependencies](docs/no_dependencies.md)
-- [Alpha release notes](docs/release_notes_v0.1.0-alpha.md)
+- [Python reference notes](docs/release_notes_v0.1.0-alpha.md)
 - [Integer alpha compliance fixture](compliance/integer_alpha.json)

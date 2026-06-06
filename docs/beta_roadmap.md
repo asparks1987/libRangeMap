@@ -2,6 +2,8 @@
 
 Beta expands the alpha integer mapper into a broader dependency-free mapping SDK.
 
+Before beta, Alpha should prove the cross-language architecture with a first-party C core, stable C ABI, and thin wrappers for the declared Alpha language targets.
+
 Planned beta work:
 
 - mapper and adapter interfaces

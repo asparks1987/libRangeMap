@@ -30,6 +30,20 @@ The guiding mindset:
 
 > Build the smallest correct core first. Make it deterministic, dependency-free, documented, tested, serializable, and easy to port to any language. Then expand input types through explicit mapper contracts.
 
+## Architecture Decision
+
+Alpha v1 should be built around a first-party C core with a stable C ABI, then wrapped by thin first-party language bindings.
+
+Rationale:
+
+- C gives the broadest practical interoperability surface.
+- C++ can wrap C easily, while a C++ core would make ABI stability harder.
+- Python, JavaScript/TypeScript, Rust, Go, C#, Java/Kotlin, and C++ can all bind to a C ABI without requiring core runtime dependencies.
+- The mapping math stays centralized and less likely to drift across languages.
+- Wrappers can remain small, idiomatic, dependency-free, and compliance-tested.
+
+The current Python package is a reference implementation and wrapper target. It is not the final core architecture by itself.
+
 ---
 
 ## Project Vision
@@ -180,7 +194,7 @@ Codex must inspect the actual checkout before editing. If the local repo differs
 
 ## V1 Alpha Ship Definition
 
-`libRangeMap` reaches **V1 Alpha** when it has a language-agnostic specification and a clean first-party reference implementation that can convert any finite integer within a declared integer range into a float between `-1.0` and `1.0`.
+`libRangeMap` reaches **V1 Alpha** when it has a language-agnostic specification, a first-party C core with stable C ABI, and first-party wrappers for the declared Alpha language targets that convert any finite integer within a declared integer range into a float between `-1.0` and `1.0`.
 
 Alpha is intentionally narrow. It proves the core idea correctly before expanding to many input types.
 
@@ -216,7 +230,13 @@ Alpha v1 is not ready until:
 - [x] The SDK imports without third-party runtime dependencies.
 - [x] Documentation explains the formula and examples.
 - [x] Generated artifacts are not treated as source.
-- [x] The release gate passes from a clean checkout.
+- [ ] The release gate passes from a clean checkout.
+- [ ] First-party C core and every declared Alpha language wrapper pass the integer compliance fixture.
+- [ ] Documentation proves the integer mapping contract can be used outside Python.
+- [ ] First-party C core exists.
+- [ ] Stable C ABI is documented.
+- [ ] First-party wrappers exist for every declared Alpha language target.
+- [ ] C core and wrappers pass the shared integer compliance fixture.
 
 ### Alpha Is Not
 
@@ -390,7 +410,7 @@ Work these in order unless a blocker forces a lower task first.
 5. `LRM-040` Error handling and validation.
 6. `LRM-050` Serialization and reproducibility.
 7. `LRM-060` Python reference implementation.
-8. `LRM-070` C++ reference implementation or legacy decision.
+8. `LRM-070` C core and language wrapper architecture.
 9. `LRM-080` Tests and correctness gate.
 10. `LRM-090` Documentation and examples.
 11. `LRM-100` Packaging and import validation.
@@ -763,39 +783,66 @@ Python implementation is clean, importable, tested, dependency-free, and aligned
 
 ---
 
-# LRM-070 — C++ Reference Implementation Or Legacy Decision
+# LRM-070 — C Core And Language Wrapper Architecture
 
-STATUS: DONE
+STATUS: IN_PROGRESS
 PRIORITY: MEDIUM
 
 ## Goal
 
-Decide whether C++ is a first-class alpha target or legacy source.
+Implement the language-agnostic Alpha runtime architecture without adding dependencies.
 
-## Option A — C++ Supported In Alpha
+## Architecture Decision
 
-Requirements:
+Use a first-party C core with a stable C ABI as the center of the SDK. C++ and other languages should be thin wrappers over that ABI or direct first-party ports that prove exact compliance.
 
-- [ ] Update `librangemap.h` to match alpha spec.
-- [ ] Default output range becomes `[-1.0f, 1.0f]`.
-- [ ] Correct numeric formula for non-zero lower bounds.
-- [ ] Add integer-specific tests or examples.
-- [ ] Add clear C++ usage docs.
-- [ ] Ensure no third-party dependencies.
-- [ ] Ensure C++ behavior matches Python compliance tests conceptually.
+## Alpha Language Targets
 
-## Option B — C++ Marked Legacy Until Beta
+- [ ] C core
+- [ ] C++ wrapper
+- [ ] Python wrapper/reference aligned with the C behavior
+- [ ] JavaScript/TypeScript wrapper
+- [ ] Rust wrapper
+- [ ] Go wrapper
+- [ ] C# wrapper
+- [ ] Java/Kotlin wrapper
 
-Requirements:
+If this target list is narrowed, README and this burndown must be updated before claiming 100% Alpha v1 readiness.
+
+## C Core Requirements
+
+- [ ] Add first-party C source and header.
+- [ ] Implement integer range mapper.
+- [ ] Expose stable C ABI.
+- [ ] Default output range is `[-1.0, 1.0]`.
+- [ ] Support strict and clipping behavior.
+- [ ] Return explicit error codes.
+- [ ] Avoid allocation-heavy APIs where practical.
+- [ ] Avoid runtime dependencies.
+- [ ] Pass shared integer compliance fixture.
+
+## Wrapper Requirements
+
+- [ ] Each wrapper is first-party.
+- [ ] Each wrapper has no runtime dependencies.
+- [ ] Each wrapper exposes idiomatic integer mapping.
+- [ ] Each wrapper uses or exactly matches the C core behavior.
+- [ ] Each wrapper passes compliance fixture tests.
+- [ ] Each wrapper documents install/use from a local checkout.
+
+## Legacy C++ Handling
 
 - [x] Move current header to `legacy/` or document it as experimental.
-- [x] Keep repo focused on spec plus Python reference for alpha.
-- [x] Create a C++ beta milestone.
+- [ ] Replace legacy C++ with a spec-aligned wrapper over the C core.
 - [x] Avoid claiming C++ alpha support.
+
+## Current Decision
+
+The legacy C++ header has been moved under `legacy/`, but this is not enough for 100% Alpha v1 readiness. Full Alpha v1 remains open until the C core and every declared Alpha wrapper pass the integer compliance fixture.
 
 ## Acceptance Criteria
 
-The repo does not pretend unsupported C++ behavior is production-ready.
+The repo proves language-agnostic integer mapping through a dependency-free core and wrappers, not only a Python package.
 
 ---
 
@@ -970,7 +1017,7 @@ A developer can install and import `libRangeMap` locally without third-party dep
 
 # LRM-110 — V1 Alpha Release Gate
 
-STATUS: DONE
+STATUS: IN_PROGRESS
 PRIORITY: CRITICAL
 
 ## Goal
@@ -1004,13 +1051,18 @@ Determine whether v1 alpha is shippable.
 - [x] Beta roadmap documented.
 - [x] Version set to `0.1.0-alpha` or similar.
 - [x] Release notes drafted.
+- [ ] First-party C core exists.
+- [ ] Stable C ABI is documented.
+- [ ] First-party wrappers exist for every declared Alpha language target.
+- [ ] C core and wrappers pass integer compliance fixture.
+- [x] README does not claim 100% Alpha v1 readiness before language-agnostic use is proven.
 
 ## Alpha Exit Criteria
 
 `libRangeMap` is Alpha v1-ready only when:
 
 ```text
-A user can import the SDK, declare an integer input range, map finite integers into [-1.0, 1.0], save/reload the mapper spec, and run tests proving correctness without installing any dependency.
+A user can use libRangeMap from every declared Alpha language target, declare an integer input range, map finite integers into [-1.0, 1.0], save/reload the mapper spec where the wrapper supports file I/O, and run compliance tests proving correctness without installing runtime dependencies.
 ```
 
 ---
@@ -1271,10 +1323,10 @@ PRIORITY: TRACKED
 
 # Immediate Next Implementation Task
 
-STATUS: DONE
+STATUS: IN_PROGRESS
 PRIORITY: CRITICAL
 
-Codex should start with `LRM-000` through `LRM-030`.
+Codex should continue with the reopened language-agnostic Alpha gate: implement `LRM-070` C core and wrappers, then complete `LRM-110`.
 
 ## Exact First Codex Run Plan
 
