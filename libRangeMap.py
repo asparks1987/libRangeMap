@@ -1,47 +1,28 @@
-class RangeMapper:
-    def __init__(self, low, high, low_out=0.0, high_out=1.0):
-        if high <= low:
-            raise ValueError("High limit must be greater than low limit.")
-        if high_out <= low_out:
-            raise ValueError("High output limit must be greater than low output limit.")
+"""Compatibility module for legacy ``libRangeMap`` imports.
 
-        self.in_range = [low, high]
-        self.out_range = [low_out, high_out]
+The canonical alpha package is ``librangemap``. This module keeps the old
+``from libRangeMap import RangeMapper`` style usable for integer ranges while
+moving behavior to the new dependency-free implementation.
+"""
+
+from librangemap import IntegerRangeMapper
+
+
+class RangeMapper(IntegerRangeMapper):
+    """Compatibility wrapper around IntegerRangeMapper.
+
+    Unlike the historical experiment, the default output range is now
+    ``[-1.0, 1.0]`` and strict out-of-range behavior is the default.
+    """
+
+    def __init__(self, low, high, low_out=-1.0, high_out=1.0, clip=False):
+        super().__init__(input_range=(low, high), output_range=(low_out, high_out), clip=clip)
 
     def get_input_range(self):
-        if not self.in_range:
-            raise ValueError("Input range is empty.")
-        return self.in_range
+        return list(self.input_range)
 
     def get_output_range(self):
-        if not self.out_range:
-            raise ValueError("Output range is empty.")
-        return self.out_range
-
-    def map(self, to_map):
-        derivative = (to_map - self.in_range[0]) / (self.in_range[1] - self.in_range[0])
-        answer = self.out_range[0] + (self.out_range[1] - self.out_range[0]) * derivative
-
-        if answer > self.out_range[1]:
-            answer = self.out_range[1]
-        if answer < self.out_range[0]:
-            answer = self.out_range[0]
-        
-        return answer
+        return list(self.output_range)
 
 
-class CharRangeMapper(RangeMapper):
-    def __init__(self, low, high, low_out=0.0, high_out=1.0):
-        self.alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        super().__init__(self.convert_to_range(low), self.convert_to_range(high), low_out, high_out)
-
-    def map(self, to_map):
-        return super().map(self.convert_to_range(to_map))
-
-    def convert_to_range(self, cvt):
-        c = cvt.upper()
-        pos = self.alpha.find(c)
-        if 0 <= pos <= 25:
-            return pos + 1
-        else:
-            return 999
+CharRangeMapper = None
