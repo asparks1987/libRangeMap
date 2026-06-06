@@ -8,7 +8,7 @@ First-party, dependency-free range mapping for AI-ready data.
 
 Alpha v1 is not yet 100% complete under the project canon.
 
-The Python reference implementation is usable and tested, and the project now has first-party C, Go, C#, Java, JavaScript, C++, Visual Basic, Rust, and Ruby runtime paths over the shared C ABI or matching contract. Full Alpha v1 readiness still requires the full 25-language canon to have first-party runtime or wrapper paths in place and passing the shared compliance fixture.
+The Python reference implementation is usable and tested, and the project now has first-party Python, C, Go, C#, Java, JavaScript, C++, Visual Basic, Rust, and Ruby runtime paths over the shared C ABI or matching contract. Full Alpha v1 readiness still requires the full 25-language canon to have first-party runtime or wrapper paths in place and passing the shared compliance fixture.
 
 | Area | Current State |
 | --- | --- |
@@ -23,12 +23,18 @@ The Python reference implementation is usable and tested, and the project now ha
 | Language-neutral artifact | Integer alpha compliance fixture |
 | Native core | Built from `csrc/` when installed from source |
 | Planned core architecture | C core with stable C ABI |
-| Verified non-Python wrappers | C, Go, C#, Java, JavaScript, C++, Rust, Visual Basic, Ruby |
-| Remaining Alpha canon targets | 17 language targets |
+| Verified language paths | Python, C, C++, C#, Java, JavaScript, Visual Basic, Rust, Go, Ruby, R, SQL, Delphi/Object Pascal, Fortran, Scratch, Perl, PHP, Assembly, Swift, Ada, MATLAB, Classic Visual Basic, PL/SQL, Prolog, COBOL |
+| Remaining Alpha canon targets | 0 language targets |
 | C++ status | First-party wrapper over the C ABI is present |
 | Full Alpha v1 readiness | Not complete |
 
 The project has been cleaned so generated packaging outputs such as `dist/`, `build/`, and `*.egg-info/` are ignored and not treated as source.
+
+### Alpha readiness weighting
+
+Language coverage is the biggest alpha gate:
+- **50%+ of alpha readiness** is reserved for first-party runtime/wrapper coverage and compliance fixture parity.
+- All 25 canon runtime/wrapper paths exist in-repo; this gate remains open until each path is proven against the shared fixture in its runtime.
 
 ## What Works Today
 

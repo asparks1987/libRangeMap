@@ -283,14 +283,13 @@ A developer can:
 
 ### V1 Alpha Readiness
 
-- 10% repo hygiene and dependency audit.
-- 10% canon/spec lock.
-- 25% integer mapper implementation.
-- 15% error handling and validation.
-- 10% serialization/reproducibility.
-- 15% correctness tests.
-- 10% docs/examples.
-- 5% package/import validation.
+- 50% Language coverage and runtime implementation parity across all 25 canon targets, including compliance fixture behavior.
+- 20% repo hygiene, dependency audit, and alpha contract lock.
+- 20% core integer mapping implementation and error contract.
+- 10% correctness tests, packaging, and compatibility docs.
+
+Notes:
+- The language coverage block above must be treated as a hard gate for Alpha release.
 
 ### V1 Beta Readiness
 
@@ -809,24 +808,24 @@ Alpha v1 has a fixed 25-language target set in numerical order.
 | 5 | C# | First-party wrapper exists |
 | 6 | JavaScript | First-party runtime path exists |
 | 7 | Visual Basic | First-party wrapper exists |
-| 8 | R | Pending wrapper/runtime |
-| 9 | SQL | Pending wrapper/runtime |
-| 10 | Delphi/Object Pascal | Pending wrapper/runtime |
-| 11 | Fortran | Pending wrapper/runtime |
-| 12 | Scratch | Pending wrapper/runtime |
-| 13 | Perl | Pending wrapper/runtime |
-| 14 | PHP | Pending wrapper/runtime |
+| 8 | R | First-party runtime path added |
+| 9 | SQL | First-party runtime path added |
+| 10 | Delphi/Object Pascal | First-party runtime path added |
+| 11 | Fortran | First-party runtime path added |
+| 12 | Scratch | First-party runtime path added |
+| 13 | Perl | First-party runtime path added |
+| 14 | PHP | First-party runtime path added |
 | 15 | Rust | First-party wrapper exists |
 | 16 | Go | First-party wrapper exists |
-| 17 | Assembly language | Pending wrapper/runtime |
-| 18 | Swift | Pending wrapper/runtime |
-| 19 | Ada | Pending wrapper/runtime |
-| 20 | MATLAB | Pending wrapper/runtime |
-| 21 | Classic Visual Basic | Pending wrapper/runtime |
-| 22 | PL/SQL | Pending wrapper/runtime |
+| 17 | Assembly language | First-party runtime path added |
+| 18 | Swift | First-party runtime path added |
+| 19 | Ada | First-party runtime path added |
+| 20 | MATLAB | First-party runtime path added |
+| 21 | Classic Visual Basic | First-party runtime path added |
+| 22 | PL/SQL | First-party runtime path added |
 | 23 | Ruby | First-party wrapper path exists |
-| 24 | Prolog | Pending wrapper/runtime |
-| 25 | COBOL | Pending wrapper/runtime |
+| 24 | Prolog | First-party runtime path added |
+| 25 | COBOL | First-party runtime path added |
 
 This target list is canon for Alpha v1. README and this burndown must not claim 100% Alpha v1 readiness until all 25 language targets have a first-party runtime, wrapper, or implementation path that passes the shared integer compliance fixture.
 
@@ -844,7 +843,7 @@ This target list is canon for Alpha v1. README and this burndown must not claim 
 
 ## Wrapper Requirements
 
-Current verified wrapper coverage includes C, Go, C#, Java, JavaScript, C++, Rust, Visual Basic, and Ruby. The remaining 17 canon targets still need first-party runtime or wrapper paths.
+Current verified language paths now include all 25 canon entries with first-party implementation or reference paths in-repo, including R, SQL, Delphi/Object Pascal, Fortran, Scratch, Perl, PHP, Assembly, Swift, Ada, MATLAB, Classic Visual Basic, PL/SQL, Prolog, and COBOL. Compliance-level runtime validation is still incomplete for several targets.
 
 - [x] Go wrapper exists.
 - [x] C# wrapper exists.
