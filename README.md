@@ -8,7 +8,7 @@ If you are evaluating quickly: this is the one-line problem statement
 
 > Same input and same config always produce identical values.
 
-The client-facing docs site is now built from `/docs`; open [`docs/index.md`](docs/index.md) for the web-first entrypoint.
+The client-facing docs site is now built from `/docs`; open [`docs/index.html`](docs/index.html) for the web-first entrypoint.
 
 ---
 
@@ -98,11 +98,11 @@ Defaults:
 
 | Milestone | Status |
 | --- | --- |
-| Shared linear mapping contract in shared docs/spec | ✅ |
-| Python reference implementation | ✅ |
-| First-party C core + C ABI | ✅ |
-| Runtime/wrapper for all 25 Alpha languages | 🟡 In progress (24/25 language directories present; Python is the source-reference API) |
-| All 25 languages passing one compliance fixture | 🟡 Pending (execution parity is tracked by language runtime availability) |
+| Shared linear mapping contract in shared docs/spec | Complete |
+| Python reference implementation | Complete |
+| First-party C core + C ABI | Complete |
+| Runtime/wrapper for all 25 Alpha languages | In progress (24/25 language directories present; Python is the source-reference API) |
+| All 25 languages passing one compliance fixture | Pending (execution parity is tracked by language runtime availability) |
 
 The language-wrapper milestone is the main Alpha v1 gate. It is intended to account for roughly **50% of Alpha v1 readiness**.
 

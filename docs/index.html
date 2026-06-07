@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="libRangeMap is a dependency-free range-mapping SDK for deterministic AI and ML data workflows.">
+  <title>libRangeMap | Deterministic Range Mapping SDK</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #eef5ff;
+      --muted: #9fb0c7;
+      --dim: #6f7e91;
+      --dark-900: #070b12;
+      --dark-850: #0b111c;
+      --dark-800: #101827;
+      --dark-700: #162236;
+      --dark-600: #22314a;
+      --light-100: #f7fafc;
+      --light-200: #e8eef6;
+      --light-300: #cfd9e7;
+      --blue: #6bb7ff;
+      --cyan: #6ce2d3;
+      --green: #9ee493;
+      --gold: #f7c873;
+      --line: rgba(255, 255, 255, 0.12);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(107, 183, 255, 0.18), transparent 34rem),
+        linear-gradient(180deg, var(--dark-900) 0%, var(--dark-850) 52%, #f7fafc 52%, #f7fafc 100%);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 11, 18, 0.86);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      min-height: 72px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(108, 226, 211, 0.35);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(107, 183, 255, 0.24), rgba(108, 226, 211, 0.11));
+      color: var(--cyan);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 0.55rem 0.75rem;
+      color: var(--muted);
+      border-radius: 8px;
+      font-size: 0.94rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hero {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 86px 0 68px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(330px, 0.96fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 2px;
+      background: var(--cyan);
+    }
+
+    h1 {
+      margin: 18px 0 18px;
+      font-size: clamp(3rem, 6vw, 6.8rem);
+      line-height: 0.92;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 680px;
+      color: #c7d5e8;
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 1.1rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      font-weight: 800;
+    }
+
+    .button.primary {
+      color: #06121d;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 14px 40px rgba(107, 183, 255, 0.22);
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .terminal {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: #08101b;
+      box-shadow: var(--shadow);
+    }
+
+    .terminal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.82rem 1rem;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.035);
+      font-size: 0.86rem;
+    }
+
+    .dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--dark-600);
+    }
+
+    .terminal pre {
+      margin: 0;
+      padding: 1.25rem;
+      overflow-x: auto;
+      color: #dce8f7;
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    code,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    }
+
+    .accent {
+      color: var(--cyan);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--line);
+    }
+
+    .stat {
+      min-height: 126px;
+      padding: 1.25rem;
+      background: rgba(13, 21, 34, 0.92);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.75rem;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 0.55rem;
+      color: var(--muted);
+    }
+
+    .dark-section {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 76px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 26px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 460px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .copy-panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(12, 19, 31, 0.9);
+      box-shadow: var(--shadow);
+    }
+
+    .copy-row {
+      display: grid;
+      grid-template-columns: 54px minmax(130px, 190px) minmax(0, 1fr);
+      align-items: center;
+      gap: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.9rem 1rem;
+    }
+
+    .copy-row:first-child {
+      border-top: 0;
+    }
+
+    .copy-row:hover {
+      background: rgba(107, 183, 255, 0.06);
+    }
+
+    .num {
+      color: var(--dim);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    .language {
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .copy-code {
+      overflow-x: auto;
+      white-space: nowrap;
+      color: #dce8f7;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 0.7rem 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .light-wrap {
+      color: #0d1828;
+      background: var(--light-100);
+      padding: 76px 0;
+    }
+
+    .light-inner {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .light-inner h2 {
+      color: #07111e;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .card {
+      min-height: 190px;
+      padding: 1.4rem;
+      border: 1px solid var(--light-200);
+      border-radius: 10px;
+      background: #ffffff;
+      box-shadow: 0 14px 35px rgba(12, 22, 36, 0.07);
+    }
+
+    .card b {
+      display: block;
+      margin-bottom: 0.65rem;
+      color: #07111e;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: #526173;
+    }
+
+    .formula {
+      margin-top: 30px;
+      border: 1px solid var(--light-200);
+      border-radius: 12px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .formula pre {
+      margin: 0;
+      padding: 1rem;
+      overflow-x: auto;
+      color: #07111e;
+      background: #eef4fb;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .status {
+      padding: 1rem;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid var(--light-200);
+      min-height: 140px;
+    }
+
+    .status small {
+      color: #637086;
+      text-transform: uppercase;
+      font-weight: 800;
+      font-size: 0.72rem;
+    }
+
+    .status strong {
+      display: block;
+      margin-top: 0.6rem;
+      color: #101827;
+      font-size: 1.05rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      margin-top: 0.9rem;
+      padding: 0.28rem 0.55rem;
+      border-radius: 999px;
+      color: #0a261c;
+      background: #dff7df;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .pill.pending {
+      color: #3a2505;
+      background: #fff1c7;
+    }
+
+    .docs-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .docs-list a {
+      display: block;
+      min-height: 84px;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 10px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .docs-list a:hover {
+      border-color: rgba(108, 226, 211, 0.5);
+      background: rgba(108, 226, 211, 0.08);
+    }
+
+    .docs-list span {
+      display: block;
+      margin-top: 0.3rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      color: var(--muted);
+      background: var(--dark-900);
+      border-top: 1px solid var(--line);
+      padding: 34px 0;
+    }
+
+    footer .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    @media (max-width: 880px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .hero-grid,
+      .cards,
+      .status-grid,
+      .docs-list,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-row {
+        grid-template-columns: 42px 1fr;
+        align-items: start;
+      }
+
+      .copy-code {
+        grid-column: 1 / -1;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="libRangeMap home">
+        <span class="mark">[-]</span>
+        <span>libRangeMap</span>
+      </a>
+      <div class="nav-links">
+        <a href="#quickstart">Copy lines</a>
+        <a href="#contract">Contract</a>
+        <a href="#status">Alpha status</a>
+        <a href="#docs">Docs</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">dependency-free normalization</div>
+          <h1 id="hero-title">libRangeMap</h1>
+          <p class="hero-copy">
+            Deterministic range mapping for AI dataset preparation, feature normalization,
+            and multi-language training-data pipelines. The default output range is
+            <strong>[-1.0, 1.0]</strong>.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#quickstart">Find your line</a>
+            <a class="button secondary" href="quickstart.html">Read quickstart</a>
+          </div>
+        </div>
+
+        <div class="terminal" aria-label="Normalization example">
+          <div class="terminal-top">
+            <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <span>integer_range.map</span>
+          </div>
+          <pre><code>input_range = [0, 100]
+value       = 50
+out_range   = [-1.0, 1.0]
+
+mapped = <span class="accent">0.0</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Product snapshot">
+      <div class="stat"><strong>0</strong><span>runtime dependencies in the SDK core</span></div>
+      <div class="stat"><strong>25</strong><span>Alpha v1 language targets in canon scope</span></div>
+      <div class="stat"><strong>[-1, 1]</strong><span>default output range for normalized values</span></div>
+      <div class="stat"><strong>JSON</strong><span>portable specs for reproducible mapping</span></div>
+    </section>
+
+    <section id="quickstart" class="dark-section" aria-labelledby="quickstart-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">2-second scan</div>
+          <h2 id="quickstart-title">Copy the one line you need.</h2>
+        </div>
+        <p>Every row maps value <code>50</code> from input range <code>[0, 100]</code> into default output range <code>[-1.0, 1.0]</code>.</p>
+      </div>
+
+      <div class="copy-panel">
+        <div class="copy-row"><span class="num">01</span><span class="language">Python</span><code class="copy-code">from librangemap import IntegerRangeMapper; mapped = IntegerRangeMapper(input_range=(0, 100)).map_value(50)</code></div>
+        <div class="copy-row"><span class="num">02</span><span class="language">C</span><code class="copy-code">double mapped; lrm_map_integer(0, 100, -1.0, 1.0, 0, 50, &amp;mapped);</code></div>
+        <div class="copy-row"><span class="num">03</span><span class="language">Java</span><code class="copy-code">double mapped = new librangemap.IntegerRangeMapper(0, 100).mapValue(50);</code></div>
+        <div class="copy-row"><span class="num">04</span><span class="language">C++</span><code class="copy-code">double mapped = librangemap::IntegerRangeMapper(0, 100).map_value(50);</code></div>
+        <div class="copy-row"><span class="num">05</span><span class="language">C#</span><code class="copy-code">double mapped = new LibRangeMap.IntegerRangeMapper(0, 100).MapValue(50);</code></div>
+        <div class="copy-row"><span class="num">06</span><span class="language">JavaScript</span><code class="copy-code">const mapped = new IntegerRangeMapper([0, 100]).mapValue(50);</code></div>
+        <div class="copy-row"><span class="num">07</span><span class="language">Visual Basic</span><code class="copy-code">Dim mapped As Double = New IntegerRangeMapper(0, 100).MapValue(50)</code></div>
+        <div class="copy-row"><span class="num">08</span><span class="language">R</span><code class="copy-code">mapped &lt;- map_integer_value(50, 0, 100)</code></div>
+        <div class="copy-row"><span class="num">09</span><span class="language">SQL</span><code class="copy-code">SELECT libRangeMap_map_integer(50, 0, 100, -1.0, 1.0, FALSE);</code></div>
+        <div class="copy-row"><span class="num">10</span><span class="language">Delphi/Object Pascal</span><code class="copy-code">mapped := MapIntegerValue(50, 0, 100, -1, 1, False);</code></div>
+        <div class="copy-row"><span class="num">11</span><span class="language">Fortran</span><code class="copy-code">x = map_integer_value(50, 0, 100, -1.0d0, 1.0d0, .false.)</code></div>
+        <div class="copy-row"><span class="num">12</span><span class="language">Scratch</span><code class="copy-code">mapped := map_integer_value(50, 0, 100, -1, 1, false)</code></div>
+        <div class="copy-row"><span class="num">13</span><span class="language">Perl</span><code class="copy-code">my $mapped = map_integer_value(value =&gt; 50, input_min =&gt; 0, input_max =&gt; 100);</code></div>
+        <div class="copy-row"><span class="num">14</span><span class="language">PHP</span><code class="copy-code">$mapped = map_integer_value(50, 0, 100);</code></div>
+        <div class="copy-row"><span class="num">15</span><span class="language">Rust</span><code class="copy-code">let mapped = IntegerRangeMapper::new_default(0, 100)?.map_value(50)?;</code></div>
+        <div class="copy-row"><span class="num">16</span><span class="language">Go</span><code class="copy-code">mapper, _ := NewDefaultIntegerRangeMapper(0, 100); mapped, _ := mapper.MapValue(50)</code></div>
+        <div class="copy-row"><span class="num">17</span><span class="language">Assembly language</span><code class="copy-code">librangemap_map_integer(0, 100, -1.0, 1.0, 0, 50, mapped_ptr);</code></div>
+        <div class="copy-row"><span class="num">18</span><span class="language">Swift</span><code class="copy-code">let mapped = IntegerRangeMapper(inputMin: 0, inputMax: 100).mapValue(50)</code></div>
+        <div class="copy-row"><span class="num">19</span><span class="language">Ada</span><code class="copy-code">mapped : Long_Float := Map_Integer_Value(50, 0, 100, -1.0, 1.0, False);</code></div>
+        <div class="copy-row"><span class="num">20</span><span class="language">MATLAB</span><code class="copy-code">mapped = librangemap(50, 0, 100);</code></div>
+        <div class="copy-row"><span class="num">21</span><span class="language">Classic Visual Basic</span><code class="copy-code">mapped = MapIntegerValue(50, 0, 100, -1, 1, False)</code></div>
+        <div class="copy-row"><span class="num">22</span><span class="language">PL/SQL</span><code class="copy-code">mapped := libRangeMap_map_integer(50, 0, 100, -1, 1, FALSE);</code></div>
+        <div class="copy-row"><span class="num">23</span><span class="language">Ruby</span><code class="copy-code">mapped = LibrangeMap::IntegerRangeMapper.new(0, 100).map_value(50)</code></div>
+        <div class="copy-row"><span class="num">24</span><span class="language">Prolog</span><code class="copy-code">?- map_integer_value(50, 0, 100, -1.0, 1.0, false, Mapped).</code></div>
+        <div class="copy-row"><span class="num">25</span><span class="language">COBOL</span><code class="copy-code">* use wrappers/cobol/librangemap.cob</code></div>
+      </div>
+    </section>
+
+    <section id="contract" class="light-wrap" aria-labelledby="contract-title">
+      <div class="light-inner">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" style="color:#1a6f85">canonical contract</div>
+            <h2 id="contract-title">Built for reproducible pipelines.</h2>
+          </div>
+          <p>Alpha v1 focuses on integer range mapping. Additional value types are planned after the language-agnostic runtime target is complete.</p>
+        </div>
+
+        <div class="cards">
+          <div class="card"><b>Deterministic</b><p>Same input plus same config always produces the same output.</p></div>
+          <div class="card"><b>Dependency-free</b><p>The core SDK and wrappers avoid third-party runtime packages.</p></div>
+          <div class="card"><b>Explainable</b><p>Ranges, output bounds, clipping, and specs stay visible and serializable.</p></div>
+        </div>
+
+        <div class="formula">
+          <pre><code>mapped = out_min + ((value - in_min) / (in_max - in_min)) * (out_max - out_min)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="status" class="light-wrap" style="padding-top:0" aria-labelledby="status-title">
+      <div class="light-inner">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" style="color:#1a6f85">alpha v1</div>
+            <h2 id="status-title">Clear readiness, no overselling.</h2>
+          </div>
+          <p>The 25-language wrapper gate is the main Alpha v1 blocker and should account for roughly half of readiness.</p>
+        </div>
+
+        <div class="status-grid">
+          <div class="status"><small>Gate</small><strong>C core + C ABI</strong><span class="pill">complete</span></div>
+          <div class="status"><small>Gate</small><strong>Shared integer spec</strong><span class="pill">complete</span></div>
+          <div class="status"><small>Gate</small><strong>Python reference</strong><span class="pill">complete</span></div>
+          <div class="status"><small>Gate</small><strong>25 language paths</strong><span class="pill pending">in progress</span></div>
+          <div class="status"><small>Gate</small><strong>Fixture parity</strong><span class="pill pending">pending</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="docs" class="dark-section" aria-labelledby="docs-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">project docs</div>
+          <h2 id="docs-title">Go deeper when you need to.</h2>
+        </div>
+        <p>The homepage is for scanning. The detailed docs keep the contract, scope, and roadmap explicit.</p>
+      </div>
+
+      <div class="docs-list">
+        <a href="quickstart.html"><b>Quickstart</b><span>Install and map the first value.</span></a>
+        <a href="spec.html"><b>Specification</b><span>The Alpha integer contract.</span></a>
+        <a href="architecture.html"><b>Architecture</b><span>C core, ABI, and wrappers.</span></a>
+        <a href="alpha_scope.html"><b>Alpha Scope</b><span>What is in Alpha v1.</span></a>
+        <a href="beta_roadmap.html"><b>Beta Roadmap</b><span>Next mapper families.</span></a>
+        <a href="compatibility.html"><b>Compatibility</b><span>Migration and legacy notes.</span></a>
+        <a href="no_dependencies.html"><b>No Dependencies</b><span>The first-party policy.</span></a>
+        <a href="release_notes_v0.1.0-alpha.html"><b>Release Notes</b><span>Current package notes.</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="inner">
+      <span>libRangeMap</span>
+      <span>First-party. Dependency-free. Deterministic.</span>
+    </div>
+  </footer>
+</body>
+</html>
