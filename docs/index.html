@@ -8,22 +8,21 @@
   <style>
     :root {
       color-scheme: dark;
-      --ink: #eef5ff;
-      --muted: #9fb0c7;
-      --dim: #6f7e91;
-      --dark-900: #070b12;
-      --dark-850: #0b111c;
-      --dark-800: #101827;
-      --dark-700: #162236;
-      --dark-600: #22314a;
-      --light-100: #f7fafc;
-      --light-200: #e8eef6;
-      --light-300: #cfd9e7;
-      --blue: #6bb7ff;
-      --cyan: #6ce2d3;
-      --green: #9ee493;
-      --gold: #f7c873;
-      --line: rgba(255, 255, 255, 0.12);
+      --ink: #f0f6fc;
+      --muted: #8b949e;
+      --dim: #6e7681;
+      --dark-900: #0d1117;
+      --dark-850: #010409;
+      --dark-800: #161b22;
+      --dark-700: #21262d;
+      --dark-600: #30363d;
+      --panel: #161b22;
+      --panel-2: #0d1117;
+      --blue: #58a6ff;
+      --cyan: #39d0d8;
+      --green: #3fb950;
+      --gold: #d29922;
+      --line: #30363d;
       --shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -41,8 +40,8 @@
       min-width: 320px;
       color: var(--ink);
       background:
-        radial-gradient(circle at 20% 0%, rgba(107, 183, 255, 0.18), transparent 34rem),
-        linear-gradient(180deg, var(--dark-900) 0%, var(--dark-850) 52%, #f7fafc 52%, #f7fafc 100%);
+        radial-gradient(circle at 20% 0%, rgba(88, 166, 255, 0.15), transparent 34rem),
+        linear-gradient(180deg, var(--dark-850) 0%, var(--dark-900) 28%, var(--dark-900) 100%);
       line-height: 1.5;
     }
 
@@ -56,7 +55,7 @@
       top: 0;
       z-index: 20;
       border-bottom: 1px solid var(--line);
-      background: rgba(7, 11, 18, 0.86);
+      background: rgba(1, 4, 9, 0.88);
       backdrop-filter: blur(14px);
     }
 
@@ -83,9 +82,9 @@
       place-items: center;
       width: 34px;
       height: 34px;
-      border: 1px solid rgba(108, 226, 211, 0.35);
+      border: 1px solid rgba(57, 208, 216, 0.42);
       border-radius: 8px;
-      background: linear-gradient(135deg, rgba(107, 183, 255, 0.24), rgba(108, 226, 211, 0.11));
+      background: linear-gradient(135deg, rgba(88, 166, 255, 0.22), rgba(57, 208, 216, 0.10));
       color: var(--cyan);
       font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
       font-weight: 800;
@@ -108,7 +107,7 @@
 
     .nav-links a:hover {
       color: var(--ink);
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(177, 186, 196, 0.08);
     }
 
     .hero {
@@ -179,13 +178,13 @@
     .button.primary {
       color: #06121d;
       background: linear-gradient(135deg, var(--cyan), var(--blue));
-      box-shadow: 0 14px 40px rgba(107, 183, 255, 0.22);
+      box-shadow: 0 14px 40px rgba(88, 166, 255, 0.22);
     }
 
     .button.secondary {
       color: var(--ink);
       border-color: var(--line);
-      background: rgba(255, 255, 255, 0.06);
+      background: var(--dark-800);
     }
 
     .terminal {
@@ -193,9 +192,9 @@
       max-width: 548px;
       justify-self: end;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--line);
       border-radius: 12px;
-      background: #08101b;
+      background: var(--dark-850);
       box-shadow: var(--shadow);
     }
 
@@ -205,8 +204,8 @@
       justify-content: space-between;
       padding: 0.82rem 1rem;
       color: var(--muted);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-      background: rgba(255, 255, 255, 0.035);
+      border-bottom: 1px solid var(--line);
+      background: var(--dark-800);
       font-size: 0.86rem;
     }
 
@@ -255,7 +254,7 @@
     .stat {
       min-height: 126px;
       padding: 1.25rem 1.4rem;
-      background: rgba(13, 21, 34, 0.92);
+      background: var(--panel);
     }
 
     .stat strong {
@@ -311,7 +310,7 @@
       grid-template-columns: 54px minmax(130px, 190px) minmax(0, 1fr);
       align-items: center;
       gap: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid var(--line);
       padding: 0.9rem 1rem;
     }
 
@@ -320,7 +319,7 @@
     }
 
     .copy-row:hover {
-      background: rgba(107, 183, 255, 0.06);
+      background: rgba(88, 166, 255, 0.07);
     }
 
     .num {
@@ -337,16 +336,17 @@
       overflow-x: auto;
       white-space: nowrap;
       color: #dce8f7;
-      background: rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--dark-850);
+      border: 1px solid var(--line);
       border-radius: 8px;
       padding: 0.7rem 0.8rem;
       font-size: 0.9rem;
     }
 
     .light-wrap {
-      color: #0d1828;
-      background: var(--light-100);
+      color: var(--ink);
+      background: var(--dark-800);
+      border-top: 1px solid var(--line);
       padding: 76px 0;
     }
 
@@ -356,7 +356,7 @@
     }
 
     .light-inner h2 {
-      color: #07111e;
+      color: var(--ink);
     }
 
     .cards {
@@ -369,29 +369,29 @@
     .card {
       min-height: 190px;
       padding: 1.4rem;
-      border: 1px solid var(--light-200);
+      border: 1px solid var(--line);
       border-radius: 10px;
-      background: #ffffff;
-      box-shadow: 0 14px 35px rgba(12, 22, 36, 0.07);
+      background: var(--dark-900);
+      box-shadow: 0 14px 35px rgba(1, 4, 9, 0.24);
     }
 
     .card b {
       display: block;
       margin-bottom: 0.65rem;
-      color: #07111e;
+      color: var(--ink);
       font-size: 1.1rem;
     }
 
     .card p {
       margin: 0;
-      color: #526173;
+      color: var(--muted);
     }
 
     .formula {
       margin-top: 30px;
-      border: 1px solid var(--light-200);
+      border: 1px solid var(--line);
       border-radius: 12px;
-      background: #ffffff;
+      background: var(--dark-900);
       overflow: hidden;
     }
 
@@ -399,8 +399,8 @@
       margin: 0;
       padding: 1rem;
       overflow-x: auto;
-      color: #07111e;
-      background: #eef4fb;
+      color: var(--ink);
+      background: var(--dark-850);
     }
 
     .status-grid {
@@ -413,13 +413,13 @@
     .status {
       padding: 1rem;
       border-radius: 10px;
-      background: #ffffff;
-      border: 1px solid var(--light-200);
+      background: var(--dark-900);
+      border: 1px solid var(--line);
       min-height: 140px;
     }
 
     .status small {
-      color: #637086;
+      color: var(--muted);
       text-transform: uppercase;
       font-weight: 800;
       font-size: 0.72rem;
@@ -428,7 +428,7 @@
     .status strong {
       display: block;
       margin-top: 0.6rem;
-      color: #101827;
+      color: var(--ink);
       font-size: 1.05rem;
     }
 
@@ -437,15 +437,17 @@
       margin-top: 0.9rem;
       padding: 0.28rem 0.55rem;
       border-radius: 999px;
-      color: #0a261c;
-      background: #dff7df;
+      color: #aff5b4;
+      background: rgba(46, 160, 67, 0.18);
+      border: 1px solid rgba(46, 160, 67, 0.32);
       font-size: 0.78rem;
       font-weight: 800;
     }
 
     .pill.pending {
-      color: #3a2505;
-      background: #fff1c7;
+      color: #f2cc60;
+      background: rgba(187, 128, 9, 0.18);
+      border-color: rgba(187, 128, 9, 0.32);
     }
 
     .docs-list {
@@ -459,15 +461,15 @@
       display: block;
       min-height: 84px;
       padding: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.11);
+      border: 1px solid var(--line);
       border-radius: 10px;
       color: var(--ink);
-      background: rgba(255, 255, 255, 0.055);
+      background: var(--dark-800);
     }
 
     .docs-list a:hover {
-      border-color: rgba(108, 226, 211, 0.5);
-      background: rgba(108, 226, 211, 0.08);
+      border-color: rgba(88, 166, 255, 0.55);
+      background: rgba(88, 166, 255, 0.10);
     }
 
     .docs-list span {
