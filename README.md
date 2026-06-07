@@ -1,320 +1,179 @@
 # libRangeMap
 
-First-party, dependency-free range mapping for AI-ready data.
+## Deterministic normalization for AI-ready teams
 
-`libRangeMap` is a tiny SDK for turning supported values into normalized floating-point numbers. The current implementation is a Python reference plus a language-neutral spec, a compiled first-party C core, and canonical runtime/wrapper paths for all 25 Alpha v1 languages, with several runtimes passing the local compatibility checks today.
+**libRangeMap** is a first-party, dependency-free SDK that turns input values into deterministic floating-point features, with a shared contract designed for cross-language production pipelines.
 
-## Current Status
+If you are evaluating quickly: this is the one-line problem statement
 
-Alpha v1 readiness is now fully satisfied at the alpha gate level: all 25 canonical wrappers/runtimes are present, and all 25 currently pass shared compliance checks in-repo.
+> Same input and same config always produce identical values.
 
-The Python reference implementation is usable and tested, and the project now has first-party Python, C, Go, C#, Java, JavaScript, C++, Visual Basic, Rust, Ruby, R, SQL, Delphi/Object Pascal, Fortran, Scratch, Perl, PHP, Assembly, Swift, Ada, MATLAB, Classic Visual Basic, PL/SQL, Prolog, and COBOL paths in-repo.
+The client-facing docs site is now built from `/docs`; open [`docs/index.md`](docs/index.md) for the web-first entrypoint.
 
-| Area | Current State |
-| --- | --- |
-| Runtime dependencies | None |
-| Python import | `from librangemap import IntegerRangeMapper` |
-| Runtime version | `0.1.0-alpha` |
-| Package version | `0.1.0a0` |
-| Spec version | `1.0-alpha` |
-| Default output range | `[-1.0, 1.0]` |
-| Python mapper | Integer range mapper |
-| Python test command | `python -m unittest discover` |
-| Language-neutral artifact | Integer alpha compliance fixture |
-| Native core | Built from `csrc/` when installed from source |
-| Planned core architecture | C core with stable C ABI |
-| Language paths present | All 25 canon targets |
-| Local runtime verification (as of 2026-06-06) | Contract checks pass for all 25 canon targets; runtime-specific checks execute where native runtimes are present |
-| Remaining Alpha canon targets | 0 language targets |
-| C++ status | First-party wrapper over the C ABI is present |
-| Full Alpha v1 readiness | 100% (25/25 wrapper compliance checks passing) |
+---
 
-The project has been cleaned so generated packaging outputs such as `dist/`, `build/`, and `*.egg-info/` are ignored and not treated as source.
+## At a Glance
 
-### Alpha readiness weighting
+- **Product:** Feature normalization SDK for AI and ML preparation
+- **Default output range:** `[-1.0, 1.0]`
+- **Default behavior:** explicit clipping + strict mode options
+- **Dependency policy:** core + wrappers have no runtime dependencies beyond language runtimes
+- **Contract model:** shared formula, shared spec, reproducible JSON artifacts
+- **Current status:** Alpha v1 core contract is implemented; language coverage is the remaining alpha milestone
 
-Language coverage is the biggest alpha gate:
-- **50% of alpha readiness** is reserved for first-party wrappers/runtime paths for all 25 canon targets.
-- In-repo status currently satisfies this blocker by path presence: all 25 canonical wrappers/runtime paths are present.
-- The remaining 50% is now met through shared-language compliance checks for all 25 targets; runtime execution parity is tracked separately in CI or when runtimes are available locally.
+---
 
-## What Works Today
+## 2-Second Client Quickstart
 
-The Python reference currently supports:
+Use this exact line for value `50` from input range `[0, 100]` into default output range `[-1, 1]`.
 
-- finite integer input ranges
-- deterministic mapping into floating-point output
-- default output range `[-1.0, 1.0]`
-- explicit custom output ranges such as `[0.0, 1.0]`
-- strict out-of-range errors by default
-- explicit clipping mode
-- clear validation errors for invalid ranges and unsupported values
-- boolean rejection in integer mode
-- JSON-compatible mapper specs
-- save and reload from JSON files
-- standard-library `unittest` coverage
-- a language-neutral integer compliance fixture
-
-Still required before full Alpha v1 production confidence:
-
-- a stable documented C ABI
-- runtime-level validation for all 25 Alpha v1 wrappers where native runtimes are available
-- runtime-level compliance validation for the C core and each wrapper
-- documentation showing how each supported language uses the same mapping contract
-- release-gate evidence that the project is not merely a Python wrapper
-
-## Alpha v1 Language Canon
-
-Alpha v1 has a fixed 25-language target set. The project is alpha-ready when each language has a first-party wrapper or implementation path that passes the shared integer compliance fixture.
-
-| # | Language |
-| ---: | --- |
-| 1 | Python |
-| 2 | C |
-| 3 | Java |
-| 4 | C++ |
-| 5 | C# |
-| 6 | JavaScript |
-| 7 | Visual Basic |
-| 8 | R |
-| 9 | SQL |
-| 10 | Delphi/Object Pascal |
-| 11 | Fortran |
-| 12 | Scratch |
-| 13 | Perl |
-| 14 | PHP |
-| 15 | Rust |
-| 16 | Go |
-| 17 | Assembly language |
-| 18 | Swift |
-| 19 | Ada |
-| 20 | MATLAB |
-| 21 | Classic Visual Basic |
-| 22 | PL/SQL |
-| 23 | Ruby |
-| 24 | Prolog |
-| 25 | COBOL |
-
-Deferred until beta:
-
-- float mapping
-- character and string mapping
-- bytes and buffer mapping
-- sequence and nested structure mapping
-- raw pixel/image-like mapping
-- custom object adapters
-- broad multi-language package releases beyond the Alpha language target
-
-## Install
-
-From a local checkout:
-
-```bash
-python -m pip install .
+```text
+mapped = 0.0
 ```
 
-The Python reference has no runtime dependencies beyond Python itself.
-Source installs compile the native C core with Zig and place it under `librangemap/native/`.
+### Copy-Paste Line by Language
 
-## Quickstart
+| # | Language | One line to add |
+| -: | --- | --- |
+| 1 | Python | `from librangemap import IntegerRangeMapper; mapped = IntegerRangeMapper(input_range=(0, 100)).map_value(50)` |
+| 2 | C | `double mapped; lrm_map_integer(0, 100, -1.0, 1.0, 0, 50, &mapped);` |
+| 3 | Java | `double mapped = new librangemap.IntegerRangeMapper(0, 100).mapValue(50);` |
+| 4 | C++ | `double mapped = librangemap::IntegerRangeMapper(0, 100).map_value(50);` |
+| 5 | C# | `double mapped = new LibRangeMap.IntegerRangeMapper(0, 100).MapValue(50);` |
+| 6 | JavaScript | `const mapped = new IntegerRangeMapper([0, 100]).mapValue(50);` |
+| 7 | Visual Basic | `Dim mapped As Double = New IntegerRangeMapper(0, 100).MapValue(50)` |
+| 8 | R | `mapped <- map_integer_value(50, 0, 100)` |
+| 9 | SQL | `SELECT libRangeMap_map_integer(50, 0, 100, -1.0, 1.0, FALSE);` |
+| 10 | Delphi/Object Pascal | `mapped := MapIntegerValue(50, 0, 100, -1, 1, False);` |
+| 11 | Fortran | `x = map_integer_value(50, 0, 100, -1.0d0, 1.0d0, .false.)` |
+| 12 | Scratch | `mapped := map_integer_value(50, 0, 100, -1, 1, false)` *(pseudo: mirror `librangemap.md`)* |
+| 13 | Perl | `my $mapped = map_integer_value(value => 50, input_min => 0, input_max => 100);` |
+| 14 | PHP | `$mapped = map_integer_value(50, 0, 100);` |
+| 15 | Rust | `let mapped = IntegerRangeMapper::new_default(0, 100)?.map_value(50)?;` |
+| 16 | Go | `mapper, _ := NewDefaultIntegerRangeMapper(0, 100); mapped, _ := mapper.MapValue(50)` |
+| 17 | Assembly language | `librangemap_map_integer(0, 100, -1.0, 1.0, 0, 50, mapped_ptr);` *(pseudo ABI call)* |
+| 18 | Swift | `let mapped = IntegerRangeMapper(inputMin: 0, inputMax: 100).mapValue(50)` |
+| 19 | Ada | `mapped : Long_Float := Map_Integer_Value(50, 0, 100, -1.0, 1.0, False);` |
+| 20 | MATLAB | `mapped = librangemap(50, 0, 100);` |
+| 21 | Classic Visual Basic | `mapped = MapIntegerValue(50, 0, 100, -1, 1, False)` |
+| 22 | PL/SQL | `mapped := libRangeMap_map_integer(50, 0, 100, -1, 1, FALSE);` |
+| 23 | Ruby | `mapped = LibrangeMap::IntegerRangeMapper.new(0, 100).map_value(50)` |
+| 24 | Prolog | `?- map_integer_value(50, 0, 100, -1.0, 1.0, false, Mapped).` |
+| 25 | COBOL | `* use wrapper signature in wrappers\cobol\librangemap.cob` |
 
-```python
-from librangemap import IntegerRangeMapper
+Each row maps directly to the same shared formula and output semantics.
 
-mapper = IntegerRangeMapper(input_range=(0, 100))
+For each language, the exact namespace/import and module loading steps are documented in
+`wrappers/<language>/README.md`.
 
-print(mapper.map_value(0))    # -1.0
-print(mapper.map_value(50))   #  0.0
-print(mapper.map_value(100))  #  1.0
-```
+---
 
-## Formula
+## Core Formula
 
-The canonical formula is:
+All maps in Alpha v1 follow this equation:
 
 ```text
 mapped = out_min + ((value - in_min) / (in_max - in_min)) * (out_max - out_min)
 ```
 
-Alpha defaults:
+Defaults:
 
-```text
-out_min = -1.0
-out_max =  1.0
-```
+- `in_min/in_max`: your declared integer input bounds
+- `out_min = -1.0`
+- `out_max = 1.0`
 
-## Strict Mode
+---
 
-Strict mode is the default. Values outside the input range raise `OutOfRangeError`.
+## Product Fit (Why teams use it)
 
-```python
-from librangemap import IntegerRangeMapper
+- **Multi-language parity:** one contract, same result wherever your stack executes.
+- **Reproducible science:** specs are serializable and sharable across environments.
+- **Audit-friendly:** no hidden defaults, no implicit type coercion, explicit failures.
+- **Deployment light:** no third-party runtime dependencies to manage for the SDK.
+- **Explainable operations:** unknown tokens/types fail loudly instead of being guessed.
 
-mapper = IntegerRangeMapper(input_range=(0, 100), clip=False)
-mapper.map_value(101)  # raises OutOfRangeError
-```
+---
 
-## Clipping Mode
+## Alpha v1 Status (Client-Facing Readiness)
 
-Enable clipping explicitly to clamp out-of-range values to the nearest input bound before mapping.
+| Milestone | Status |
+| --- | --- |
+| Shared linear mapping contract in shared docs/spec | ✅ |
+| Python reference implementation | ✅ |
+| First-party C core + C ABI | ✅ |
+| Runtime/wrapper for all 25 Alpha languages | 🟡 In progress (24/25 language directories present; Python is the source-reference API) |
+| All 25 languages passing one compliance fixture | 🟡 Pending (execution parity is tracked by language runtime availability) |
 
-```python
-from librangemap import IntegerRangeMapper
+The language-wrapper milestone is the main Alpha v1 gate. It is intended to account for roughly **50% of Alpha v1 readiness**.
 
-mapper = IntegerRangeMapper(input_range=(0, 100), clip=True)
+Current wrapper footprint is visible in [Alpha v1 Language Manifest](compliance/alpha_v1_languages.json).  See each implementation path at `/wrappers`.
 
-print(mapper.map_value(-50))  # -1.0
-print(mapper.map_value(150))  #  1.0
-```
+---
 
-## Custom Output Range
+## How a Client Integrates in 30 Seconds
 
-`[-1.0, 1.0]` is the default. `[0.0, 1.0]` exists only when explicitly configured.
-
-```python
-from librangemap import IntegerRangeMapper
-
-mapper = IntegerRangeMapper(input_range=(0, 100), output_range=(0.0, 1.0))
-
-print(mapper.map_value(50))  # 0.5
-```
-
-## Save And Reload
-
-```python
-from librangemap import IntegerRangeMapper
-
-mapper = IntegerRangeMapper(input_range=(0, 255), clip=True)
-mapper.save("pixel_range.json")
-
-loaded = IntegerRangeMapper.load("pixel_range.json")
-
-assert loaded.map_value(0) == -1.0
-assert loaded.map_value(255) == 1.0
-```
-
-Example mapper spec:
-
-```json
-{
-  "spec_version": "1.0-alpha",
-  "implementation_version": "0.1.0-alpha",
-  "mapper_type": "integer_range",
-  "input_range": [0, 255],
-  "output_range": [-1.0, 1.0],
-  "clip": true
-}
-```
-
-## Validation
-
-Run the Python standard-library test suite:
-
-```bash
-python -m unittest discover
-```
-
-Validate Python local installation and import:
+### Install
 
 ```bash
 python -m pip install .
-python -c "import librangemap; print(librangemap.__version__)"
 ```
 
-Expected import output:
-
-```text
-0.1.0-alpha
-```
-
-Run examples:
-
-```bash
-python examples/map_integer.py
-python examples/map_negative_range.py
-python examples/map_with_clipping.py
-python examples/map_strict.py
-python examples/save_and_load_mapper.py
-```
-
-The save/load example writes `pixel_range.json`; that file is demonstration output and should not be committed.
-
-## Project Layout
-
-```text
-librangemap/
-  __init__.py
-  core.py
-  errors.py
-  integer.py
-  serialization.py
-  spec.py
-
-tests/
-  test_compatibility.py
-  test_compliance_fixture.py
-  test_dependency_free.py
-  test_errors.py
-  test_integer.py
-  test_serialization.py
-
-docs/
-  spec.md
-  quickstart.md
-  alpha_scope.md
-  beta_roadmap.md
-  compatibility.md
-  no_dependencies.md
-  release_notes_v0.1.0-alpha.md
-
-examples/
-  map_integer.py
-  map_negative_range.py
-  map_with_clipping.py
-  map_strict.py
-  save_and_load_mapper.py
-
-compliance/
-  integer_alpha.json
-
-legacy/
-  librangemap.h
-```
-
-## Compatibility Notes
-
-The original experiment exposed a flat `libRangeMap.py` module with `RangeMapper` and `CharRangeMapper`.
-
-The canonical Python reference import is:
+### Strict (safe) integration example (Python)
 
 ```python
 from librangemap import IntegerRangeMapper
+mapper = IntegerRangeMapper(input_range=(0, 100), clip=False)
+print(mapper.map_value(50))
 ```
 
-`RangeMapper` remains as a compatibility wrapper for integer-style ranges. It now follows the Alpha default output range of `[-1.0, 1.0]`.
+### Clip explicitly when your stream may exceed bounds
 
-`CharRangeMapper` is intentionally unsupported in the Python alpha reference because the old behavior mapped unknown characters to a magic fallback value. Future character and text support will use explicit policies.
+```python
+mapper = IntegerRangeMapper(input_range=(0, 100), clip=True)
+print(mapper.map_value(150))
+```
 
-The old C++ header is preserved under `legacy/` for reference only. It is not claimed as an Alpha v1 implementation, and full Alpha v1 readiness should remain open until the first-party C core and all 25 Alpha v1 language targets pass the integer compliance fixture.
+### Persist and share the exact mapping spec
 
-## Project Rules
+```python
+mapper = IntegerRangeMapper(input_range=(0, 255), clip=True)
+mapper.save('pixel_range.json')
 
-- Core SDK code is 100% first-party.
-- No runtime dependencies are allowed.
-- Do not copy, vendor, paste, or adapt third-party source.
-- Unknown or unsupported values must fail clearly.
-- Mapping specs should be inspectable and reproducible.
-- Generated artifacts are not source.
+roundtrip = IntegerRangeMapper.load('pixel_range.json')
+print(roundtrip.map_value(255))
+```
 
-## More Docs
+---
+
+## Quality Signals
+
+- Explicit error classes for range validation and out-of-domain input.
+- Stable JSON serializable specifications.
+- Shared mapping fixture in `compliance/` to keep language implementations aligned.
+- Deterministic behavior and bounded output under contract.
+- No dependency footprint in the core package and wrappers.
+
+---
+
+## Documentation Paths
 
 - [Specification](docs/spec.md)
 - [Quickstart](docs/quickstart.md)
-- [Alpha scope](docs/alpha_scope.md)
 - [Architecture](docs/architecture.md)
-- [Beta roadmap](docs/beta_roadmap.md)
-- [Compatibility notes](docs/compatibility.md)
-- [No dependencies](docs/no_dependencies.md)
-- [Python reference notes](docs/release_notes_v0.1.0-alpha.md)
-- [Integer alpha compliance fixture](compliance/integer_alpha.json)
-- [Alpha v1 language canon](compliance/alpha_v1_languages.json)
+- [Alpha Scope](docs/alpha_scope.md)
+- [Beta Roadmap](docs/beta_roadmap.md)
+- [Compatibility Notes](docs/compatibility.md)
+- [No Dependencies Policy](docs/no_dependencies.md)
+- [Release Notes](docs/release_notes_v0.1.0-alpha.md)
+- [Test Fixtures](compliance/integer_alpha.json)
+
+---
+
+## Repository Layout
+
+- `csrc/`: first-party C core and C API
+- `wrappers/`: language runtimes and ABI integration paths
+- `librangemap/`: Python reference package
+- `compliance/`: Alpha fixtures and manifests
+- `docs/`: contract and roadmap documentation
+- `tests/`: tests and cross-runtime verification points
