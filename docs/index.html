@@ -114,14 +114,18 @@
     .hero {
       width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 86px 0 68px;
+      padding: 84px 0 64px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.04fr) minmax(330px, 0.96fr);
-      gap: 42px;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
+      gap: clamp(30px, 4vw, 58px);
       align-items: center;
+    }
+
+    .hero-grid > * {
+      min-width: 0;
     }
 
     .eyebrow {
@@ -143,15 +147,15 @@
 
     h1 {
       margin: 18px 0 18px;
-      font-size: clamp(3rem, 6vw, 6.8rem);
-      line-height: 0.92;
+      font-size: clamp(3rem, 5.4vw, 5.85rem);
+      line-height: 0.94;
       letter-spacing: 0;
     }
 
     .hero-copy {
-      max-width: 680px;
+      max-width: 640px;
       color: #c7d5e8;
-      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      font-size: clamp(1.05rem, 1.6vw, 1.24rem);
     }
 
     .hero-actions {
@@ -185,6 +189,9 @@
     }
 
     .terminal {
+      width: 100%;
+      max-width: 548px;
+      justify-self: end;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 12px;
@@ -247,7 +254,7 @@
 
     .stat {
       min-height: 126px;
-      padding: 1.25rem;
+      padding: 1.25rem 1.4rem;
       background: rgba(13, 21, 34, 0.92);
     }
 
@@ -271,10 +278,10 @@
     }
 
     .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.48fr);
+      align-items: center;
+      gap: clamp(24px, 6vw, 96px);
       margin-bottom: 26px;
     }
 
@@ -286,7 +293,7 @@
     }
 
     .section-head p {
-      max-width: 460px;
+      max-width: 520px;
       margin: 0;
       color: var(--muted);
     }
@@ -505,6 +512,15 @@
         grid-template-columns: 1fr;
       }
 
+      .terminal {
+        justify-self: stretch;
+        max-width: none;
+      }
+
+      h1 {
+        font-size: clamp(2.9rem, 12.5vw, 4.5rem);
+      }
+
       .copy-row {
         grid-template-columns: 42px 1fr;
         align-items: start;
@@ -672,7 +688,7 @@ mapped = <span class="accent">0.0</span></code></pre>
         <a href="spec.html"><b>Specification</b><span>The Alpha integer contract.</span></a>
         <a href="architecture.html"><b>Architecture</b><span>C core, ABI, and wrappers.</span></a>
         <a href="alpha_scope.html"><b>Alpha Scope</b><span>What is in Alpha v1.</span></a>
-        <a href="beta_roadmap.html"><b>Beta Roadmap</b><span>Next mapper families.</span></a>
+        <a href="beta_roadmap.html"><b>Beta Roadmap</b><span>Beta scope and final v1 compatibility goal.</span></a>
         <a href="compatibility.html"><b>Compatibility</b><span>Migration and legacy notes.</span></a>
         <a href="no_dependencies.html"><b>No Dependencies</b><span>The first-party policy.</span></a>
         <a href="release_notes_v0.1.0-alpha.html"><b>Release Notes</b><span>Current package notes.</span></a>
