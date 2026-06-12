@@ -1,0 +1,188 @@
+{
+  "spec_version": "1.0",
+  "scope": "beta_family_conformance",
+  "default_output_range": [-1.0, 1.0],
+  "description": "Language-neutral beta family examples for wrapper and production conformance hardening.",
+  "families": [
+    {
+      "family": "integer",
+      "mapper": {
+        "mapper_type": "integer_range",
+        "input_range": [0, 100],
+        "output_range": [-1.0, 1.0],
+        "clip": false
+      },
+      "cases": [
+        {"name": "lower", "input": 0, "expected": -1.0},
+        {"name": "middle", "input": 50, "expected": 0.0},
+        {"name": "upper", "input": 100, "expected": 1.0}
+      ],
+      "failures": [
+        {"name": "strict_out_of_range", "input": 101, "error": "OutOfRangeError"}
+      ]
+    },
+    {
+      "family": "float",
+      "mapper": {
+        "mapper_type": "float_range",
+        "input_range": [0.0, 1.0],
+        "output_range": [-1.0, 1.0],
+        "clip": false
+      },
+      "cases": [
+        {"name": "lower", "input": 0.0, "expected": -1.0},
+        {"name": "middle", "input": 0.5, "expected": 0.0},
+        {"name": "upper", "input": 1.0, "expected": 1.0}
+      ],
+      "failures": [
+        {"name": "strict_out_of_range", "input": 1.5, "error": "OutOfRangeError"}
+      ]
+    },
+    {
+      "family": "boolean",
+      "mapper": {
+        "mapper_type": "boolean_range",
+        "output_range": [-1.0, 1.0],
+        "false_value": -1.0,
+        "true_value": 1.0
+      },
+      "cases": [
+        {"name": "false", "input": false, "expected": -1.0},
+        {"name": "true", "input": true, "expected": 1.0}
+      ],
+      "failures": [
+        {"name": "unsupported_type", "input": "true", "error": "UnsupportedTypeError"}
+      ]
+    },
+    {
+      "family": "text",
+      "mapper": {
+        "mapper_type": "text_range",
+        "mode": "alphabet",
+        "alphabet": "abc",
+        "output_range": [-1.0, 1.0],
+        "clip": false,
+        "allow_empty": false
+      },
+      "cases": [
+        {"name": "alphabet_vector", "input": "cab", "expected": [1.0, -1.0, 0.0]}
+      ],
+      "failures": [
+        {"name": "unknown_character", "input": "d", "error": "UnsupportedTypeError"},
+        {"name": "empty_string", "input": "", "error": "UnsupportedTypeError"}
+      ]
+    },
+    {
+      "family": "bytes",
+      "mapper": {
+        "mapper_type": "bytes_range",
+        "input_range": [0, 255],
+        "output_range": [-1.0, 1.0],
+        "clip": false,
+        "allow_empty": false
+      },
+      "cases": [
+        {"name": "byte_vector", "input": [0, 127, 255], "expected": [-1.0, -0.0039215686274509665, 1.0]}
+      ],
+      "failures": [
+        {"name": "empty_bytes", "input": [], "error": "UnsupportedTypeError"}
+      ]
+    },
+    {
+      "family": "sequences",
+      "mapper": {
+        "mapper_type": "sequence_range",
+        "allow_empty": false,
+        "preserve_tuples": true,
+        "element_mapper": {
+          "mapper_type": "integer_range",
+          "input_range": [0, 100],
+          "output_range": [-1.0, 1.0],
+          "clip": false
+        }
+      },
+      "cases": [
+        {"name": "nested_shape", "input": [0, [50, 100]], "expected": [-1.0, [0.0, 1.0]]}
+      ],
+      "failures": [
+        {"name": "empty_sequence", "input": [], "error": "UnsupportedTypeError"}
+      ]
+    },
+    {
+      "family": "maps_structs_objects",
+      "mapper": {
+        "mapper_type": "map_range",
+        "allow_unknown": false,
+        "allow_empty": false,
+        "schema": {
+          "active": {
+            "mapper_type": "boolean_range",
+            "output_range": [-1.0, 1.0],
+            "false_value": -1.0,
+            "true_value": 1.0
+          },
+          "age": {
+            "mapper_type": "integer_range",
+            "input_range": [0, 100],
+            "output_range": [-1.0, 1.0],
+            "clip": false
+          }
+        }
+      },
+      "cases": [
+        {"name": "schema_object", "input": {"active": true, "age": 50}, "expected": {"active": 1.0, "age": 0.0}}
+      ],
+      "failures": [
+        {"name": "unknown_field", "input": {"active": true, "age": 50, "extra": 1}, "error": "UnsupportedTypeError"},
+        {"name": "missing_field", "input": {"active": true}, "error": "UnsupportedTypeError"}
+      ]
+    },
+    {
+      "family": "categorical_vocab",
+      "mapper": {
+        "mapper_type": "categorical_range",
+        "vocabulary": ["red", "green", "blue"],
+        "output_range": [-1.0, 1.0]
+      },
+      "cases": [
+        {"name": "middle_token", "input": "green", "expected": 0.0}
+      ],
+      "failures": [
+        {"name": "unknown_token", "input": "yellow", "error": "UnsupportedTypeError"}
+      ]
+    },
+    {
+      "family": "temporal",
+      "mapper": {
+        "mapper_type": "temporal_range",
+        "mode": "duration",
+        "input_range": [0.0, 120.0],
+        "output_range": [-1.0, 1.0],
+        "clip": false
+      },
+      "cases": [
+        {"name": "duration_midpoint", "input": 60.0, "expected": 0.0}
+      ],
+      "failures": [
+        {"name": "strict_out_of_range", "input": 180.0, "error": "OutOfRangeError"}
+      ]
+    },
+    {
+      "family": "image_like",
+      "mapper": {
+        "mapper_type": "image_range",
+        "mode": "grayscale",
+        "input_range": [0, 255],
+        "output_range": [-1.0, 1.0],
+        "clip": false,
+        "allow_empty": false
+      },
+      "cases": [
+        {"name": "grayscale_vector", "input": [0, 127, 255], "expected": [-1.0, -0.0039215686274509665, 1.0]}
+      ],
+      "failures": [
+        {"name": "empty_image", "input": [], "error": "UnsupportedTypeError"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+*** Begin Patch
+*** Update File: wrappers/ada/librangemap.ads
+@@
+    type Categorical_Token_Array is array (Positive range <>) of Unbounded_String;
+    type Long_Float_Array is array (Positive range <>) of Long_Float;
++
++   type Text_Mode is (Codepoint, Byte, Alphabet);
+@@
+    function Map_Bytes_Value
+      (Value      : String;
+       Output_Min : Long_Float := -1.0;
+       Output_Max : Long_Float := 1.0;
+       Clip       : Boolean := False) return Long_Float_Array;
++
++   function Map_Text_Value
++     (Value      : String;
++      Mode       : Text_Mode := Codepoint;
++      Alphabet   : String := "";
++      Output_Min : Long_Float := -1.0;
++      Output_Max : Long_Float := 1.0) return Long_Float_Array;
+@@
+    function Map_Categorical_Value
+      (Value      : Unbounded_String;
+       Tokens     : Categorical_Token_Array;
+       Output_Min : Long_Float := -1.0;
+       Output_Max : Long_Float := 1.0) return Long_Float;
++
++   procedure Self_Check;
+ end LibrangeMap;
+*** Update File: wrappers/ada/librangemap.adb
+@@
+    function Map_Bytes_Value
+      (Value      : String;
+       Output_Min : Long_Float := -1.0;
+       Output_Max : Long_Float := 1.0;
+       Clip       : Boolean := False) return Long_Float_Array
+@@
+ 
+       return Result;
+    end Map_Bytes_Value;
++
++   function Map_Text_Value
++     (Value      : String;
++      Mode       : Text_Mode := Codepoint;
++      Alphabet   : String := "";
++      Output_Min : Long_Float := -1.0;
++      Output_Max : Long_Float := 1.0) return Long_Float_Array
++   is
++      Index : Integer;
++   begin
++      if Output_Min >= Output_Max then
++         raise Constraint_Error with "output_min must be less than output_max";
++      end if;
++      if Value'Length = 0 then
++         raise Constraint_Error with "empty text input is invalid by default";
++      end if;
++      if Mode = Alphabet then
++         if Alphabet'Length = 0 then
++            raise Constraint_Error with "alphabet must not be empty";
++         end if;
++
++         for I in Alphabet'Range loop
++            for J in Alphabet'Range loop
++               if I < J and then Alphabet(I) = Alphabet(J) then
++                  raise Constraint_Error with "alphabet must be unique";
++               end if;
++            end loop;
++         end loop;
++      end if;
++
++      declare
++         Result : Long_Float_Array (1 .. Value'Length);
++      begin
++         for I in Value'Range loop
++            case Mode is
++               when Codepoint | Byte =>
++                  Index := Character'Pos(Value(I));
++                  Result(I - Value'First + 1) := Output_Min + (Long_Float(Index) / 255.0) * (Output_Max - Output_Min);
++               when Alphabet =>
++                  Index := 0;
++                  for J in Alphabet'Range loop
++                     if Alphabet(J) = Value(I) then
++                        Index := J - Alphabet'First + 1;
++                        exit;
++                     end if;
++                  end loop;
++
++                  if Index = 0 then
++                     raise Constraint_Error with "unknown text token";
++                  end if;
++
++                  if Alphabet'Length = 1 then
++                     Result(I - Value'First + 1) := (Output_Min + Output_Max) / 2.0;
++                  else
++                     Result(I - Value'First + 1) := Output_Min
++                       + (Long_Float(Index - 1) / Long_Float(Alphabet'Length - 1))
++                       * (Output_Max - Output_Min);
++                  end if;
++            end case;
++         end loop;
++
++         return Result;
++      end;
++   end Map_Text_Value;
+@@
+       return Output_Min
+         + (Long_Float(Index - Tokens'First) / Long_Float(Tokens'Length - 1))
+         * (Output_Max - Output_Min);
+    end Map_Categorical_Value;
++
++   procedure Self_Check is
++      Sample_Text : constant Long_Float_Array := Map_Text_Value("abc", Mode => Alphabet, Alphabet => "abc");
++      Sample_Codepoint : constant Long_Float_Array := Map_Text_Value("Ada", Mode => Codepoint);
++   begin
++      if Sample_Text'Length /= 3 then
++         raise Program_Error with "text self-check failed";
++      end if;
++      if Sample_Codepoint'Length /= 3 then
++         raise Program_Error with "text self-check failed";
++      end if;
++   end Self_Check;
+ end LibrangeMap;
+*** Update File: wrappers/ada/README.md
+@@
+-This directory contains a first-party Ada implementation path for Alpha v1 integer, float, boolean, categorical, bytes, and temporal mapping.
++This directory contains a first-party Ada implementation path for Alpha v1 integer, float, boolean, text, categorical, bytes, and temporal mapping.
+@@
+ ### Boolean
+ 
+ ```ada
+ mapped : Long_Float := Map_Boolean_Value(True);
+ ```
++
++### Text
++
++```ada
++mapped : Long_Float_Array := Map_Text_Value("Ada", Mode => Codepoint);
++```
+ 
+ ### Categorical
+ 
+ ```ada
+ tokens : Categorical_Token_Array := (1 => To_Unbounded_String("red"), 2 => To_Unbounded_String("green"), 3 => To_Unbounded_String("blue"));
+ mapped : Long_Float := Map_Categorical_Value(To_Unbounded_String("green"), tokens, -1.0, 1.0);
+@@
+ ```ada
+ mappedBytes : Long_Float_Array := Map_Bytes_Value("AB", -1.0, 1.0, False);
+ ```
+ 
+ ### Failure contract
+@@
+ - `Map_Boolean_Value` accepts only `Boolean` values and never coerces other truthy/falsey inputs.
++- `Map_Text_Value` maps strings deterministically as codepoint, byte, or alphabet-driven vectors, rejects empty text by default, and fails on unknown alphabet characters or duplicate alphabet entries.
+ - `Map_Categorical_Value` requires a non-empty unique token array, maps by stable token order, and rejects unknown tokens explicitly.
+ - `Map_Bytes_Value` accepts strings as bytes-like payloads, rejects empty payloads by default, and preserves order.
+ - `Map_Temporal_Value` accepts Unix-millisecond `Long_Long_Integer` timestamps and applies the same explicit range/clipping policy as the scalar mappers.
+*** Update File: docs/production_path_to_v1.md
+@@
+-- Deterministic wrapper smoke evidence is now strongest for the canonical integer path, with manifest-backed repeated-call notes now present for C, C++, C#, Go, Java, JavaScript, R, Rust, Fortran, Perl, PHP, Ruby, Swift, and Visual Basic; broader family parity still needs expansion toward float, boolean, text, bytes, sequence, object, temporal, and image families across the remaining wrappers, even as Ruby now documents repeated-call coverage for integer, float, boolean, bytes, categorical, and temporal, Prolog now documents integer, float, boolean, text, bytes, categorical, and temporal smoke coverage, Go now documents integer, float, boolean, text, bytes, categorical, and temporal wrapper smoke coverage, MATLAB now documents integer, float, boolean, categorical, bytes, and temporal mapping paths, Ada now documents integer, float, boolean, bytes, categorical, and temporal mapping paths, Rust now documents integer, float, boolean, categorical, and temporal mapping paths, COBOL now documents integer, float, and boolean mapping paths, with categorical vocabulary planned as an explicit extension, Swift now documents integer, float, boolean, categorical, and temporal mapping paths, C now documents integer, float, boolean, bytes, categorical, and temporal coverage, Perl now documents integer, float, boolean, bytes, categorical, and temporal coverage, Visual Basic now documents integer, float, boolean, bytes, categorical, and temporal coverage, SQL now documents integer, float, boolean, bytes, categorical, and temporal procedure coverage, PHP now documents integer, float, boolean, text, bytes, sequence, categorical, map/object, image-like, and temporal coverage, C# now documents integer, float, boolean, text, bytes, sequences, categorical, map/object, image-like, and temporal coverage, R now documents integer, float, boolean, text, bytes, categorical, and temporal coverage, Classic Visual Basic now documents integer, float, boolean, text, bytes, categorical, and temporal coverage, Fortran now documents integer, float, boolean, text, categorical, and temporal coverage, and Delphi/Object Pascal now documents integer, float, boolean, text, bytes, categorical, and temporal coverage, and Rust now documents integer, float, boolean, text, categorical, and temporal coverage.
++- Deterministic wrapper smoke evidence is now strongest for the canonical integer path, with manifest-backed repeated-call notes now present for C, C++, C#, Go, Java, JavaScript, R, Rust, Fortran, Perl, PHP, Ruby, Swift, and Visual Basic; broader family parity still needs expansion toward float, boolean, text, bytes, sequence, object, temporal, and image families across the remaining wrappers, even as Ruby now documents repeated-call coverage for integer, float, boolean, bytes, categorical, and temporal, Prolog now documents integer, float, boolean, text, bytes, categorical, and temporal smoke coverage, Go now documents integer, float, boolean, text, bytes, categorical, and temporal wrapper smoke coverage, MATLAB now documents integer, float, boolean, categorical, bytes, and temporal mapping paths, Ada now documents integer, float, boolean, text, bytes, categorical, and temporal mapping paths, Rust now documents integer, float, boolean, categorical, and temporal mapping paths, COBOL now documents integer, float, and boolean mapping paths, with categorical vocabulary planned as an explicit extension, Swift now documents integer, float, boolean, categorical, and temporal mapping paths, C now documents integer, float, boolean, bytes, categorical, and temporal coverage, Perl now documents integer, float, boolean, bytes, categorical, and temporal coverage, Visual Basic now documents integer, float, boolean, bytes, categorical, and temporal coverage, SQL now documents integer, float, boolean, bytes, categorical, and temporal procedure coverage, PHP now documents integer, float, boolean, text, bytes, sequence, categorical, map/object, image-like, and temporal coverage, C# now documents integer, float, boolean, text, bytes, sequences, categorical, map/object, image-like, and temporal coverage, R now documents integer, float, boolean, text, bytes, categorical, and temporal coverage, Classic Visual Basic now documents integer, float, boolean, text, bytes, categorical, and temporal coverage, Fortran now documents integer, float, boolean, text, categorical, and temporal coverage, and Delphi/Object Pascal now documents integer, float, boolean, text, bytes, categorical, and temporal coverage, and Rust now documents integer, float, boolean, text, categorical, and temporal coverage.
+*** Update File: compliance/beta_readiness.json
+@@
+                           "implemented":  [
+                                               "integer",
+                                               "float",
+                                               "boolean",
++                                              "text",
+                                               "bytes",
+                                               "categorical_vocab",
+                                               "temporal"
+                                           ],
+-                          "planned":  [
+-                                          "text",
+-                                          "sequences",
+-                                          "maps_structs_objects",
+-                                          "image_like"
+-                                      ],
+-                          "notes":  "Reference package now includes integer, float, boolean, bytes, categorical, and temporal mapping paths."
++                          "planned":  [
++                                          "sequences",
++                                          "maps_structs_objects",
++                                          "image_like"
++                                      ],
++                          "notes":  "Reference package now includes integer, float, boolean, text, bytes, categorical, and temporal mapping paths."
+                       },
+*** Delete File: docs/compatibility.md
+*** Add File: docs/compatibility.md
++# Compatibility matrix
++
++This page mirrors the alpha/beta readiness manifest in `compliance/beta_readiness.json`.
++Statuses below are normalized to `done` when a family is implemented and `planned` when it is still in scope.
++
++## Family coverage summary
++
++| Family | Coverage |
++| --- | --- |
++| integer | 25/25 |
++| float | 24/25 |
++| boolean | 24/25 |
++| text | 14/25 |
++| bytes | 20/25 |
++| sequences | 5/25 |
++| maps_structs_objects | 6/25 |
++| categorical_vocab | 22/25 |
++| image_like | 6/25 |
++| temporal | 22/25 |
++
++## Language matrix
++
++| Order | Language | integer | float | boolean | text | bytes | sequences | maps_structs_objects | categorical_vocab | temporal | image_like |
++| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
++| 1 | Python | done | done | done | done | done | done | done | done | done | done |
++| 2 | C | done | done | done | planned | done | planned | planned | done | done | planned |
++| 3 | Java | done | done | done | done | done | done | done | done | done | done |
++| 4 | C++ | done | done | done | planned | done | planned | done | done | done | done |
++| 5 | C# | done | done | done | done | done | done | done | done | done | done |
++| 6 | JavaScript | done | done | done | done | done | done | done | done | done | done |
++| 7 | Visual Basic | done | done | done | planned | done | planned | planned | done | done | planned |
++| 8 | R | done | done | done | done | done | planned | planned | done | done | planned |
++| 9 | SQL | done | done | done | done | done | planned | planned | done | done | planned |
++| 10 | Delphi/Object Pascal | done | done | done | done | done | planned | planned | done | done | planned |
++| 11 | Fortran | done | done | done | done | done | planned | planned | done | done | planned |
++| 12 | Scratch | done | done | done | planned | done | planned | planned | planned | planned | planned |
++| 13 | Perl | done | done | done | planned | done | planned | planned | done | done | planned |
++| 14 | PHP | done | done | done | done | done | done | done | done | done | done |
++| 15 | Rust | done | done | done | done | planned | planned | planned | done | done | planned |
++| 16 | Go | done | done | done | planned | done | planned | planned | done | done | planned |
++| 17 | Assembly language | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
++| 18 | Swift | done | done | done | planned | planned | planned | planned | done | done | planned |
++| 19 | Ada | done | done | done | planned | done | planned | planned | done | done | planned |
++| 20 | MATLAB | done | done | done | planned | done | planned | planned | done | done | planned |
++| 21 | Classic Visual Basic | done | done | done | done | done | planned | planned | done | done | planned |
++| 22 | PL/SQL | done | done | done | planned | planned | planned | planned | done | done | planned |
++| 23 | Ruby | done | done | done | done | done | planned | planned | done | done | planned |
++| 24 | Prolog | done | done | done | done | done | planned | planned | done | done | planned |
++| 25 | COBOL | done | done | done | planned | planned | planned | planned | planned | planned | planned |
++
++## Notes
++
++- The matrix is intentionally conservative: `planned` means the language wrapper still needs that family path for beta readiness.
++- The current beta blocker is still wrapper parity across the remaining families, especially `sequences`, `maps_structs_objects`, and `image_like`.
++- `text` is now available in 14 languages, including Ada.
+*** End Patch

@@ -1,0 +1,56 @@
+{
+  "scope": "alpha_v1_beta_runtime_verification_results_schema",
+  "spec_version": "1.0",
+  "status_source": "compliance/runtime_verification_status.json",
+  "source_test": "tests/test_alpha_wrapper_runtime.py",
+  "allowed_result_statuses": [
+    "verified",
+    "skipped",
+    "failed"
+  ],
+  "required_result_fields": [
+    "order",
+    "name",
+    "slug",
+    "smoke_check",
+    "result",
+    "reason"
+  ],
+  "result_rules": [
+    "A result file must contain exactly one result entry per language in compliance/alpha_v1_languages.json order.",
+    "Use result=verified only when the smoke check executed successfully in the current environment.",
+    "Use result=skipped only when the required runtime or toolchain is missing or intentionally unavailable.",
+    "Use result=failed when the smoke check exists but returns a failing status or raises an unexpected error.",
+    "Skipped entries must include a reason explaining the missing runtime/toolchain gate.",
+    "Failed entries must include a reason sufficient for CI triage.",
+    "Result files are environment evidence and must not be used to remove the requirement for CI-friendly smoke scripts."
+  ],
+  "example_result_file": {
+    "scope": "alpha_v1_beta_runtime_verification_results",
+    "spec_version": "1.0",
+    "generated_by": "tests/test_alpha_wrapper_runtime.py or equivalent CI runner",
+    "environment": {
+      "os": "example",
+      "python": "example",
+      "notes": "Replace with CI/local runner metadata."
+    },
+    "results": [
+      {
+        "order": 1,
+        "name": "Python",
+        "slug": "python",
+        "smoke_check": "import librangemap",
+        "result": "verified",
+        "reason": "Python package import succeeded."
+      },
+      {
+        "order": 2,
+        "name": "C",
+        "slug": "c",
+        "smoke_check": "wrappers/c/test.cmd",
+        "result": "skipped",
+        "reason": "C compiler/toolchain unavailable in this example environment."
+      }
+    ]
+  }
+}

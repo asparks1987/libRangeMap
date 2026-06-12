@@ -1,0 +1,212 @@
+{
+  "scope": "alpha_v1_beta_runtime_verification_status",
+  "spec_version": "1.0",
+  "source_test": "tests/test_alpha_wrapper_runtime.py",
+  "status_model": {
+    "tracked_by_runtime_test": "The language has a CI-friendly smoke path accounted for by tests/test_alpha_wrapper_runtime.py.",
+    "environment_gated": "The smoke path may verify or skip depending on whether the required language toolchain is available in the current environment.",
+    "native_path_required": "The smoke path requires librangemap/native on PATH or equivalent loader configuration."
+  },
+  "languages": [
+    {
+      "order": 1,
+      "name": "Python",
+      "slug": "python",
+      "smoke_check": "import librangemap",
+      "environment_gate": "python runtime",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 2,
+      "name": "C",
+      "slug": "c",
+      "smoke_check": "wrappers/c/test.cmd",
+      "environment_gate": "zig or compatible C compiler plus native path",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 3,
+      "name": "Java",
+      "slug": "java",
+      "smoke_check": "wrappers/java/test.cmd",
+      "environment_gate": "java runtime",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 4,
+      "name": "C++",
+      "slug": "cpp",
+      "smoke_check": "wrappers/cpp/test.cmd",
+      "environment_gate": "zig or compatible C++ compiler plus native path",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 5,
+      "name": "C#",
+      "slug": "csharp",
+      "smoke_check": "wrappers/csharp/test.cmd",
+      "environment_gate": "dotnet plus native path",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 6,
+      "name": "JavaScript",
+      "slug": "javascript",
+      "smoke_check": "wrappers/javascript/test.cmd",
+      "environment_gate": "node runtime",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 7,
+      "name": "Visual Basic",
+      "slug": "vb",
+      "smoke_check": "wrappers/vb/test.cmd",
+      "environment_gate": "dotnet plus native path",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 8,
+      "name": "R",
+      "slug": "r",
+      "smoke_check": "wrappers/r/test.cmd",
+      "environment_gate": "Rscript runtime",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 9,
+      "name": "SQL",
+      "slug": "sql",
+      "smoke_check": "wrappers/sql/test.cmd",
+      "environment_gate": "static SQL smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 10,
+      "name": "Delphi/Object Pascal",
+      "slug": "delphi",
+      "smoke_check": "wrappers/delphi/test.cmd",
+      "environment_gate": "static Delphi/Object Pascal smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 11,
+      "name": "Fortran",
+      "slug": "fortran",
+      "smoke_check": "wrappers/fortran/test.cmd",
+      "environment_gate": "gfortran runtime",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 12,
+      "name": "Scratch",
+      "slug": "scratch",
+      "smoke_check": "wrappers/scratch/test.cmd",
+      "environment_gate": "static Scratch extension contract smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 13,
+      "name": "Perl",
+      "slug": "perl",
+      "smoke_check": "wrappers/perl/test.cmd",
+      "environment_gate": "perl runtime",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 14,
+      "name": "PHP",
+      "slug": "php",
+      "smoke_check": "wrappers/php/test.cmd",
+      "environment_gate": "php runtime",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 15,
+      "name": "Rust",
+      "slug": "rust",
+      "smoke_check": "wrappers/rust/test.cmd",
+      "environment_gate": "zig or compatible linker path plus Rust toolchain",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 16,
+      "name": "Go",
+      "slug": "go",
+      "smoke_check": "wrappers/go/test.cmd",
+      "environment_gate": "go runtime plus native path",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 17,
+      "name": "Assembly language",
+      "slug": "assembly",
+      "smoke_check": "wrappers/assembly/test.cmd",
+      "environment_gate": "static assembly ABI smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 18,
+      "name": "Swift",
+      "slug": "swift",
+      "smoke_check": "wrappers/swift/test.cmd",
+      "environment_gate": "swift runtime when available; static smoke fallback",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 19,
+      "name": "Ada",
+      "slug": "ada",
+      "smoke_check": "wrappers/ada/test.cmd",
+      "environment_gate": "static Ada smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 20,
+      "name": "MATLAB",
+      "slug": "matlab",
+      "smoke_check": "wrappers/matlab/test.cmd",
+      "environment_gate": "MATLAB/Octave when available; static smoke fallback",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 21,
+      "name": "Classic Visual Basic",
+      "slug": "vb6",
+      "smoke_check": "wrappers/vb6/test.cmd",
+      "environment_gate": "static Classic Visual Basic smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 22,
+      "name": "PL/SQL",
+      "slug": "plsql",
+      "smoke_check": "wrappers/plsql/test.cmd",
+      "environment_gate": "static PL/SQL smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 23,
+      "name": "Ruby",
+      "slug": "ruby",
+      "smoke_check": "wrappers/ruby/test.cmd",
+      "environment_gate": "ruby runtime",
+      "runtime_status": "environment_gated"
+    },
+    {
+      "order": 24,
+      "name": "Prolog",
+      "slug": "prolog",
+      "smoke_check": "wrappers/prolog/test.cmd",
+      "environment_gate": "static Prolog smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    },
+    {
+      "order": 25,
+      "name": "COBOL",
+      "slug": "cobol",
+      "smoke_check": "wrappers/cobol/test.cmd",
+      "environment_gate": "static COBOL smoke script",
+      "runtime_status": "tracked_by_runtime_test"
+    }
+  ]
+}

@@ -10,4 +10,4 @@ if exist "%ADAC%" (
 )
 
 echo Contract verifier missing for Ada wrappers.
-exit /b 1
+exit /b 2

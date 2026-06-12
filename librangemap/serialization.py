@@ -9,7 +9,7 @@ from .errors import SerializationError
 def dumps_json(data: Any) -> str:
     """Serialize data to stable, human-readable JSON."""
     try:
-        return json.dumps(data, indent=2, sort_keys=True) + "\n"
+        return json.dumps(data, indent=2, sort_keys=True, allow_nan=False) + "\n"
     except (TypeError, ValueError) as exc:
         raise SerializationError(f"mapper spec could not be serialized: {exc}") from exc
 
@@ -17,8 +17,8 @@ def dumps_json(data: Any) -> str:
 def loads_json(text: str) -> Any:
     """Deserialize JSON text."""
     try:
-        return json.loads(text)
-    except json.JSONDecodeError as exc:
+        return json.loads(text, parse_constant=_reject_constant, object_pairs_hook=_reject_duplicate_keys)
+    except (TypeError, ValueError, json.JSONDecodeError) as exc:
         raise SerializationError(f"mapper spec is not valid JSON: {exc}") from exc
 
 
@@ -38,3 +38,16 @@ def load_json_file(path: str) -> Any:
             return loads_json(handle.read())
     except OSError as exc:
         raise SerializationError(f"mapper spec could not be loaded from {path!r}: {exc}") from exc
+
+
+def _reject_constant(value: str) -> Any:
+    raise ValueError(f"invalid JSON constant: {value}")
+
+
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result

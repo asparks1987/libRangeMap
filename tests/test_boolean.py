@@ -1,6 +1,6 @@
 import unittest
 
-from librangemap import BooleanRangeMapper, SerializationError, UnsupportedTypeError
+from librangemap import BooleanRangeMapper, NotFiniteError, SerializationError, UnsupportedTypeError
 
 
 class BooleanRangeMapperTests(unittest.TestCase):
@@ -30,6 +30,18 @@ class BooleanRangeMapperTests(unittest.TestCase):
     def test_unknown_mapper_type_fails(self):
         with self.assertRaises(SerializationError):
             BooleanRangeMapper.from_dict({"spec_version": "1.0-alpha", "mapper_type": "integer_range"})
+
+    def test_rejects_non_finite_output_range(self):
+        with self.assertRaises(NotFiniteError):
+            BooleanRangeMapper(output_range=(0.0, float("nan")))
+
+    def test_rejects_non_finite_boolean_values(self):
+        with self.assertRaises(NotFiniteError):
+            BooleanRangeMapper(false_value=float("inf"))
+
+    def test_rejects_boolean_values_outside_output_range(self):
+        with self.assertRaises(UnsupportedTypeError):
+            BooleanRangeMapper(output_range=(0.0, 1.0), false_value=-0.5)
 
 
 if __name__ == "__main__":

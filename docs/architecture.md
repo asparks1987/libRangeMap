@@ -85,4 +85,4 @@ Wrappers should be thin:
 
 ## Non-Goals
 
-Alpha wrappers should not add new data types. Float, text, bytes, sequences, pixels, custom objects, schemas, and adapter registries remain beta work.
+Alpha wrappers should not silently add unsupported runtime types. Beta family wrappers may expose float, text, bytes, sequences, pixels, custom object schemas, and adapter-style policies only through explicit documented contracts; opaque runtime objects remain out of scope unless users provide extractor/schema metadata.

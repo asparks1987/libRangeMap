@@ -10,10 +10,15 @@ from .serialization import dumps_json, load_json_file, loads_json, save_json_fil
 
 
 def _mapper_from_spec(spec: Dict[str, Any]):
+    from .bytes import BytesRangeMapper
+    from .categorical import CategoricalRangeMapper
     from .boolean import BooleanRangeMapper
     from .float import FloatRangeMapper
     from .integer import IntegerRangeMapper
+    from .map import MapRangeMapper
+    from .temporal import TemporalRangeMapper
     from .text import TextRangeMapper
+    from .image import ImageRangeMapper
 
     if not isinstance(spec, dict):
         raise SerializationError("mapper spec must be a dictionary.")
@@ -23,10 +28,20 @@ def _mapper_from_spec(spec: Dict[str, Any]):
         return IntegerRangeMapper.from_dict(spec)
     if mapper_type == FloatRangeMapper.mapper_type:
         return FloatRangeMapper.from_dict(spec)
+    if mapper_type == BytesRangeMapper.mapper_type:
+        return BytesRangeMapper.from_dict(spec)
+    if mapper_type == CategoricalRangeMapper.mapper_type:
+        return CategoricalRangeMapper.from_dict(spec)
     if mapper_type == BooleanRangeMapper.mapper_type:
         return BooleanRangeMapper.from_dict(spec)
     if mapper_type == TextRangeMapper.mapper_type:
         return TextRangeMapper.from_dict(spec)
+    if mapper_type == MapRangeMapper.mapper_type:
+        return MapRangeMapper.from_dict(spec)
+    if mapper_type == TemporalRangeMapper.mapper_type:
+        return TemporalRangeMapper.from_dict(spec)
+    if mapper_type == ImageRangeMapper.mapper_type:
+        return ImageRangeMapper.from_dict(spec)
     if mapper_type == MAPPER_TYPE_SEQUENCE_RANGE:
         return SequenceRangeMapper.from_dict(spec)
 
@@ -49,6 +64,8 @@ class SequenceRangeMapper:
     ) -> None:
         if not hasattr(element_mapper, "map_value") or not callable(element_mapper.map_value):
             raise UnsupportedTypeError("element_mapper must provide a map_value method.")
+        if not hasattr(element_mapper, "to_dict") or not callable(element_mapper.to_dict):
+            raise UnsupportedTypeError("element_mapper must provide a to_dict method.")
         if not isinstance(allow_empty, bool):
             raise UnsupportedTypeError("allow_empty must be a bool.")
         if not isinstance(preserve_tuples, bool):
@@ -87,6 +104,7 @@ class SequenceRangeMapper:
         """Return a JSON-compatible mapper spec."""
         data = {
             "spec_version": self.spec_version,
+            "implementation_version": _implementation_version(),
             "mapper_type": self.mapper_type,
             "element_mapper": self.element_mapper.to_dict(),
             "allow_empty": self.allow_empty,
@@ -139,3 +157,9 @@ class SequenceRangeMapper:
     def load(cls, path: str) -> "SequenceRangeMapper":
         """Load a mapper spec from a JSON file."""
         return cls.from_dict(load_json_file(path))
+
+
+def _implementation_version() -> str:
+    from . import __version__
+
+    return __version__

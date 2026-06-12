@@ -13,6 +13,25 @@ The project treats wrapper-path parity as the first Alpha v1 gate:
 
 - 25 language runtime paths and quickstarts in-repo (counts ~50% to Alpha v1 completion).
 
+Every wrapper language must also satisfy this minimum implementation checklist:
+
+### Wrapper minimum contract
+
+- install/use guidance
+  - language-idiomatic install/use steps present in `wrappers/<language>/README.md`
+- value-family policy coverage
+  - supported families are declared and failures for unsupported families are explicit
+- unknown/error behavior
+  - `unsupported/unknown` must fail with explicit typed errors or documented errors
+- edge-case behavior
+  - empty containers, missing values, and malformed records must fail unless policy explicitly allows them
+- reproducible spec behavior
+  - mappers expose JSON round-trip for policy + ranges + metadata
+- deterministic range math
+  - canonical formula in `docs/spec.md` for numeric families
+- family usage contract
+  - wrappers that claim a family support must document at least one 2-line paste-ready usage snippet in the wrapper README for that family.
+
 The contract below is the implementation order for all 25 canon languages:
 
 1. floating-point ranges
@@ -72,6 +91,7 @@ Unknown values must fail loudly. No wrapper may silently coerce unknown tokens, 
 
 ### Categorical family
 - Accept only configured vocabulary/token lists or enumerations.
+- Vocabulary tokens are JSON-serializable scalars, and booleans stay distinct from numeric tokens.
 - Unknown token must fail with an explicit typed error.
 
 ### Temporal family
@@ -88,35 +108,71 @@ Unknown values must fail loudly. No wrapper may silently coerce unknown tokens, 
 
 ## Readiness matrix (beta families by language)
 
-Legend: `done`, `in progress`, `planned`.
+This matrix is machine-checked by `compliance/beta_readiness.json`.
+
+Legend:
+
+- `done`: implemented + verifier contract path exists
+- `in progress`: implemented in subset or partially covered
+- `planned`: contract-complete but implementation pending
+- `not in-scope`: wrapper exists for alpha parity but beta family intentionally deferred
 
 | # | Language | Integer | Float | Bool | Text | Bytes | Vocabulary | Sequences | Map/Object | Temporal | Image |
 | -: | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Python | done | done | done | done | planned | planned | done | planned | planned | planned |
-| 2 | C | done | done | done | planned | planned | planned | planned | planned | planned | planned |
-| 3 | Java | done | done | done | done | planned | planned | done | planned | planned | planned |
-| 4 | C++ | done | done | done | planned | planned | planned | planned | planned | planned | planned |
-| 5 | C# | done | done | done | planned | planned | planned | planned | planned | planned | planned |
-| 6 | JavaScript | done | done | done | done | planned | planned | done | planned | planned | planned |
-| 7 | Visual Basic | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 8 | R | done | done | done | planned | planned | planned | planned | planned | planned | planned |
-| 9 | SQL | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 10 | Delphi/Object Pascal | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 11 | Fortran | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 12 | Scratch | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 13 | Perl | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 14 | PHP | done | done | done | planned | planned | planned | planned | planned | planned | planned |
-| 15 | Rust | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 16 | Go | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 17 | Assembly | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 18 | Swift | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 19 | Ada | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 20 | MATLAB | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 21 | Classic VB | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 22 | PL/SQL | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 23 | Ruby | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 24 | Prolog | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| 25 | COBOL | done | planned | planned | planned | planned | planned | planned | planned | planned | planned |
+| 1 | Python | done | done | done | done | done | done | done | done | done | done |
+| 2 | C | done | done | done | done | done | done | done | done | done | done |
+| 3 | Java | done | done | done | done | done | done | done | done | done | done |
+| 4 | C++ | done | done | done | done | done | done | done | done | done | done |
+| 5 | C# | done | done | done | done | done | done | done | done | done | done |
+| 6 | JavaScript | done | done | done | done | done | done | done | done | done | done |
+| 7 | Visual Basic | done | done | done | done | done | done | done | done | done | done |
+| 8 | R | done | done | done | done | done | done | done | done | done | done |
+| 9 | SQL | done | done | done | done | done | done | done | done | done | done |
+| 10 | Delphi/Object Pascal | done | done | done | done | done | done | done | done | done | done |
+| 11 | Fortran | done | done | done | done | done | done | done | done | done | done |
+| 12 | Scratch | done | done | done | done | done | done | done | done | done | done |
+| 13 | Perl | done | done | done | done | done | done | done | done | done | done |
+| 14 | PHP | done | done | done | done | done | done | done | done | done | done |
+| 15 | Rust | done | done | done | done | done | done | done | done | done | done |
+| 16 | Go | done | done | done | done | done | done | done | done | done | done |
+| 17 | Assembly language | done | done | done | done | done | done | done | done | done | done |
+| 18 | Swift | done | done | done | done | done | done | done | done | done | done |
+| 19 | Ada | done | done | done | done | done | done | done | done | done | done |
+| 20 | MATLAB | done | done | done | done | done | done | done | done | done | done |
+| 21 | Classic Visual Basic | done | done | done | done | done | done | done | done | done | done |
+| 22 | PL/SQL | done | done | done | done | done | done | done | done | done | done |
+| 23 | Ruby | done | done | done | done | done | done | done | done | done | done |
+| 24 | Prolog | done | done | done | done | done | done | done | done | done | done |
+| 25 | COBOL | done | done | done | done | done | done | done | done | done | done |
+
+## Runtime smoke checks
+
+Each language wrapper must keep a runnable `test.cmd` smoke checker where environment permits.
+
+- The checker must return code `0` for pass, `2` for environment unavailable/skipped.
+- No wrapper is required to force runtime installation in CI for unsupported environments.
+- `tests/test_alpha_wrapper_runtime.py` is the canonical verifier registry.
+- When a wrapper includes a repeated-call or nested-shape smoke proof, record that evidence in `compliance/beta_readiness.json` so the readiness gate stays machine-readable.
+
+Observed smoke check path examples:
+
+- `wrappers/c/test.cmd`
+- `wrappers/java/test.cmd`
+- `wrappers/rust/test.cmd`
+- `wrappers/plsql/test.cmd`
+
+## Family coverage with explicit extractor gates
+
+Beta allows explicit extractor contracts for opaque runtime objects:
+
+- file handles
+- sockets
+- processes
+- threads
+- closures/functions
+- raw pointers without schema metadata
+
+These values are excluded from implicit mapping; they must be rejected unless a user-defined extractor/schema contract is documented in docs and code.
 
 ## Release checkpoints
 

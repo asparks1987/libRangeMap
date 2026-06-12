@@ -10,4 +10,4 @@ if exist "%VERIFIER%" (
 )
 
 echo Contract verifier unavailable for Prolog wrappers.
-exit /b 1
+exit /b 2

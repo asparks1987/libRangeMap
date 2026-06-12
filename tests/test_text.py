@@ -1,6 +1,6 @@
 import unittest
 
-from librangemap import TextRangeMapper, SerializationError, UnsupportedTypeError
+from librangemap import NotFiniteError, TextRangeMapper, SerializationError, UnsupportedTypeError
 
 
 class TextRangeMapperTests(unittest.TestCase):
@@ -27,6 +27,10 @@ class TextRangeMapperTests(unittest.TestCase):
         with self.assertRaises(UnsupportedTypeError):
             mapper.map_value("d")
 
+    def test_rejects_single_character_alphabet(self):
+        with self.assertRaises(UnsupportedTypeError):
+            TextRangeMapper(mode="alphabet", alphabet="a")
+
     def test_rejects_non_string_value(self):
         mapper = TextRangeMapper()
         with self.assertRaises(UnsupportedTypeError):
@@ -43,6 +47,10 @@ class TextRangeMapperTests(unittest.TestCase):
     def test_unknown_mapper_type_fails(self):
         with self.assertRaises(SerializationError):
             TextRangeMapper.from_dict({"spec_version": "1.0-alpha", "mapper_type": "integer_range"})
+
+    def test_rejects_non_finite_output_range(self):
+        with self.assertRaises(NotFiniteError):
+            TextRangeMapper(output_range=(float("nan"), 1.0))
 
 
 if __name__ == "__main__":

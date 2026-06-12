@@ -1,17 +1,31 @@
 @echo off
+setlocal
+
 set "ROOT=%~dp0..\.."
+set "PHP_EXE=%ROOT%third_party\bin\php.exe"
+if not exist "%PHP_EXE%" set "PHP_EXE="
 
-set "PHP_EXE="
-if exist "C:\Users\Aryns\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.3_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" set "PHP_EXE=C:\Users\Aryns\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.3_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe"
-if not defined PHP_EXE if exist "C:\Users\Aryns\AppData\Local\Programs\PHP\php.exe" set "PHP_EXE=C:\Users\Aryns\AppData\Local\Programs\PHP\php.exe"
-for /f "delims=" %%I in ('where php 2^>nul') do if not defined PHP_EXE set "PHP_EXE=%%I"
+if not exist "%PHP_EXE%" (
+    if exist "C:\\PHP\\php.exe" set "PHP_EXE=C:\\PHP\\php.exe"
+)
+if not exist "%PHP_EXE%" (
+    if exist "C:\\Program Files\\PHP\\php.exe" set "PHP_EXE=C:\\Program Files\\PHP\\php.exe"
+)
+if not exist "%PHP_EXE%" (
+    if exist "C:\\Program Files\\PHP\\PHP 8\\php.exe" set "PHP_EXE=C:\\Program Files\\PHP\\PHP 8\\php.exe"
+)
 
+if not exist "%PHP_EXE%" (
+    for /f "delims=" %%P in ('where php 2^>nul') do (
+        set "PHP_EXE=%%P"
+        goto found
+    )
+)
+
+:found
 if not defined PHP_EXE (
-    echo PHP executable not found.
+    echo PHP executable not found. Install PHP and ensure it is on PATH.
     exit /b 2
 )
 
 "%PHP_EXE%" "%ROOT%\wrappers\php\LibrangeMap.php"
-set "RC=%ERRORLEVEL%"
-if "%RC%"=="5" exit /b 2
-exit /b %RC%

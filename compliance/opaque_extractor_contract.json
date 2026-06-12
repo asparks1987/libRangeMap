@@ -1,0 +1,88 @@
+{
+  "scope": "production_v1_opaque_runtime_extractor_contract",
+  "spec_version": "1.0",
+  "default_policy": "reject_without_explicit_extractor",
+  "goal": "Prevent opaque runtime values from being silently mapped while allowing user-declared data extraction when metadata is sufficient.",
+  "opaque_runtime_types": [
+    "file handles",
+    "sockets",
+    "processes",
+    "threads",
+    "closures",
+    "raw pointers without metadata",
+    "live database cursors",
+    "runtime locks"
+  ],
+  "required_contract_fields": [
+    "contract_type",
+    "source_type",
+    "extractor_name",
+    "output_family",
+    "schema",
+    "failure_policy",
+    "determinism_statement"
+  ],
+  "allowed_output_families": [
+    "integer",
+    "float",
+    "boolean",
+    "text",
+    "bytes",
+    "sequences",
+    "maps_structs_objects",
+    "categorical_vocab",
+    "temporal",
+    "image_like"
+  ],
+  "contract_rules": [
+    "Opaque runtime values must fail with an explicit unsupported-type error unless an extractor contract is supplied.",
+    "Extractor contracts must declare the source runtime type and the ordinary data family produced by extraction.",
+    "Extractor output must be ordinary data that is already supported by a mapper family.",
+    "Extractor contracts must define deterministic behavior for the same source state and configuration.",
+    "Extractor contracts must declare failure behavior for missing metadata, closed resources, unavailable state, and unsupported source values.",
+    "Raw pointers require size, element type, byte order when relevant, ownership/lifetime, and safe-read bounds before extraction.",
+    "Extractor contracts must not add third-party runtime dependencies to the core SDK."
+  ],
+  "required_failures": [
+    {
+      "name": "no_extractor",
+      "condition": "opaque value supplied without extractor contract",
+      "expected_error": "UnsupportedTypeError"
+    },
+    {
+      "name": "missing_metadata",
+      "condition": "extractor contract omits required schema or pointer metadata",
+      "expected_error": "UnsupportedTypeError"
+    },
+    {
+      "name": "non_deterministic_extractor",
+      "condition": "extractor cannot provide deterministic output for same source state and config",
+      "expected_error": "UnsupportedTypeError"
+    },
+    {
+      "name": "unsupported_extractor_output",
+      "condition": "extractor emits a value outside the supported ordinary data families",
+      "expected_error": "UnsupportedTypeError"
+    }
+  ],
+  "minimal_contract_example": {
+    "contract_type": "opaque_extractor",
+    "source_type": "raw pointer",
+    "extractor_name": "read_uint8_buffer",
+    "output_family": "bytes",
+    "schema": {
+      "pointer_metadata_required": {
+        "length": "positive integer",
+        "element_type": "uint8",
+        "ownership": "caller_retains_for_duration",
+        "bounds_checked": true
+      }
+    },
+    "failure_policy": {
+      "missing_length": "UnsupportedTypeError",
+      "invalid_lifetime": "UnsupportedTypeError",
+      "out_of_bounds": "UnsupportedTypeError"
+    },
+    "determinism_statement": "Reads the same byte range from an immutable source buffer for the same pointer metadata."
+  }
+}

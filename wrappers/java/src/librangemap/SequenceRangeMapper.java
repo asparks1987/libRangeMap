@@ -40,7 +40,9 @@ public final class SequenceRangeMapper {
         if (value instanceof List<?>) {
             List<?> items = (List<?>) value;
             if (!allowEmpty && items.isEmpty()) {
-                throw new IllegalArgumentException("empty sequence is invalid by default; set allowEmpty=true to map empty containers.");
+                throw new IllegalArgumentException(
+                        "empty sequence is invalid by default; set allowEmpty=true to map empty containers."
+                );
             }
             List<Object> mapped = new ArrayList<>(items.size());
             for (Object item : items) {
@@ -52,7 +54,9 @@ public final class SequenceRangeMapper {
         if (value.getClass().isArray()) {
             int length = java.lang.reflect.Array.getLength(value);
             if (!allowEmpty && length == 0) {
-                throw new IllegalArgumentException("empty sequence is invalid by default; set allowEmpty=true to map empty containers.");
+                throw new IllegalArgumentException(
+                        "empty sequence is invalid by default; set allowEmpty=true to map empty containers."
+                );
             }
             Object[] mapped = new Object[length];
             for (int i = 0; i < length; i++) {
@@ -65,14 +69,29 @@ public final class SequenceRangeMapper {
     }
 
     private Object mapValueElement(Object value) {
+        if (elementMapper instanceof CategoricalRangeMapper categoricalMapper) {
+            return categoricalMapper.mapValue(value);
+        }
         if (elementMapper instanceof TextRangeMapper textMapper) {
             if (!(value instanceof String)) {
                 return mapScalar(value);
             }
             return textMapper.mapValue((String) value);
         }
+        if (elementMapper instanceof BytesRangeMapper bytesMapper) {
+            if (value instanceof String || value instanceof byte[] || value instanceof int[]) {
+                return bytesMapper.mapValue(value);
+            }
+            return mapScalar(value);
+        }
         if (elementMapper instanceof SequenceRangeMapper nestedMapper) {
             return nestedMapper.mapValue(value);
+        }
+        if (elementMapper instanceof ObjectRangeMapper objectMapper) {
+            return objectMapper.mapValue(value);
+        }
+        if (elementMapper instanceof TemporalRangeMapper temporalMapper) {
+            return temporalMapper.mapValue(value);
         }
         if (value == null) {
             return mapScalar(value);
@@ -149,6 +168,9 @@ public final class SequenceRangeMapper {
             }
             return boolMapper.mapValue((Boolean) value);
         }
+        if (elementMapper instanceof CategoricalRangeMapper categoricalMapper) {
+            return categoricalMapper.mapValue(value);
+        }
 
         if (elementMapper instanceof TextRangeMapper textMapper) {
             if (!(value instanceof String)) {
@@ -157,8 +179,25 @@ public final class SequenceRangeMapper {
             return textMapper.mapValue((String) value);
         }
 
+        if (elementMapper instanceof BytesRangeMapper bytesMapper) {
+            if (value instanceof byte[] bytes) {
+                return bytesMapper.mapValue(bytes);
+            }
+            if (value instanceof int[] bytes) {
+                return bytesMapper.mapValue(bytes);
+            }
+            if (value instanceof String text) {
+                return bytesMapper.mapValue(text);
+            }
+            throw new IllegalArgumentException("value must be a byte[] int[] or string.");
+        }
+
         if (elementMapper instanceof SequenceRangeMapper sequenceMapper) {
             return sequenceMapper.mapValue(value);
+        }
+
+        if (elementMapper instanceof TemporalRangeMapper temporalMapper) {
+            return temporalMapper.mapValue(value);
         }
 
         throw new IllegalArgumentException("unsupported element mapper type " + elementMapper.getClass().getName());
@@ -170,8 +209,12 @@ public final class SequenceRangeMapper {
             case "integer_range" -> IntegerRangeMapper.fromJson(json);
             case "float_range" -> FloatRangeMapper.fromJson(json);
             case "boolean_range" -> BooleanRangeMapper.fromJson(json);
+            case "categorical_range" -> CategoricalRangeMapper.fromJson(json);
             case "text_range" -> TextRangeMapper.fromJson(json);
+            case "bytes_range" -> BytesRangeMapper.fromJson(json);
             case "sequence_range" -> SequenceRangeMapper.fromJson(json);
+            case "map_range" -> ObjectRangeMapper.fromJson(json);
+            case "temporal_range" -> TemporalRangeMapper.fromJson(json);
             default -> throw new IllegalArgumentException("unsupported mapper_type " + mapperType);
         };
     }
@@ -189,8 +232,20 @@ public final class SequenceRangeMapper {
         if (mapper instanceof TextRangeMapper textMapper) {
             return textMapper.toJson();
         }
+        if (mapper instanceof BytesRangeMapper bytesMapper) {
+            return bytesMapper.toJson();
+        }
+        if (mapper instanceof CategoricalRangeMapper categoricalMapper) {
+            return categoricalMapper.toJson();
+        }
         if (mapper instanceof SequenceRangeMapper sequenceMapper) {
             return sequenceMapper.toJson();
+        }
+        if (mapper instanceof ObjectRangeMapper objectMapper) {
+            return objectMapper.toJson();
+        }
+        if (mapper instanceof TemporalRangeMapper temporalMapper) {
+            return temporalMapper.toJson();
         }
         throw new IllegalArgumentException("unsupported element mapper type " + mapper.getClass().getName());
     }
@@ -199,8 +254,12 @@ public final class SequenceRangeMapper {
         if (elementMapper instanceof IntegerRangeMapper
                 || elementMapper instanceof FloatRangeMapper
                 || elementMapper instanceof BooleanRangeMapper
+                || elementMapper instanceof CategoricalRangeMapper
                 || elementMapper instanceof TextRangeMapper
-                || elementMapper instanceof SequenceRangeMapper) {
+                || elementMapper instanceof BytesRangeMapper
+                || elementMapper instanceof SequenceRangeMapper
+                || elementMapper instanceof ObjectRangeMapper
+                || elementMapper instanceof TemporalRangeMapper) {
             return;
         }
         throw new IllegalArgumentException("elementMapper must be a recognized mapper instance.");

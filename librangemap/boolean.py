@@ -2,6 +2,7 @@
 
 from typing import Any, Dict, Optional, Sequence
 
+from .core import require_finite_number
 from .errors import UnsupportedTypeError, SerializationError
 from .spec import DEFAULT_OUTPUT_RANGE, MAPPER_TYPE_BOOLEAN_RANGE, SPEC_VERSION
 from .serialization import dumps_json, load_json_file, loads_json, save_json_file
@@ -20,6 +21,8 @@ def validate_output_range(output_range: object, field_name: str) -> tuple[float,
 
     low_f = float(low)
     high_f = float(high)
+    require_finite_number(low_f, f"{field_name}[0]")
+    require_finite_number(high_f, f"{field_name}[1]")
 
     if not (low_f < high_f):
         raise UnsupportedTypeError(f"{field_name} must be ordered from lower value to higher value.")
@@ -46,6 +49,13 @@ class BooleanRangeMapper:
         self.output_range = validate_output_range(output_range, "output_range")
         self.false_value = float(false_value if false_value is not None else self.output_range[0])
         self.true_value = float(true_value if true_value is not None else self.output_range[1])
+        require_finite_number(self.false_value, "false_value")
+        require_finite_number(self.true_value, "true_value")
+        out_min, out_max = self.output_range
+        if not (out_min <= self.false_value <= out_max):
+            raise UnsupportedTypeError("false_value must be within output_range.")
+        if not (out_min <= self.true_value <= out_max):
+            raise UnsupportedTypeError("true_value must be within output_range.")
         self.name = name
 
     def map_value(self, value: bool) -> float:
@@ -66,6 +76,7 @@ class BooleanRangeMapper:
         """Return a JSON-compatible mapper spec."""
         data = {
             "spec_version": self.spec_version,
+            "implementation_version": _implementation_version(),
             "mapper_type": self.mapper_type,
             "output_range": [self.output_range[0], self.output_range[1]],
             "false_value": self.false_value,
@@ -113,3 +124,9 @@ class BooleanRangeMapper:
     def load(cls, path: str) -> "BooleanRangeMapper":
         """Load a mapper spec from a JSON file."""
         return cls.from_dict(load_json_file(path))
+
+
+def _implementation_version() -> str:
+    from . import __version__
+
+    return __version__

@@ -85,6 +85,7 @@ class FloatRangeMapper:
         """Return a JSON-compatible mapper spec."""
         data = {
             "spec_version": self.spec_version,
+            "implementation_version": _implementation_version(),
             "mapper_type": self.mapper_type,
             "input_range": [float(self.input_range[0]), float(self.input_range[1])],
             "output_range": [self.output_range[0], self.output_range[1]],
@@ -132,3 +133,9 @@ class FloatRangeMapper:
     def load(cls, path: str) -> "FloatRangeMapper":
         """Load a mapper spec from a JSON file."""
         return cls.from_dict(load_json_file(path))
+
+
+def _implementation_version() -> str:
+    from . import __version__
+
+    return __version__

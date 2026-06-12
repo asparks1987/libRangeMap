@@ -8,10 +8,10 @@ python -m pip install .
 
 ## 2-Second Start
 
-Default range is `[-1.0, 1.0]`; input domain defaults to integers in `[0,100]`.
-This is the canonical integer line that every supported language follows.
+Default range is `[-1.0, 1.0]`; input defaults for examples use integer domain `[0, 100]`.
+Each language path has a matching one-liner.
 
-Use the matching one-liner for your language:
+## 2-Second Client Quickstart
 
 | Language | Exact call |
 | --- | --- |
@@ -39,80 +39,15 @@ Use the matching one-liner for your language:
 | PL/SQL | `mapped := libRangeMap_map_integer(50, 0, 100, -1, 1, FALSE);` |
 | Ruby | `mapped = LibrangeMap::IntegerRangeMapper.new(0, 100).map_value(50)` |
 | Prolog | `?- map_integer_value(50, 0, 100, -1.0, 1.0, false, Mapped).` |
-| COBOL | `* use WRAPPER signature in wrappers\\cobol\\librangemap.cob` |
+| COBOL | `MOVE 50 TO WS-VALUE`<br/>`MOVE 0 TO WS-INPUT-MIN`<br/>`MOVE 100 TO WS-INPUT-MAX`<br/>`MOVE -1.0 TO WS-OUTPUT-MIN`<br/>`MOVE 1.0 TO WS-OUTPUT-MAX`<br/>`CALL "LIBRANGEMAP" USING WS-VALUE WS-INPUT-MIN WS-INPUT-MAX WS-OUTPUT-MIN WS-OUTPUT-MAX WS-CLIP RETURNING WS-OUTPUT-SPAN.` |
 
-See `wrappers/<language>/README.md` for exact import / namespace / module load instructions per language.
+See `wrappers/<language>/README.md` for exact import / namespace / module loading steps.
 
-### Beta readiness
+### Readability goal
 
-For next families beyond integer mapping (floats, booleans, text, bytes, sequences, maps, images), use:
+`2-Second Start` means you can paste one line and get a deterministic mapped float.
 
-- the required policy in each language wrapper README
-- family readiness and execution gates in [Beta Wrapper Contract](beta_wrapper_contract.md)
-
-## Implemented family shortcuts now
-
-### Python
-
-```python
-from librangemap import IntegerRangeMapper, FloatRangeMapper, BooleanRangeMapper, TextRangeMapper, SequenceRangeMapper
-
-IntegerRangeMapper(input_range=(0, 100)).map_value(50)
-FloatRangeMapper(input_range=(0.0, 1.0)).map_value(0.5)
-BooleanRangeMapper().map_value(True)
-TextRangeMapper(mode="alphabet", alphabet="abc", allow_empty=True).map_value("cab")
-
-SequenceRangeMapper(IntegerRangeMapper(input_range=(0, 100))).map_value([0, [10, 20], (30, 40)])
-```
-
-### C and C++
-
-```c
-double mapped_c;
-lrm_map_float(0.0, 1.0, -1.0, 1.0, 0, 0.5, &mapped_c);   // C
-```
-
-```cpp
-double mapped_cpp = librangemap::FloatRangeMapper(0.0, 1.0).map_value(0.5);
-librangemap::BooleanRangeMapper bool_mapper;
-double mapped_bool_cpp = bool_mapper.map_value(false);
-```
-
-### Java
-
-```java
-import librangemap.IntegerRangeMapper;
-import librangemap.SequenceRangeMapper;
-import librangemap.TextRangeMapper;
-
-new IntegerRangeMapper(0, 100).mapValue(50);
-new TextRangeMapper().map("A");
-new SequenceRangeMapper(new IntegerRangeMapper(0, 100))
-    .mapValue(new int[]{0, 25, 50, 75, 100});
-```
-
-### JavaScript
-
-```js
-const { IntegerRangeMapper, FloatRangeMapper, BooleanRangeMapper, TextRangeMapper, SequenceRangeMapper } = require("../wrappers/javascript");
-
-new IntegerRangeMapper([0, 100]).mapValue(50);
-new FloatRangeMapper([0.0, 1.0]).mapValue(0.5);
-new BooleanRangeMapper().mapValue(true);
-new TextRangeMapper([-1.0, 1.0], "codepoint", { allowEmpty: true }).mapValue("ab");
-new SequenceRangeMapper(new IntegerRangeMapper([0, 100])).mapValue([0, [25, 50, [75, 100]]]);
-```
-
-### C Sharp
-
-```csharp
-var mapper = new LibRangeMap.FloatRangeMapper(0.0, 1.0);
-var boolMapper = new LibRangeMap.BooleanRangeMapper();
-var mapped = mapper.MapValue(0.5);
-var mappedBool = boolMapper.MapValue(true);
-```
-
-## Behavior check
+## Behavior check (strict + clip)
 
 Strict mode is default. To clip out-of-range values:
 
@@ -128,12 +63,45 @@ mapper = IntegerRangeMapper(input_range=(0, 100), clip=False)
 mapper.map_value(101)  # raises OutOfRangeError
 ```
 
-## Language scope and current blocker
+## Implemented family shortcuts (practical)
 
-Alpha language scope is fixed to the 25 canonical targets (Python, C, Java, C++, C#, JavaScript, Visual Basic, R, SQL, Delphi/Object Pascal, Fortran, Scratch, Perl, PHP, Rust, Go, Assembly language, Swift, Ada, MATLAB, Classic VB, PL/SQL, Ruby, Prolog, COBOL).  
+```python
+from datetime import timedelta
 
-`Wrapper-path coverage (all 25)` is the Alpha parity gate and remains the primary gate for v1 readiness.
-The remaining active blocker is **family depth**: sequence, text/bytes, map/object, and image families are in progressive rollout by language, while float/boolean support is still incomplete beyond the currently implemented language set.
+from librangemap import (
+    BooleanRangeMapper,
+    BytesRangeMapper,
+    CategoricalRangeMapper,
+    ImageRangeMapper,
+    FloatRangeMapper,
+    IntegerRangeMapper,
+    MapRangeMapper,
+    SequenceRangeMapper,
+    TextRangeMapper,
+    TemporalRangeMapper,
+)
+
+IntegerRangeMapper(input_range=(0, 100)).map_value(50)
+FloatRangeMapper(input_range=(0.0, 1.0)).map_value(0.5)
+BooleanRangeMapper().map_value(True)
+TextRangeMapper(mode="alphabet", alphabet="abc", allow_empty=True).map_value("cab")  # alphabet mode requires at least 2 unique symbols
+SequenceRangeMapper(IntegerRangeMapper(input_range=(0, 100))).map_value([0, [10, 20], (30, 40)])
+BytesRangeMapper(output_range=(0.0, 255.0)).map_value(b"AB")
+MapRangeMapper({"age": IntegerRangeMapper(input_range=(0, 120), clip=True), "is_member": BooleanRangeMapper()}).map_value(
+    {"age": 30, "is_member": True}
+)
+TemporalRangeMapper(input_range=(0.0, 120.0), mode="duration").map_value(timedelta(seconds=60))
+ImageRangeMapper(input_range=(0, 255), mode="raw_bytes").map_value(b"AB")
+```
+
+## Compatibility status and next step
+
+The former beta blocker, **family breadth**, is closed in the manifest: all 25 language wrappers now expose the beta families listed in the compatibility matrix. Production readiness still depends on shared conformance fixtures, environment-specific runtime verification, packaging hardening, and explicit extractor/schema contracts for opaque runtime objects.
+
+For non-integer families, follow the family status and required policies in:
+
+- [Beta Wrapper Contract](beta_wrapper_contract.md)
+- [Compatibility Matrix](compatibility.md)
 
 ## Formula
 

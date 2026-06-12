@@ -25,7 +25,7 @@ if not defined RUBY_EXE (
         exit /b %ERRORLEVEL%
     )
     echo Contract verifier unavailable for Ruby wrappers.
-    exit /b 1
+    exit /b 2
 )
 
 %RUBY_EXE% "%ROOT%\wrappers\ruby\verify\verify.rb"

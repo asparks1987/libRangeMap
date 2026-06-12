@@ -1,0 +1,69 @@
+{
+  "scope": "beta_mapper_spec_metadata_contract",
+  "spec_version": "1.0",
+  "description": "Required JSON-compatible metadata keys for reproducible mapper specs across beta families.",
+  "common_required_fields": [
+    "spec_version",
+    "implementation_version",
+    "mapper_type"
+  ],
+  "family_contracts": [
+    {
+      "family": "integer",
+      "mapper_type": "integer_range",
+      "required_fields": ["input_range", "output_range", "clip"]
+    },
+    {
+      "family": "float",
+      "mapper_type": "float_range",
+      "required_fields": ["input_range", "output_range", "clip"]
+    },
+    {
+      "family": "boolean",
+      "mapper_type": "boolean_range",
+      "required_fields": ["output_range", "false_value", "true_value"]
+    },
+    {
+      "family": "text",
+      "mapper_type": "text_range",
+      "required_fields": ["mode", "alphabet", "output_range", "allow_empty", "clip"]
+    },
+    {
+      "family": "bytes",
+      "mapper_type": "bytes_range",
+      "required_fields": ["output_range", "allow_empty"]
+    },
+    {
+      "family": "sequences",
+      "mapper_type": "sequence_range",
+      "required_fields": ["element_mapper", "allow_empty", "preserve_tuples"]
+    },
+    {
+      "family": "maps_structs_objects",
+      "mapper_type": "map_range",
+      "required_fields": ["schema", "allow_unknown", "allow_empty"]
+    },
+    {
+      "family": "categorical_vocab",
+      "mapper_type": "categorical_range",
+      "required_fields": ["vocabulary", "output_range"]
+    },
+    {
+      "family": "temporal",
+      "mapper_type": "temporal_range",
+      "required_fields": ["input_range", "output_range", "clip", "mode", "epoch", "naive_datetime_policy"]
+    },
+    {
+      "family": "image_like",
+      "mapper_type": "image_range",
+      "required_fields": ["input_range", "output_range", "clip", "mode", "allow_empty", "preserve_tuples"]
+    }
+  ],
+  "metadata_rules": [
+    "Specs must be JSON-compatible and must not include raw datasets.",
+    "Specs must include enough fields to reproduce fitted ranges, vocabularies, and policy flags.",
+    "Nested mapper specs must recursively include the common required fields.",
+    "Unknown mapper_type or spec_version values must fail during recovery.",
+    "Optional human metadata such as name may be included but is not required."
+  ]
+}

@@ -1,0 +1,562 @@
+{
+  "scope": "beta_v1_readiness",
+  "spec_version": "1.0",
+  "goal": "practical_interoperability_for_major_ordinary_types",
+  "beta_v1_status": "complete",
+  "production_v1_status": "path_defined_hardening_pending",
+  "alpha_v1_manifest": "compliance/alpha_v1_languages.json",
+  "contract": "docs/spec.md",
+  "wrapper_contract": "docs/beta_wrapper_contract.md",
+  "milestones": {
+    "Foundation": "complete",
+    "Wrapper parity": "done",
+    "Compatibility matrix": "complete",
+    "Docs finish": "complete",
+    "Packaging readiness": "complete_for_beta"
+  },
+  "readiness_gates": {
+    "Foundation": {
+      "status": "complete",
+      "alpha_completion_weight": 0.15
+    },
+    "Wrapper parity": {
+      "status": "done",
+      "alpha_completion_weight": 0.5,
+      "notes": "All 25 language wrappers and quickstart paths are present in-tree."
+    },
+    "Compatibility matrix": {
+      "status": "complete",
+      "alpha_completion_weight": 0.25,
+      "target": "beta",
+      "notes": "All 25 canonical language wrappers list all 10 beta mapper families as implemented; production conformance depth remains tracked separately."
+    },
+    "Docs finish": {
+      "status": "complete",
+      "alpha_completion_weight": 0.05,
+      "target": "beta",
+      "notes": "README, quickstart, docs site, wrapper contract, compatibility matrix, beta evidence map, and production path describe the current beta state and production blockers."
+    },
+    "Packaging readiness": {
+      "status": "complete_for_beta",
+      "alpha_completion_weight": 0.05,
+      "target": "beta",
+      "notes": "Core packaging remains dependency-free, smoke/result artifacts exist, and production release hardening continues separately."
+    }
+  },
+  "production_target": {
+    "goal": "99_percent_plus_practical_coverage",
+    "base_ordinary_coverage": 0.99,
+    "extractor_required_for_opaque_runtime_objects": true,
+    "opaque_runtime_objects": [
+      "file handles",
+      "sockets",
+      "processes",
+      "threads",
+      "closures",
+      "raw pointers without metadata"
+    ]
+  },
+  "default_output_range": [
+    -1.0,
+    1.0
+  ],
+  "opaque_runtime_extractor_required": [
+    "file handles",
+    "sockets",
+    "processes",
+    "threads",
+    "closures",
+    "raw pointers without metadata"
+  ],
+  "families": [
+    "integer",
+    "float",
+    "boolean",
+    "text",
+    "bytes",
+    "sequences",
+    "maps_structs_objects",
+    "categorical_vocab",
+    "temporal",
+    "image_like"
+  ],
+  "languages": [
+    {
+      "order": 1,
+      "name": "Python",
+      "slug": "python",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "image_like",
+        "temporal"
+      ],
+      "planned": []
+    },
+    {
+      "order": 2,
+      "name": "C",
+      "slug": "c",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [
+      ],
+      "notes": "C wrapper now includes schema-driven map/object mapping with deterministic sorted output ordering, explicit unknown key handling, missing-policy behavior, sequence-field support, and byte/text/temporal determinism checks."
+    },
+    {
+      "order": 3,
+      "name": "Java",
+      "slug": "java",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "notes": "Verifier includes repeated-call determinism on the canonical integer path, temporal coverage, image-like coverage, and nested-object coverage."
+    },
+    {
+      "order": 4,
+      "name": "C++",
+      "slug": "cpp",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "C++ verifier now exercises repeated-call determinism on scalar paths, nested sequence mapping, bytes coverage, image-like coverage, and nested map/object JSON round-trips."
+    },
+    {
+      "order": 5,
+      "name": "C#",
+      "slug": "csharp",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "bytes",
+        "text",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "image_like",
+        "temporal"
+      ],
+      "planned": [],
+      "notes": "Verifier includes repeated-call determinism on the canonical integer path, temporal coverage, categorical coverage, and image-like coverage."
+    },
+    {
+      "order": 6,
+      "name": "JavaScript",
+      "slug": "javascript",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "notes": "Smoke path includes repeated-call determinism on the canonical integer path, temporal coverage, image-like coverage, and nested-object coverage."
+    },
+    {
+      "order": 7,
+      "name": "Visual Basic",
+      "slug": "vb",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Visual Basic wrapper now exercises repeated-call determinism on the canonical integer path, text coverage, bytes coverage, image-like raw byte coverage, categorical coverage, map/object coverage, temporal coverage, and typed sequence mapping."
+    },
+    {
+      "order": 8,
+      "name": "R",
+      "slug": "r",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "bytes",
+        "text",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "R self-checks include repeated-call determinism on the canonical integer path, bytes coverage, text coverage, sequence coverage, categorical coverage, map/object coverage, temporal coverage, and recursive image-like coverage."
+    },
+    {
+      "order": 9,
+      "name": "SQL",
+      "slug": "sql",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Verification test includes repeated-call determinism on the canonical integer, float, boolean, text, bytes, sequence, categorical, temporal, and map/object paths."
+    },
+    {
+      "order": 10,
+      "name": "Delphi/Object Pascal",
+      "slug": "delphi",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Delphi/Object Pascal wrapper now exercises repeated-call determinism on the canonical integer path, text coverage, byte coverage, typed sequence mapping, categorical coverage, temporal coverage, and raw image-like coverage."
+    },
+    {
+      "order": 11,
+      "name": "Fortran",
+      "slug": "fortran",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "temporal",
+        "image_like",
+        "maps_structs_objects"
+      ],
+      "planned": [],
+      "notes": "Fortran wrapper now exercises repeated-call determinism on the canonical integer path, text coverage, sequence mapping, categorical coverage, bytes coverage, temporal coverage, image-like coverage, and schema-driven map/object coverage."
+    },
+    {
+      "order": 12,
+      "name": "Scratch",
+      "slug": "scratch",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "bytes",
+        "sequences",
+        "text",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Scratch spec now documents integer, float, boolean, text, bytes, temporal, recursive sequence, categorical, map/object, and image-like raw channel mapping paths as explicit block contracts."
+    },
+    {
+      "order": 13,
+      "name": "Perl",
+      "slug": "perl",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "sequences",
+        "bytes",
+        "text",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Perl wrapper now exercises repeated-call determinism on the canonical integer path, float coverage, boolean coverage, typed sequence mapping, bytes coverage, text coverage, categorical coverage, nested map/object mapping, temporal coverage, and image-like coverage. Object mapping uses sorted schema keys for deterministic field order."
+    },
+    {
+      "order": 14,
+      "name": "PHP",
+      "slug": "php",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "image_like",
+        "temporal"
+      ],
+      "planned": [],
+      "notes": "Verification script includes repeated-call determinism, repeated bytes mapping coverage, image-like coverage, and temporal coverage."
+    },
+    {
+      "order": 15,
+      "name": "Rust",
+      "slug": "rust",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Rust wrapper now exercises repeated-call determinism on the canonical integer path, text and bytes round-trips, typed sequence mapping, categorical coverage, temporal coverage, image-like coverage, and schema-driven map/object coverage."
+    },
+    {
+      "order": 16,
+      "name": "Go",
+      "slug": "go",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [
+      ],
+      "notes": "Go wrapper now includes schema-driven map/object coverage with deterministic field sorting, unknown-field failure behavior, optional permissive unknown handling, nested-map support, sequence child support, and JSON round-trips."
+    },
+    {
+      "order": 17,
+      "name": "Assembly language",
+      "slug": "assembly",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Assembly reference now documents explicit ABI-level contracts for integer, float, boolean, text, bytes, sequences, map/object, categorical, temporal, and raw image-like channel mapping."
+    },
+    {
+      "order": 18,
+      "name": "Swift",
+      "slug": "swift",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Swift wrapper now exercises repeated-call determinism on the canonical integer path, text round-trips, bytes coverage, typed sequence mapping, categorical coverage, map/object coverage, temporal coverage, and image-like row mapping."
+    },
+    {
+      "order": 19,
+      "name": "Ada",
+      "slug": "ada",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "sequences",
+        "bytes",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Ada wrapper now includes integer, float, boolean, text, sequence, bytes, categorical, map/object, temporal, and image-like mapping paths."
+    },
+    {
+      "order": 20,
+      "name": "MATLAB",
+      "slug": "matlab",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "sequences",
+        "bytes",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "MATLAB wrapper now exercises repeated-call determinism on the canonical integer path and sequence mapping, plus float, boolean, bytes, categorical, map/object, temporal, and image-like coverage."
+    },
+    {
+      "order": 21,
+      "name": "Classic Visual Basic",
+      "slug": "vb6",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "temporal",
+        "image_like",
+        "maps_structs_objects"
+      ],
+      "planned": [],
+      "notes": "Classic Visual Basic wrapper now includes integer, float, boolean, text, sequence, bytes, categorical, temporal, image-like, and map/object canonical smoke coverage."
+    },
+    {
+      "order": 22,
+      "name": "PL/SQL",
+      "slug": "plsql",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "PL/SQL wrapper now documents integer, float, boolean, text, bytes, sequence, categorical, map/object, temporal, and image-like raw payload mapping paths."
+    },
+    {
+      "order": 23,
+      "name": "Ruby",
+      "slug": "ruby",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "categorical_vocab",
+        "maps_structs_objects",
+        "image_like",
+        "temporal"
+      ],
+      "planned": [],
+      "notes": "Ruby smoke path includes repeated-call determinism for the canonical integer, float, boolean, text, bytes, sequence, categorical, temporal, map/object, and image-like paths."
+    },
+    {
+      "order": 24,
+      "name": "Prolog",
+      "slug": "prolog",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "image_like",
+        "categorical_vocab",
+        "temporal"
+      ],
+      "planned": [],
+      "notes": "Predicate reference now includes map/object and image-like coverage with deterministic nested object and image payload mapping, plus explicit unknown/missing field and malformed image failure contracts."
+    },
+    {
+      "order": 25,
+      "name": "COBOL",
+      "slug": "cobol",
+      "implemented": [
+        "integer",
+        "float",
+        "boolean",
+        "text",
+        "bytes",
+        "sequences",
+        "maps_structs_objects",
+        "categorical_vocab",
+        "temporal",
+        "image_like"
+      ],
+      "planned": [],
+      "notes": "Reference routine now implements fixed-schema map/object and image-like entrypoints plus explicit temporal and categorical-vocab family implementations with empty-policy, schema, clipping, duplicate, and unknown-token error contracts."
+    }
+  ]
+}
+
+
+

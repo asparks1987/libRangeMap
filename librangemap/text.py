@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Sequence
 
+from .core import map_linear, require_finite_number
 from .errors import SerializationError, UnsupportedTypeError
-from .core import map_linear
 from .spec import DEFAULT_OUTPUT_RANGE, MAPPER_TYPE_TEXT_RANGE, SPEC_VERSION
 from .serialization import dumps_json, load_json_file, loads_json, save_json_file
 
@@ -28,7 +28,8 @@ def _validate_output_range(output_range: object, field_name: str) -> tuple[float
 
     low_f = float(low)
     high_f = float(high)
-
+    require_finite_number(low_f, f"{field_name}[0]")
+    require_finite_number(high_f, f"{field_name}[1]")
     if not (low_f < high_f):
         raise UnsupportedTypeError(f"{field_name} must be ordered from lower value to higher value.")
 
@@ -38,6 +39,8 @@ def _validate_output_range(output_range: object, field_name: str) -> tuple[float
 def _validate_alphabet(value: object, field_name: str) -> str:
     if not isinstance(value, str) or not value:
         raise UnsupportedTypeError(f"{field_name} must be a non-empty string alphabet.")
+    if len(value) < 2:
+        raise UnsupportedTypeError(f"{field_name} must contain at least two unique characters.")
     return value
 
 
@@ -149,6 +152,7 @@ class TextRangeMapper:
         """Return a JSON-compatible mapper spec."""
         data = {
             "spec_version": self.spec_version,
+            "implementation_version": _implementation_version(),
             "mapper_type": self.mapper_type,
             "output_range": [self.output_range[0], self.output_range[1]],
             "mode": self.mode,
@@ -201,3 +205,9 @@ class TextRangeMapper:
     def load(cls, path: str) -> "TextRangeMapper":
         """Load a mapper spec from disk."""
         return cls.from_dict(load_json_file(path))
+
+
+def _implementation_version() -> str:
+    from . import __version__
+
+    return __version__
