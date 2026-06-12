@@ -8,7 +8,8 @@ The recommended core architecture is:
 C core -> stable C ABI -> first-party language wrappers
 ```
 
-The current Python implementation is a useful reference, source installs now compile the first-party C core, and first-party C, Go, C#, Java, JavaScript, C++, Rust, Visual Basic, and Ruby runtime paths now exercise the shared ABI or matching contract. The project still needs the remaining canon wrappers before it can claim language-agnostic Alpha v1 readiness.
+The current Python implementation is a useful reference, source installs now compile the first-party C core, and first-party runtimes for all 25 canon languages now exist in-tree.
+Runtime coverage is currently blocked by **language-family depth** (floats, booleans, text, bytes, sequences, maps, and image support), not by missing wrapper paths.
 
 ## Why C Core
 
@@ -31,7 +32,8 @@ Alpha v1 reaches 100% only when:
 - the integer range mapper exists in a first-party C core,
 - the C ABI is documented,
 - Python uses or mirrors the C core behavior,
-- all 25 Alpha v1 language targets pass the shared compliance fixture,
+- all 25 Alpha v1 language targets have canonical in-tree paths and wrapper READMEs,
+- language runtimes and tests show executable parity for `verified`/`skipped` states across 25 language paths (toolchain-gated),
 - no wrapper adds runtime dependencies,
 - and docs show how each supported language uses the same mapping contract.
 
@@ -67,7 +69,7 @@ The Alpha v1 language target set is canonically fixed to these 25 programming la
 | 24 | Prolog |
 | 25 | COBOL |
 
-Every language target needs a first-party runtime, wrapper, or implementation path that passes the shared Alpha integer compliance fixture before Alpha v1 can claim 100%.
+Every language target needs a first-party runtime/wrapper path and shared contract evidence before Alpha v1 can claim 100% readiness.
 
 ## Wrapper Rules
 

@@ -11,19 +11,22 @@
       --ink: #f0f6fc;
       --muted: #8b949e;
       --dim: #6e7681;
-      --dark-900: #0d1117;
-      --dark-850: #010409;
+      --bg-page: #0b1118;
+      --bg-panel: #161b22;
+      --bg-surface: #21262d;
+      --bg-surface-2: #30363d;
+      --dark-900: #070b10;
+      --dark-850: #0a0f15;
       --dark-800: #161b22;
-      --dark-700: #21262d;
       --dark-600: #30363d;
       --panel: #161b22;
-      --panel-2: #0d1117;
+      --panel-alt: #1c2128;
       --blue: #58a6ff;
       --cyan: #39d0d8;
+      --accent: #1f6feb;
       --green: #3fb950;
-      --gold: #d29922;
       --line: #30363d;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+      --shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
@@ -39,10 +42,15 @@
       margin: 0;
       min-width: 320px;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 20% 0%, rgba(88, 166, 255, 0.15), transparent 34rem),
-        linear-gradient(180deg, var(--dark-850) 0%, var(--dark-900) 28%, var(--dark-900) 100%);
+      background: var(--bg-page);
       line-height: 1.5;
+    }
+
+    main {
+      background:
+        radial-gradient(1100px 420px at 88% -8%, rgba(88, 166, 255, 0.07), transparent 56%),
+        radial-gradient(760px 320px at 8% 3%, rgba(57, 208, 216, 0.05), transparent 46%),
+        var(--bg-page);
     }
 
     a {
@@ -55,7 +63,7 @@
       top: 0;
       z-index: 20;
       border-bottom: 1px solid var(--line);
-      background: rgba(1, 4, 9, 0.88);
+      background: rgba(13, 17, 23, 0.96);
       backdrop-filter: blur(14px);
     }
 
@@ -64,7 +72,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 1.5rem;
-      width: min(1180px, calc(100% - 40px));
+      width: min(1180px, calc(100% - 44px));
       margin: 0 auto;
       min-height: 72px;
     }
@@ -82,10 +90,10 @@
       place-items: center;
       width: 34px;
       height: 34px;
-      border: 1px solid rgba(57, 208, 216, 0.42);
+      border: 1px solid rgba(88, 166, 255, 0.35);
       border-radius: 8px;
-      background: linear-gradient(135deg, rgba(88, 166, 255, 0.22), rgba(57, 208, 216, 0.10));
-      color: var(--cyan);
+      background: #0d1117;
+      color: var(--blue);
       font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
       font-weight: 800;
     }
@@ -107,13 +115,14 @@
 
     .nav-links a:hover {
       color: var(--ink);
-      background: rgba(177, 186, 196, 0.08);
+      background: rgba(88, 166, 255, 0.15);
     }
 
     .hero {
       width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 84px 0 64px;
+      padding: 76px 0 78px;
+      border-bottom: 1px solid var(--line);
     }
 
     .hero-grid {
@@ -176,15 +185,15 @@
     }
 
     .button.primary {
-      color: #06121d;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      box-shadow: 0 14px 40px rgba(88, 166, 255, 0.22);
+      color: #ffffff;
+      background: var(--accent);
+      box-shadow: 0 0 0 1px rgba(88, 166, 255, 0.2) inset;
     }
 
     .button.secondary {
       color: var(--ink);
       border-color: var(--line);
-      background: var(--dark-800);
+      background: #0d1622;
     }
 
     .terminal {
@@ -194,7 +203,7 @@
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: var(--dark-850);
+      background: #0b1118;
       box-shadow: var(--shadow);
     }
 
@@ -205,7 +214,7 @@
       padding: 0.82rem 1rem;
       color: var(--muted);
       border-bottom: 1px solid var(--line);
-      background: var(--dark-800);
+      background: #121821;
       font-size: 0.86rem;
     }
 
@@ -297,18 +306,26 @@
       color: var(--muted);
     }
 
+    .section-rule {
+      width: 52px;
+      height: 2px;
+      border-radius: 999px;
+      margin: 0.5rem 0 0.9rem;
+      background: linear-gradient(90deg, rgba(88, 166, 255, 0), rgba(88, 166, 255, 0.55), rgba(88, 166, 255, 0));
+    }
+
     .copy-panel {
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: rgba(12, 19, 31, 0.9);
+      background: var(--dark-800);
       box-shadow: var(--shadow);
     }
 
     .copy-row {
       display: grid;
-      grid-template-columns: 54px minmax(130px, 190px) minmax(0, 1fr);
-      align-items: center;
+      grid-template-columns: 42px minmax(132px, 220px) minmax(0, 1fr);
+      align-items: start;
       gap: 1rem;
       border-top: 1px solid var(--line);
       padding: 0.9rem 1rem;
@@ -319,7 +336,7 @@
     }
 
     .copy-row:hover {
-      background: rgba(88, 166, 255, 0.07);
+      background: rgba(88, 166, 255, 0.06);
     }
 
     .num {
@@ -330,33 +347,47 @@
     .language {
       font-weight: 800;
       color: var(--ink);
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .copy-panel .language {
+      white-space: normal;
     }
 
     .copy-code {
       overflow-x: auto;
-      white-space: nowrap;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
       color: #dce8f7;
-      background: var(--dark-850);
+      background: #0b1118;
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 0.7rem 0.8rem;
       font-size: 0.9rem;
+      min-width: 0;
+      line-height: 1.35;
     }
 
-    .light-wrap {
+    .alt-section {
       color: var(--ink);
-      background: var(--dark-800);
+      background: linear-gradient(180deg, var(--bg-page), #0d1117 70%);
       border-top: 1px solid var(--line);
-      padding: 76px 0;
+      border-bottom: 1px solid var(--line);
+      padding: 68px 0;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
     }
 
-    .light-inner {
+    .alt-inner {
       width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
+      color: var(--ink);
     }
 
-    .light-inner h2 {
+    .alt-inner h2 {
       color: var(--ink);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
     }
 
     .cards {
@@ -371,7 +402,7 @@
       padding: 1.4rem;
       border: 1px solid var(--line);
       border-radius: 10px;
-      background: var(--dark-900);
+      background: var(--panel-alt);
       box-shadow: 0 14px 35px rgba(1, 4, 9, 0.24);
     }
 
@@ -391,7 +422,7 @@
       margin-top: 30px;
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: var(--dark-900);
+      background: var(--panel-alt);
       overflow: hidden;
     }
 
@@ -405,7 +436,7 @@
 
     .status-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 12px;
       margin-top: 28px;
     }
@@ -413,7 +444,7 @@
     .status {
       padding: 1rem;
       border-radius: 10px;
-      background: var(--dark-900);
+      background: var(--panel-alt);
       border: 1px solid var(--line);
       min-height: 140px;
     }
@@ -464,12 +495,12 @@
       border: 1px solid var(--line);
       border-radius: 10px;
       color: var(--ink);
-      background: var(--dark-800);
+      background: var(--panel-alt);
     }
 
     .docs-list a:hover {
       border-color: rgba(88, 166, 255, 0.55);
-      background: rgba(88, 166, 255, 0.10);
+      background: #1f2933;
     }
 
     .docs-list span {
@@ -481,9 +512,15 @@
 
     footer {
       color: var(--muted);
-      background: var(--dark-900);
+      background: linear-gradient(180deg, var(--dark-900), #020408);
       border-top: 1px solid var(--line);
-      padding: 34px 0;
+      border-bottom: 1px solid #30363d;
+      padding: 36px 0;
+      position: relative;
+      overflow: hidden;
+      margin-top: 24px;
+      isolation: isolate;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
     }
 
     footer .inner {
@@ -493,6 +530,57 @@
       gap: 1rem;
       width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
+      color: var(--ink);
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+      padding: 0 4px;
+    }
+
+    footer a {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    footer small {
+      color: #7d8590;
+      font-size: 0.9rem;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(88, 166, 255, 0), rgba(88, 166, 255, 0.28), rgba(88, 166, 255, 0));
+      opacity: 0.75;
+    }
+
+    footer::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(240, 246, 252, 0), rgba(240, 246, 252, 0.14), rgba(240, 246, 252, 0));
+      opacity: 0.45;
+    }
+
+    .support {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 12px 4px 4px;
+      color: var(--dim);
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      border-top: 1px solid #161b22;
     }
 
     @media (max-width: 880px) {
@@ -524,12 +612,16 @@
       }
 
       .copy-row {
-        grid-template-columns: 42px 1fr;
+        grid-template-columns: 42px minmax(120px, 1fr) minmax(0, 2.2fr);
         align-items: start;
       }
 
       .copy-code {
         grid-column: 1 / -1;
+      }
+
+      .copy-panel .language {
+        white-space: nowrap;
       }
 
       .section-head {
@@ -570,8 +662,8 @@
             <strong>[-1.0, 1.0]</strong>.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#quickstart">Find your line</a>
-            <a class="button secondary" href="quickstart.html">Read quickstart</a>
+        <a class="button primary" href="#quickstart">Find your line</a>
+            <a class="button secondary" href="#contract">Read contract</a>
           </div>
         </div>
 
@@ -604,6 +696,7 @@ mapped = <span class="accent">0.0</span></code></pre>
         </div>
         <p>Every row maps value <code>50</code> from input range <code>[0, 100]</code> into default output range <code>[-1.0, 1.0]</code>.</p>
       </div>
+      <div class="section-rule" aria-hidden="true"></div>
 
       <div class="copy-panel">
         <div class="copy-row"><span class="num">01</span><span class="language">Python</span><code class="copy-code">from librangemap import IntegerRangeMapper; mapped = IntegerRangeMapper(input_range=(0, 100)).map_value(50)</code></div>
@@ -634,15 +727,16 @@ mapped = <span class="accent">0.0</span></code></pre>
       </div>
     </section>
 
-    <section id="contract" class="light-wrap" aria-labelledby="contract-title">
-      <div class="light-inner">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow" style="color:#1a6f85">canonical contract</div>
-            <h2 id="contract-title">Built for reproducible pipelines.</h2>
-          </div>
-          <p>Alpha v1 focuses on integer range mapping. Additional value types are planned after the language-agnostic runtime target is complete.</p>
+    <section id="contract" class="alt-section" aria-labelledby="contract-title">
+      <div class="alt-inner">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow" style="color:#1a6f85">canonical contract</div>
+          <h2 id="contract-title">Built for reproducible pipelines.</h2>
         </div>
+        <p>Alpha v1 ships stable integer mapping across all 25 wrapper paths. Python, Java, C/C++, C#, and JavaScript also include beta-family references in this repo.</p>
+      </div>
+      <div class="section-rule" aria-hidden="true"></div>
 
         <div class="cards">
           <div class="card"><b>Deterministic</b><p>Same input plus same config always produces the same output.</p></div>
@@ -656,22 +750,24 @@ mapped = <span class="accent">0.0</span></code></pre>
       </div>
     </section>
 
-    <section id="status" class="light-wrap" style="padding-top:0" aria-labelledby="status-title">
-      <div class="light-inner">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow" style="color:#1a6f85">alpha v1</div>
-            <h2 id="status-title">Clear readiness, no overselling.</h2>
-          </div>
-          <p>The 25-language wrapper gate is the main Alpha v1 blocker and should account for roughly half of readiness.</p>
+    <section id="status" class="alt-section" style="padding-top:0;background:#0d1117" aria-labelledby="status-title">
+      <div class="alt-inner">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow" style="color:#1a6f85">alpha v1</div>
+          <h2 id="status-title">Clear readiness, no overselling.</h2>
         </div>
+        <p>The 25-language path gate is complete for repository presence and quickstarts. Runtime parity is environment-gated locally and tracked via verifier status.</p>
+      </div>
+      <div class="section-rule" aria-hidden="true"></div>
 
         <div class="status-grid">
           <div class="status"><small>Gate</small><strong>C core + C ABI</strong><span class="pill">complete</span></div>
           <div class="status"><small>Gate</small><strong>Shared integer spec</strong><span class="pill">complete</span></div>
           <div class="status"><small>Gate</small><strong>Python reference</strong><span class="pill">complete</span></div>
-          <div class="status"><small>Gate</small><strong>25 language paths</strong><span class="pill pending">in progress</span></div>
-          <div class="status"><small>Gate</small><strong>Fixture parity</strong><span class="pill pending">pending</span></div>
+          <div class="status"><small>Gate</small><strong>25 language paths + quickstarts</strong><span class="pill">complete</span></div>
+          <div class="status"><small>Gate</small><strong>Runtime smoke checks</strong><span class="pill pending">environment-gated</span></div>
+          <div class="status"><small>Gate</small><strong>Compatibility matrix</strong><span class="pill pending">in progress</span></div>
         </div>
       </div>
     </section>
@@ -682,18 +778,20 @@ mapped = <span class="accent">0.0</span></code></pre>
           <div class="eyebrow">project docs</div>
           <h2 id="docs-title">Go deeper when you need to.</h2>
         </div>
-        <p>The homepage is for scanning. The detailed docs keep the contract, scope, and roadmap explicit.</p>
+        <p>The homepage is for scanning. Detailed docs keep the contract, scope, and roadmap explicit.</p>
       </div>
+      <div class="section-rule" aria-hidden="true"></div>
 
       <div class="docs-list">
-        <a href="quickstart.html"><b>Quickstart</b><span>Install and map the first value.</span></a>
-        <a href="spec.html"><b>Specification</b><span>The Alpha integer contract.</span></a>
-        <a href="architecture.html"><b>Architecture</b><span>C core, ABI, and wrappers.</span></a>
-        <a href="alpha_scope.html"><b>Alpha Scope</b><span>What is in Alpha v1.</span></a>
-        <a href="beta_roadmap.html"><b>Beta Roadmap</b><span>Beta scope and final v1 compatibility goal.</span></a>
-        <a href="compatibility.html"><b>Compatibility</b><span>Migration and legacy notes.</span></a>
-        <a href="no_dependencies.html"><b>No Dependencies</b><span>The first-party policy.</span></a>
-        <a href="release_notes_v0.1.0-alpha.html"><b>Release Notes</b><span>Current package notes.</span></a>
+        <a href="quickstart.md"><b>Quickstart</b><span>Install and map the first value.</span></a>
+        <a href="spec.md"><b>Specification</b><span>The alpha integer contract.</span></a>
+        <a href="architecture.md"><b>Architecture</b><span>C core, ABI, and wrappers.</span></a>
+        <a href="alpha_scope.md"><b>Alpha Scope</b><span>What is in alpha v1.</span></a>
+        <a href="beta_roadmap.md"><b>Beta Roadmap</b><span>Beta scope and final v1 compatibility goal.</span></a>
+        <a href="compatibility.md"><b>Compatibility Matrix</b><span>Beta families and readiness evidence.</span></a>
+        <a href="beta_wrapper_contract.md"><b>Beta Wrapper Contract</b><span>Execution rules and per-language readiness table.</span></a>
+        <a href="no_dependencies.md"><b>No Dependencies</b><span>The first-party policy.</span></a>
+        <a href="release_notes_v0.1.0-alpha.md"><b>Release Notes</b><span>Current package notes.</span></a>
       </div>
     </section>
   </main>
@@ -702,6 +800,10 @@ mapped = <span class="accent">0.0</span></code></pre>
     <div class="inner">
       <span>libRangeMap</span>
       <span>First-party. Dependency-free. Deterministic.</span>
+    </div>
+    <div class="support">
+      <span>Core path status: 25 language wrappers present in-tree.</span>
+      <span>Target: 99%+ ordinary-type coverage for production v1.</span>
     </div>
   </footer>
 </body>

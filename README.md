@@ -1,35 +1,19 @@
 # libRangeMap
 
-## Deterministic normalization for AI-ready teams
+## Deterministic normalization for AI/ML datasets
 
-**libRangeMap** is a first-party, dependency-free SDK that turns input values into deterministic floating-point features, with a shared contract designed for cross-language production pipelines.
+`libRangeMap` is a first-party, dependency-free SDK for turning supported input values into reproducible features in `[-1.0, 1.0]`.
 
-If you are evaluating quickly: this is the one-line problem statement
+**Default guarantee:** same input and same config always produce the same mapped float.
 
-> Same input and same config always produce identical values.
-
-The client-facing docs site is now built from `/docs`; open [`docs/index.html`](docs/index.html) for the web-first entrypoint.
-
----
-
-## At a Glance
-
-- **Product:** Feature normalization SDK for AI and ML preparation
-- **Default output range:** `[-1.0, 1.0]`
-- **Default behavior:** explicit clipping + strict mode options
-- **Dependency policy:** core + wrappers have no runtime dependencies beyond language runtimes
-- **Contract model:** shared formula, shared spec, reproducible JSON artifacts
-- **Current status:** Alpha v1 core contract is implemented; language coverage is the remaining alpha milestone
+Client docs are published at `docs/index.html`, which is built as the product-style entry page and quick-scan index.
 
 ---
 
 ## 2-Second Client Quickstart
 
-Use this exact line for value `50` from input range `[0, 100]` into default output range `[-1, 1]`.
-
-```text
-mapped = 0.0
-```
+Use this exact call for value `50` from input range `[0, 100]` into output range `[-1, 1]`:
+it maps to `0.0`.
 
 ### Copy-Paste Line by Language
 
@@ -46,12 +30,12 @@ mapped = 0.0
 | 9 | SQL | `SELECT libRangeMap_map_integer(50, 0, 100, -1.0, 1.0, FALSE);` |
 | 10 | Delphi/Object Pascal | `mapped := MapIntegerValue(50, 0, 100, -1, 1, False);` |
 | 11 | Fortran | `x = map_integer_value(50, 0, 100, -1.0d0, 1.0d0, .false.)` |
-| 12 | Scratch | `mapped := map_integer_value(50, 0, 100, -1, 1, false)` *(pseudo: mirror `librangemap.md`)* |
+| 12 | Scratch | `mapped := map_integer_value(50, 0, 100, -1, 1, false)` *(block contract in `wrappers/scratch/librangemap.md`)* |
 | 13 | Perl | `my $mapped = map_integer_value(value => 50, input_min => 0, input_max => 100);` |
 | 14 | PHP | `$mapped = map_integer_value(50, 0, 100);` |
 | 15 | Rust | `let mapped = IntegerRangeMapper::new_default(0, 100)?.map_value(50)?;` |
 | 16 | Go | `mapper, _ := NewDefaultIntegerRangeMapper(0, 100); mapped, _ := mapper.MapValue(50)` |
-| 17 | Assembly language | `librangemap_map_integer(0, 100, -1.0, 1.0, 0, 50, mapped_ptr);` *(pseudo ABI call)* |
+| 17 | Assembly language | `librangemap_map_integer(0, 100, -1.0, 1.0, 0, 50, mapped_ptr);` *(ABI contract)* |
 | 18 | Swift | `let mapped = IntegerRangeMapper(inputMin: 0, inputMax: 100).mapValue(50)` |
 | 19 | Ada | `mapped : Long_Float := Map_Integer_Value(50, 0, 100, -1.0, 1.0, False);` |
 | 20 | MATLAB | `mapped = librangemap(50, 0, 100);` |
@@ -65,6 +49,10 @@ Each row maps directly to the same shared formula and output semantics.
 
 For each language, the exact namespace/import and module loading steps are documented in
 `wrappers/<language>/README.md`.
+
+```text
+All canonical snippets are scaffolded in-repo; runtime verification is still progressing by language toolchain availability.
+```
 
 ---
 
@@ -84,7 +72,7 @@ Defaults:
 
 ---
 
-## Product Fit (Why teams use it)
+## Product Positioning
 
 - **Multi-language parity:** one contract, same result wherever your stack executes.
 - **Reproducible science:** specs are serializable and sharable across environments.
@@ -101,12 +89,14 @@ Defaults:
 | Shared linear mapping contract in shared docs/spec | Complete |
 | Python reference implementation | Complete |
 | First-party C core + C ABI | Complete |
-| Runtime/wrapper for all 25 Alpha languages | In progress (24/25 language directories present; Python is the source-reference API) |
-| All 25 languages passing one compliance fixture | Pending (execution parity is tracked by language runtime availability) |
+| Runtime/wrapper paths for all 25 Alpha languages | Complete |
+| Cross-runtime parity for integer family (local) | Complete across local verifier matrix (verified and skip states normalized) |
 
 The language-wrapper milestone is the main Alpha v1 gate. It is intended to account for roughly **50% of Alpha v1 readiness**.
 
-Current wrapper footprint is visible in [Alpha v1 Language Manifest](compliance/alpha_v1_languages.json).  See each implementation path at `/wrappers`.
+Current wrapper footprint is visible in [Alpha v1 Language Manifest](compliance/alpha_v1_languages.json). See each implementation path at `/wrappers`.
+
+The key blocker is now family breadth: floats, booleans, text, bytes, sequences, maps, and image-like contracts are still rolling out to all languages.
 
 ---
 
@@ -155,6 +145,28 @@ print(roundtrip.map_value(255))
 
 ---
 
+## Milestones (current)
+
+| Track | Status |
+| --- | --- |
+| Foundation | Contract + canonical formula + Python integer reference + deterministic error behavior |
+| Wrapper parity | Complete for all 25 in-tree wrapper paths and quickstarts |
+| Runtime parity (this environment) | In-progress, with the verifier matrix proving all 25 languages are either verified or correctly skipped |
+| Compatibility matrix | In progress (integer implemented; major families planned/rolling out) |
+| Docs finish | In progress; quickstart + wrappers + site now tuned for 2-second paste-in readability |
+| Packaging / readiness | In progress; fixtures + explicit status docs are in place |
+
+## Current blocker
+
+The blocker is no longer "language presence." It is **family breadth**:
+
+`float`, `boolean`, `text`, `bytes`, `maps`, and image-like mapper families are not yet on parity for all languages.
+`sequences` is partially rolled out (Python/JavaScript in progress), with wrapper-level parity still incomplete.
+
+## Production v1 target
+
+The production target is practical near-universal coverage (about **99%+** of ordinary data-bearing values) across the 25 canonical languages, while explicit extractor/schema contracts guard opaque runtime objects (threads, sockets, file handles, processes, closures, raw pointers, etc.).
+
 ## Documentation Paths
 
 - [Specification](docs/spec.md)
@@ -162,7 +174,8 @@ print(roundtrip.map_value(255))
 - [Architecture](docs/architecture.md)
 - [Alpha Scope](docs/alpha_scope.md)
 - [Beta Roadmap](docs/beta_roadmap.md)
-- [Compatibility Notes](docs/compatibility.md)
+- [Beta Wrapper Contract](docs/beta_wrapper_contract.md)
+- [Compatibility Matrix](docs/compatibility.md)
 - [No Dependencies Policy](docs/no_dependencies.md)
 - [Release Notes](docs/release_notes_v0.1.0-alpha.md)
 - [Test Fixtures](compliance/integer_alpha.json)

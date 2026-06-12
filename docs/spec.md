@@ -4,7 +4,7 @@ Spec version: `1.0-alpha`
 
 ## Purpose
 
-`libRangeMap` defines deterministic mappers that convert supported input values from an explicit input range or mapping policy into floating-point output values. The alpha specification covers finite integer range mapping only.
+`libRangeMap` defines deterministic mappers that convert supported input values from an explicit input range or mapping policy into floating-point output values. The alpha specification covers finite integer range mapping and text/family mapping extensions.
 
 The default output range is `[-1.0, 1.0]`.
 
@@ -52,6 +52,11 @@ Lower input bound maps to `out_min`. Upper input bound maps to `out_max`. Exact 
 If `clip` is `false`, values below `in_min` or above `in_max` must raise an out-of-range error.
 
 If `clip` is `true`, values below `in_min` map as `in_min`, and values above `in_max` map as `in_max`.
+
+## Text Mapping
+
+Text and string mappers must document policy explicitly (`codepoint`, `alphabet`, or `byte`).
+Unknown characters/symbols must fail, and text mapping must be deterministic and shape-preserving on a per-symbol basis.
 
 ## Invalid Values And Ranges
 

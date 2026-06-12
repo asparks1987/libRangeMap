@@ -30,6 +30,25 @@ Important wording:
 
 This keeps Beta ambitious and useful while leaving the final long-tail compatibility hardening for production v1.
 
+## Alpha and Beta Milestones
+
+To keep status reviewable in one glance, we treat readiness in these milestones:
+
+- **Foundation:** shared canonical formula, deterministic integer mapper, JSON spec, and explicit failure behavior.
+- **Wrapper parity:** all 25 canon language wrappers and canonical quickstart lines exist; runtime parity is environment-gated (`verified`/`skipped` by toolchain availability).
+- **Compatibility matrix:** language families are expanding beyond integers toward floats, text, bytes, booleans, sequences, maps, and image-like data.
+- **Docs finish:** every section can tell users the exact paste-in line and failure policy in under 2 seconds.
+- **Packaging & release readiness:** dependency policy, manifest visibility, and fixture-driven regressions are locked for the target milestone.
+
+Current milestone score:
+
+- Foundation: complete.
+- Wrapper parity: complete for in-tree paths and readmes; runtime parity is environment-gated.
+- Compatibility matrix: in progress.
+- Compatibility matrix status detail: see [Beta Wrapper Contract](beta_wrapper_contract.md).
+- Docs finish: in progress.
+- Packaging & release readiness: in progress.
+
 ## Required Beta Mapper Families
 
 Beta v1 should cover these first-party mapper families:

@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 /*
- * Lightweight first-party C helper API for common one-shot integer mapping.
+ * Lightweight first-party C helper API for common one-shot family mapping.
  *
  * The core ABI types and behavior are in csrc/librangemap_core.h.
  * This wrapper keeps the public usage concise for direct C callers while
@@ -22,6 +22,25 @@ int lrm_map_integer(
     double output_max,
     int clip,
     int64_t value,
+    double* out_value
+);
+
+int lrm_map_float(
+    double input_min,
+    double input_max,
+    double output_min,
+    double output_max,
+    int clip,
+    double value,
+    double* out_value
+);
+
+int lrm_map_boolean(
+    double output_min,
+    double output_max,
+    double false_value,
+    double true_value,
+    int value,
     double* out_value
 );
 
